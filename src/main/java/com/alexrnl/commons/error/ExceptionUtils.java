@@ -10,6 +10,9 @@ public final class ExceptionUtils {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(ExceptionUtils.class.getName());
 	
+	/** The separator used to separate the class from the message. */
+	private static final String	CLASS_MESSAGE_SEPARATOR	= "; ";
+	
 	/**
 	 * Constructor #1.<br />
 	 * Default private constructor.
@@ -30,6 +33,6 @@ public final class ExceptionUtils {
 			lg.warning("Cannot display null exception.");
 			return "null exception caught";
 		}
-		return e.getClass() + "; " + e.getMessage();
+		return e.getClass() + CLASS_MESSAGE_SEPARATOR + e.getMessage();
 	}
 }
