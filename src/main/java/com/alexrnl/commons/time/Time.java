@@ -14,12 +14,12 @@ import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a time (hours and seconds).<br />
- * This time has <em>no limits</em>, which means that the number of hours may be anything (negative,
+ * This time has <em>no limit</em>, which means that the number of hours may be anything (negative,
  * more than 23, etc.). However, the number of minutes is kept between 0 and 60.<br />
  * This class is immutable.
  * @author Alex
  */
-public class Time implements Serializable, java.lang.Comparable<Time> {
+public class Time implements Serializable, Comparable<Time> {
 	/** Logger */
 	private static Logger		lg							= Logger.getLogger(Time.class.getName());
 	
