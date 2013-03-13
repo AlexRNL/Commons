@@ -15,5 +15,11 @@ public final class CommonsConstants {
 	}
 	
 	/** Default prime number to use for hash code computation */
-	public static final int	PRIME_FOR_HASHCODE	= 31;
+	public static final int		PRIME_FOR_HASHCODE		= 31;
+	
+	/** The separator between hours and minutes */
+	public static final String	TIME_SEPARATOR			= ":";
+	
+	/** The regex pattern that matches any non decimal character */
+	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
 }
