@@ -1,4 +1,4 @@
-package com.alexrnl.commons.utils;
+package com.alexrnl.commons.utils.object;
 
 import java.util.Arrays;
 import java.util.Objects;

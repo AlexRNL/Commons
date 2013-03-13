@@ -1,4 +1,4 @@
-package com.alexrnl.commons.utils;
+package com.alexrnl.commons.utils.object;
 
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
