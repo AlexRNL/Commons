@@ -13,7 +13,7 @@ import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
 /**
- * Class representing a time (hours and seconds).<br />
+ * Class representing a time (hours and minutes).<br />
  * This time has <em>no limit</em>, which means that the number of hours may be anything (negative,
  * more than 23, etc.). However, the number of minutes is kept between 0 and 60.<br />
  * This class is immutable.
@@ -92,7 +92,7 @@ public class Time implements Serializable, Comparable<Time> {
 	 *        the date to use.
 	 */
 	public Time (final Date date) {
-		final Calendar cal = Calendar.getInstance(Locale.FRANCE);
+		final Calendar cal = Calendar.getInstance(Locale.getDefault());
 		cal.setTime(date);
 		hours = cal.get(Calendar.HOUR);
 		minutes = cal.get(Calendar.MINUTE);
@@ -100,7 +100,7 @@ public class Time implements Serializable, Comparable<Time> {
 	
 	/**
 	 * Build a time based on a string.<br />
-	 * The time format must be hours minutes seconds (in that order) separated using any
+	 * The time format must be hours minutes (in that order) separated using any
 	 * non-numerical character.<br />
 	 * @param time
 	 *        the time set.
@@ -110,21 +110,21 @@ public class Time implements Serializable, Comparable<Time> {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Parsing time " + time);
 		}
-		final String[] hms = time.split(CommonsConstants.NON_DECIMAL_CHARACTER);
+		final String[] hm = time.split(CommonsConstants.NON_DECIMAL_CHARACTER);
 		boolean first = true;
 		int hours = 0;
 		int minutes = 0;
-		for (final String s : hms) {
+		for (final String s : hm) {
 			if (s.isEmpty()) {
 				continue;
 			}
 			if (first) {
 				hours = Integer.parseInt(s);
 				first = false;
-			} else {
-				minutes = Integer.parseInt(s);
-				break;
+				continue;
 			}
+			minutes = Integer.parseInt(s);
+			break;
 		}
 		return new Time(hours, minutes);
 	}
