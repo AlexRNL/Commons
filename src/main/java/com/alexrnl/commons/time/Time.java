@@ -196,6 +196,7 @@ public class Time implements Serializable, Comparable<Time> {
 		} else if (minutes < o.minutes) {
 			return -1;
 		}
+		assert equals(o);
 		return 0;
 	}
 	
