@@ -19,7 +19,7 @@ import com.alexrnl.commons.utils.object.Field;
  * This class is immutable.
  * @author Alex
  */
-public class Time implements Serializable, Comparable<Time> {
+public class Time implements Serializable, Comparable<Time>, Cloneable {
 	/** Logger */
 	private static Logger		lg							= Logger.getLogger(Time.class.getName());
 	
@@ -98,34 +98,25 @@ public class Time implements Serializable, Comparable<Time> {
 	}
 	
 	/**
+	 * Constructor #6.<br />
+	 * Copy constructor, build a copy of the time.
+	 * @param time
+	 *        the time to use.
+	 */
+	public Time (final Time time) {
+		this(time.hours, time.minutes);
+	}
+	
+	/**
 	 * Build a time based on a string.<br />
-	 * The time format must be hours minutes (in that order) separated using any
+	 * The time format must be hours minutes seconds (in that order) separated using any
 	 * non-numerical character.<br />
 	 * @param time
 	 *        the time set.
 	 * @return the time matching the string.
 	 */
 	public static Time get (final String time) {
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Parsing time " + time);
-		}
-		final String[] hm = time.split(CommonsConstants.NON_DECIMAL_CHARACTER);
-		boolean first = true;
-		int hours = 0;
-		int minutes = 0;
-		for (final String s : hm) {
-			if (s.isEmpty()) {
-				continue;
-			}
-			if (first) {
-				hours = Integer.parseInt(s);
-				first = false;
-				continue;
-			}
-			minutes = Integer.parseInt(s);
-			break;
-		}
-		return new Time(hours, minutes);
+		return TimeSec.get(time).getTime();
 	}
 	
 	/**
@@ -258,4 +249,14 @@ public class Time implements Serializable, Comparable<Time> {
 		}
 		return AutoCompare.getInstance().compare(this, (Time) obj);
 	}
+	
+	/*
+	 * (non-Javadoc)
+	 * @see java.lang.Object#clone()
+	 */
+	@Override
+	public Object clone () throws CloneNotSupportedException {
+		return new Time(this);
+	}
+	
 }

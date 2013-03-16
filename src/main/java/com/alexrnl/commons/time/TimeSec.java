@@ -3,6 +3,7 @@ package com.alexrnl.commons.time;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.CommonsConstants;
@@ -88,11 +89,84 @@ public class TimeSec extends Time {
 	}
 	
 	/**
+	 * Constructor #7.<br />
+	 * Build the object from the {@link Time} given.
+	 * @param time
+	 *        the time.
+	 */
+	public TimeSec (final Time time) {
+		this(time, 0);
+	}
+	
+	/**
+	 * Constructor #8.<br />
+	 * Build the object from the {@link Time} and seconds given.
+	 * @param time
+	 *        the time.
+	 * @param seconds the number of seconds.
+	 */
+	public TimeSec (final Time time, final int seconds) {
+		super(time);
+		this.seconds = seconds;
+	}
+	
+	/**
+	 * Build a time based on a string.<br />
+	 * The time format must be hours minutes (in that order) separated using any
+	 * non-numerical character.<br />
+	 * @param time
+	 *        the time set.
+	 * @return the time matching the string.
+	 */
+	public static TimeSec get (final String time) {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Parsing time " + time);
+		}
+		final String[] hm = time.split(CommonsConstants.NON_DECIMAL_CHARACTER);
+		Integer hours = null;
+		Integer minutes = null;
+		Integer seconds = null;
+		for (final String s : hm) {
+			if (s.isEmpty()) {
+				continue;
+			}
+			if (hours == null) {
+				hours = Integer.parseInt(s);
+				continue;
+			}
+			if (minutes == null) {
+				minutes = Integer.parseInt(s);
+				continue;
+			}
+			seconds = Integer.parseInt(s);
+			break;
+		}
+		return new TimeSec(hours == null ? 0 : hours, minutes == null ? 0 : minutes,
+				seconds == null ? 0 : seconds);
+	}
+	
+	/**
+	 * Return the current time.
+	 * @return a {@link Time} object matching the current time.
+	 */
+	public static TimeSec getCurrent () {
+		return new TimeSec(System.currentTimeMillis());
+	}
+	
+	/**
 	 * Return the attribute seconds.
 	 * @return the attribute seconds.
 	 */
 	public int getSeconds () {
 		return seconds;
+	}
+	
+	/**
+	 * Return a Time object build from this TimeSec properties.
+	 * @return the new Time object.
+	 */
+	public Time getTime () {
+		return new Time(getHours(), getMinutes());
 	}
 	
 }
