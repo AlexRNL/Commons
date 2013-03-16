@@ -255,7 +255,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	 * @see java.lang.Object#clone()
 	 */
 	@Override
-	public Object clone () throws CloneNotSupportedException {
+	public Time clone () throws CloneNotSupportedException {
 		return new Time(this);
 	}
 	
