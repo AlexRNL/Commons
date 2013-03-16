@@ -157,10 +157,10 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	}
 	
 	/**
-	 * Add the amount of time specified to the current time.<br />
-	 * There is no maximum, so you may reach 25:48.
+	 * Subtract the amount of time specified to the current time.<br />
+	 * There is no minimum, so you may reach -2:48.
 	 * @param time
-	 *        the time to add.
+	 *        the time to subtract.
 	 * @return the new time.
 	 */
 	public Time sub (final Time time) {
