@@ -25,8 +25,6 @@ public class Time implements Serializable, Comparable<Time> {
 	
 	/** Serial Version UID */
 	private static final long	serialVersionUID			= -8846707527438298774L;
-	/** Number of minutes per hour */
-	private static final int	MINUTES_PER_HOURS			= 60;
 	
 	/** The number of hours */
 	private final int			hours;
@@ -66,11 +64,11 @@ public class Time implements Serializable, Comparable<Time> {
 		// Correcting if minutes are below zero
 		while (cMinutes < 0) {
 			--cHours;
-			cMinutes += MINUTES_PER_HOURS;
+			cMinutes += CommonsConstants.MINUTES_PER_HOURS;
 		}
 		
-		this.hours = cHours + cMinutes / MINUTES_PER_HOURS;
-		this.minutes = cMinutes % MINUTES_PER_HOURS;
+		this.hours = cHours + cMinutes / CommonsConstants.MINUTES_PER_HOURS;
+		this.minutes = cMinutes % CommonsConstants.MINUTES_PER_HOURS;
 		
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Created time: " + this.hours + " h, " + this.minutes + " min");
