@@ -84,7 +84,7 @@ public class AttributeComparator {
 	
 	/**
 	 * Clear the list of attributes.<br />
-	 * Allow to use the comparator for other purposes.
+	 * Allow to use the comparator for other comparisons.
 	 */
 	public void clear () {
 		attributes.clear();
