@@ -24,8 +24,8 @@ public final class CommonsConstants {
 	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
 	
 	/** Number of minutes per hour */
-	public static final int	MINUTES_PER_HOURS			= 60;
+	public static final int		MINUTES_PER_HOURS		= 60;
 	
 	/** Number of seconds per minutes */
-	public static final int	SECONDS_PER_MINUTES			= 60;
+	public static final int		SECONDS_PER_MINUTES		= 60;
 }
