@@ -79,22 +79,26 @@ public final class AutoCompare {
 			return false;
 		}
 		
-		// Retrieving attributes
-		comparator.clear();
-		for (final Method method : getEqualsMethods(left.getClass())) {
-			try {
-				comparator.add(method.invoke(left, (Object[]) null), method.invoke(right, (Object[]) null));
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				lg.warning("Could not add the value of the method " + method.getName() + " because "
-						+ e.getClass() + "; " + e.getMessage());
+		// Retrieving attributes, synchronized to avoid mixing comparisons when called on different threads.
+		// XXX maybe invoke the Field annotated method outside of the synchronized block? To avoid dead lock with awkward developpers.
+		synchronized (this) {
+			comparator.clear();
+			for (final Method method : getEqualsMethods(left.getClass())) {
+				try {
+					comparator.add(method.invoke(left, (Object[]) null), method.invoke(right, (Object[]) null));
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					lg.warning("Could not add the value of the method " + method.getName() + " because "
+							+ e.getClass() + "; " + e.getMessage());
+					// XXX re-throw exception? the result will be inconsistent, it might be better to do it.
+				}
 			}
+			
+			return comparator.areEquals();
 		}
-		
-		return comparator.areEquals();
 	}
 	
 	/**
-	 * Retrieve the methods for the class marked for comparison (antotated with {@link Field}).<br />
+	 * Retrieve the methods for the class marked for comparison (annotated with {@link Field}).<br />
 	 * @param objClass
 	 *        the class to parse.
 	 * @return a {@link Set} with the {@link Method} annotates with {@link Field}.
@@ -104,11 +108,11 @@ public final class AutoCompare {
 	}
 	
 	/**
-	 * Retrieve the methods for the class marked for comparison (antotated with {@link Field}).<br />
+	 * Retrieve the methods for the class marked for comparison (annotated with {@link Field}).<br />
 	 * @param objClass
 	 *        the class to parse.
 	 * @param forHashCode
-	 *        <code>true</code> if the methods are ertrieved for a hash code computation
+	 *        <code>true</code> if the methods are retrieved for a hash code computation
 	 *        (thus making use of the {@link Field#useForHashCode()} attribute.
 	 * @return a {@link Set} with the {@link Method} annotates with {@link Field}.
 	 */
