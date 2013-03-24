@@ -11,6 +11,6 @@ import com.alexrnl.commons.utils.object.ObjectTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ObjectTests.class })
+@SuiteClasses({ ObjectTests.class, StringUtilsTest.class })
 public class UtilsTests {
 }
