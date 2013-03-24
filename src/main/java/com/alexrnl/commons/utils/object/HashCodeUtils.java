@@ -3,13 +3,14 @@ package com.alexrnl.commons.utils.object;
 import java.util.Arrays;
 import java.util.Objects;
 
-import com.alexrnl.commons.CommonsConstants;
-
 /**
  * Utility methods for computing {@link Object}'s {@link Object#hashCode() hash code}.
  * @author Alex
  */
 public final class HashCodeUtils {
+	
+	/** Default prime number to use for hash code computation */
+	public static final int		PRIME_FOR_HASHCODE		= 31;
 	
 	/**
 	 * Constructor #1.<br />
@@ -62,7 +63,7 @@ public final class HashCodeUtils {
 	 * @see #hashCode(int, int, Iterable)
 	 */
 	public static int hashCode (final int nullValue, final Iterable<Object> attributes) {
-		return hashCode(nullValue, CommonsConstants.PRIME_FOR_HASHCODE, attributes);
+		return hashCode(nullValue, PRIME_FOR_HASHCODE, attributes);
 	}
 	
 	/**

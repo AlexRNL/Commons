@@ -7,7 +7,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alexrnl.commons.CommonsConstants;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -21,10 +20,17 @@ import com.alexrnl.commons.utils.object.Field;
  */
 public class Time implements Serializable, Comparable<Time>, Cloneable {
 	/** Logger */
-	private static Logger		lg							= Logger.getLogger(Time.class.getName());
+	private static Logger		lg						= Logger.getLogger(Time.class.getName());
 	
 	/** Serial Version UID */
-	private static final long	serialVersionUID			= -8846707527438298774L;
+	private static final long	serialVersionUID		= -8846707527438298774L;
+	
+	/** The separator between hours and minutes */
+	public static final String	TIME_SEPARATOR			= ":";
+	/** The regex pattern that matches any non decimal character */
+	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
+	/** Number of minutes per hour */
+	public static final int		MINUTES_PER_HOURS		= 60;
 	
 	/** The number of hours */
 	private final int			hours;
@@ -64,11 +70,11 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		// Correcting if minutes are below zero
 		while (cMinutes < 0) {
 			--cHours;
-			cMinutes += CommonsConstants.MINUTES_PER_HOURS;
+			cMinutes += MINUTES_PER_HOURS;
 		}
 		
-		this.hours = cHours + cMinutes / CommonsConstants.MINUTES_PER_HOURS;
-		this.minutes = cMinutes % CommonsConstants.MINUTES_PER_HOURS;
+		this.hours = cHours + cMinutes / MINUTES_PER_HOURS;
+		this.minutes = cMinutes % MINUTES_PER_HOURS;
 		
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Created time: " + this.hours + " h, " + this.minutes + " min");
@@ -226,7 +232,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		if (m.length() < 2) {
 			m = Integer.valueOf(0) + m;
 		}
-		return h + CommonsConstants.TIME_SEPARATOR + m;
+		return h + TIME_SEPARATOR + m;
 	}
 	
 	/*

@@ -6,7 +6,6 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alexrnl.commons.CommonsConstants;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -18,13 +17,16 @@ import com.alexrnl.commons.utils.object.Field;
  */
 public class TimeSec extends Time implements Cloneable {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(TimeSec.class.getName());
+	private static Logger		lg					= Logger.getLogger(TimeSec.class.getName());
 	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -5220683648807102121L;
 	
+	/** Number of seconds per minutes */
+	public static final int		SECONDS_PER_MINUTES	= 60;
+	
 	/** The number of seconds */
-	private final int seconds;
+	private final int			seconds;
 	
 	/**
 	 * Constructor #1.<br />
@@ -66,8 +68,8 @@ public class TimeSec extends Time implements Cloneable {
 	 *        the number of seconds.
 	 */
 	public TimeSec (final int hours, final int minutes, final int seconds) {
-		super(hours, minutes + seconds / CommonsConstants.SECONDS_PER_MINUTES);
-		this.seconds = seconds % CommonsConstants.SECONDS_PER_MINUTES;
+		super(hours, minutes + seconds / SECONDS_PER_MINUTES);
+		this.seconds = seconds % SECONDS_PER_MINUTES;
 	}
 	
 	/**
@@ -136,7 +138,7 @@ public class TimeSec extends Time implements Cloneable {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Parsing time " + time);
 		}
-		final String[] hm = time.split(CommonsConstants.NON_DECIMAL_CHARACTER);
+		final String[] hm = time.split(NON_DECIMAL_CHARACTER);
 		Integer hours = null;
 		Integer minutes = null;
 		Integer seconds = null;
@@ -184,7 +186,6 @@ public class TimeSec extends Time implements Cloneable {
 		return new Time(getHours(), getMinutes());
 	}
 	
-	
 	/**
 	 * Add the amount of time specified to the current time.<br />
 	 * There is no maximum, so you may reach 25:48:02.
@@ -208,6 +209,7 @@ public class TimeSec extends Time implements Cloneable {
 		return new TimeSec(getHours() - time.getHours(), getMinutes() - time.getMinutes(),
 				getSeconds() - time.getSeconds());
 	}
+	
 	/*
 	 * (non-Javadoc)
 	 * @see java.lang.Comparable#compareTo(java.lang.Object)
@@ -265,7 +267,7 @@ public class TimeSec extends Time implements Cloneable {
 		if (s.length() < 2) {
 			s = Integer.valueOf(0) + s;
 		}
-		return super.toString() + CommonsConstants.TIME_SEPARATOR + s;
+		return super.toString() + TIME_SEPARATOR + s;
 	}
 	
 	/*
