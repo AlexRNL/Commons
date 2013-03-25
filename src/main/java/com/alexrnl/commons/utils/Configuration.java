@@ -94,7 +94,7 @@ public final class Configuration {
 	public String get (final String propertyName) {
 		final String propertyValue = configuration.getProperty(propertyName);
 		if (propertyValue != null) {
-			lg.warning("No properties with name " + propertyName);
+			lg.warning("No property with name " + propertyName);
 			return null;
 		}
 		return propertyValue;
