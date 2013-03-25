@@ -81,7 +81,7 @@ public final class Configuration {
 				}
 			}
 		} catch (final IOException e) {
-			lg.warning("Exception while loading configuration (" + ExceptionUtils.displayClassAndMessage(e) + ")");
+			lg.warning("Exception while loading configuration (" + ExceptionUtils.display(e) + ")");
 		}
 	}
 	

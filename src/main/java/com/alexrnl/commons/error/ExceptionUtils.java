@@ -28,7 +28,7 @@ public final class ExceptionUtils {
 	 *        the throwable object to display.
 	 * @return a {@link String} containing the class and the message of the exception.
 	 */
-	public static String displayClassAndMessage (final Throwable e) {
+	public static String display (final Throwable e) {
 		if (e == null) {
 			lg.warning("Cannot display null exception.");
 			return "null exception caught";

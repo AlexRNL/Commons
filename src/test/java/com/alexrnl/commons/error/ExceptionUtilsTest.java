@@ -22,11 +22,11 @@ public class ExceptionUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.error.ExceptionUtils#displayClassAndMessage(java.lang.Throwable)}.
+	 * Test method for {@link com.alexrnl.commons.error.ExceptionUtils#display(java.lang.Throwable)}.
 	 */
 	@Test
 	public void testDisplayClassAndMessage () {
-		assertEquals("null exception caught", ExceptionUtils.displayClassAndMessage(null));
-		assertEquals("class java.lang.NullPointerException; test NPE", ExceptionUtils.displayClassAndMessage(exception));
+		assertEquals("null exception caught", ExceptionUtils.display(null));
+		assertEquals("class java.lang.NullPointerException; test NPE", ExceptionUtils.display(exception));
 	}
 }
