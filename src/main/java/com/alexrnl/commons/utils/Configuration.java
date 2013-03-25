@@ -2,6 +2,7 @@ package com.alexrnl.commons.utils;
 
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
@@ -15,7 +16,8 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * The default configuration file used will be <code>conf/configuration.xml</code>, it may be
  * changed using the {@link #setFile(String)} method. To avoid any warning, use this method before
  * calling any {@link #getInstance()}.
- * The
+ * The {@link Configuration} is thread-safe as it is based on the {@link Properties} class, itself
+ * extending a {@link Hashtable}.
  * @author Alex
  */
 public final class Configuration {
