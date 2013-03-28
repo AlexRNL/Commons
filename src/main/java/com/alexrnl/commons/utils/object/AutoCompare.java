@@ -80,7 +80,7 @@ public final class AutoCompare {
 		}
 		
 		// Retrieving attributes, synchronized to avoid mixing comparisons when called on different threads.
-		// XXX maybe invoke the Field annotated method outside of the synchronized block? To avoid dead lock with awkward developpers.
+		// FIXME maybe invoke the Field annotated method outside of the synchronized block? To avoid dead lock with awkward developpers.
 		synchronized (this) {
 			comparator.clear();
 			for (final Method method : getEqualsMethods(left.getClass())) {
