@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -96,7 +97,7 @@ public class TimeTest {
 		final Calendar cal = Calendar.getInstance(Locale.getDefault());
 		assertEquals(cal.get(Calendar.MINUTE), time.getMinutes());
 		assertEquals(cal.get(Calendar.HOUR_OF_DAY), time.getHours());
-		System.out.println("This should display the current time: " + time);
+		Logger.getLogger(TimeTest.class.getName()).info("This should display the current time: " + time);
 	}
 	
 	/**
