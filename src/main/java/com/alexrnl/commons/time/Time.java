@@ -99,7 +99,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	public Time (final Date date) {
 		final Calendar cal = Calendar.getInstance(Locale.getDefault());
 		cal.setTime(date);
-		hours = cal.get(Calendar.HOUR);
+		hours = cal.get(Calendar.HOUR_OF_DAY);
 		minutes = cal.get(Calendar.MINUTE);
 	}
 	

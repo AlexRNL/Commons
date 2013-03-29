@@ -93,10 +93,10 @@ public class TimeTest {
 	@Test
 	public void testGetCurrent () {
 		final Time time = Time.getCurrent();
-		final Calendar cal = Calendar.getInstance(Locale.FRANCE);
+		final Calendar cal = Calendar.getInstance(Locale.getDefault());
 		assertEquals(cal.get(Calendar.MINUTE), time.getMinutes());
-		assertEquals(cal.get(Calendar.HOUR), time.getHours());
-		System.out.println(time);
+		assertEquals(cal.get(Calendar.HOUR_OF_DAY), time.getHours());
+		System.out.println("This should display the current time: " + time);
 	}
 	
 	/**
