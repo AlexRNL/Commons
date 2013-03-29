@@ -46,7 +46,7 @@ public interface DAO<T extends Entity> {
 	
 	/**
 	 * Retrieve all the objects available.<br />
-	 * <em>Use with caution.</em>
+	 * <em>Use with caution, it can consume a lot of memory.</em>
 	 * @return A collection with all the objects.
 	 */
 	Set<T> retrieveAll ();
