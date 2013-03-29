@@ -3,8 +3,10 @@ package com.alexrnl.commons.utils.object;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
@@ -79,18 +81,24 @@ public final class AutoCompare {
 			return false;
 		}
 		
-		// Retrieving attributes, synchronized to avoid mixing comparisons when called on different threads.
-		// FIXME maybe invoke the Field annotated method outside of the synchronized block? To avoid dead lock with awkward developpers.
+		final Set<Method> methods = getEqualsMethods(left.getClass());
+		final List<Object> leftAttributes = new ArrayList<>(methods.size());
+		final List<Object> rightAttributes = new ArrayList<>(methods.size());
+		for (final Method method : methods) {
+			try {
+				leftAttributes.add(method.invoke(left, (Object[]) null));
+				rightAttributes.add(method.invoke(right, (Object[]) null));
+			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+				lg.warning("Could not add the value of the method " + method.getName() + " because "
+						+ e.getClass() + "; " + e.getMessage());
+				// XXX re-throw exception? the result will be inconsistent, it might be better to do it.
+			}
+		}
+		
 		synchronized (this) {
 			comparator.clear();
-			for (final Method method : getEqualsMethods(left.getClass())) {
-				try {
-					comparator.add(method.invoke(left, (Object[]) null), method.invoke(right, (Object[]) null));
-				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					lg.warning("Could not add the value of the method " + method.getName() + " because "
-							+ e.getClass() + "; " + e.getMessage());
-					// XXX re-throw exception? the result will be inconsistent, it might be better to do it.
-				}
+			for (int indexAttribute = 0; indexAttribute < leftAttributes.size(); ++indexAttribute) {
+				comparator.add(leftAttributes.get(indexAttribute), rightAttributes.get(indexAttribute));
 			}
 			
 			return comparator.areEquals();
