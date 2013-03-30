@@ -157,8 +157,9 @@ public class TimeSec extends Time implements Cloneable {
 			seconds = Integer.parseInt(s);
 			break;
 		}
-		return new TimeSec(hours == null ? 0 : hours, minutes == null ? 0 : minutes,
-				seconds == null ? 0 : seconds);
+		return new TimeSec(hours == null ? 0 : hours,
+				minutes == null ? 0 : minutes,
+						seconds == null ? 0 : seconds);
 	}
 	
 	/**
@@ -220,10 +221,10 @@ public class TimeSec extends Time implements Cloneable {
 			return 1;
 		}
 		final int parentComparison = super.compareTo(o);
-		if (parentComparison != 0 || !(o instanceof TimeSec)) {
+		if (parentComparison != 0) {
 			return parentComparison;
 		}
-		final TimeSec timeSec = (TimeSec) o;
+		final TimeSec timeSec = (o instanceof TimeSec) ? (TimeSec) o : new TimeSec(o);
 		if (seconds > timeSec.seconds) {
 			return 1;
 		} else if (seconds < timeSec.seconds) {
