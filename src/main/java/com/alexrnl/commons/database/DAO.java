@@ -1,5 +1,6 @@
 package com.alexrnl.commons.database;
 
+import java.io.Closeable;
 import java.util.Set;
 
 /**
@@ -8,7 +9,7 @@ import java.util.Set;
  * @param <T>
  *        The class of the object to manipulate.
  */
-public interface DAO<T extends Entity> {
+public interface DAO<T extends Entity> extends Closeable {
 	
 	/**
 	 * Create operation.
