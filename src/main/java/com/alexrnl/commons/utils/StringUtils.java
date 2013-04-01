@@ -34,4 +34,16 @@ public final class StringUtils {
 	public static boolean neitherNullNorEmpty (final String s) {
 		return s != null && !s.isEmpty();
 	}
+	
+	/**
+	 * Return the string specified, or its replacement if it is <code>null</code>.
+	 * @param s
+	 *        the string to return.
+	 * @param replace
+	 *        its replacement, is the first string is <code>null</code>.
+	 * @return <code>s</code>, or <code>replace</code> if <code>s</code> is <code>null</code>.
+	 */
+	public static String replaceIfNull (final String s, final String replace) {
+		return s == null ? replace : s;
+	}
 }

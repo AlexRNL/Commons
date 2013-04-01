@@ -1,5 +1,6 @@
 package com.alexrnl.commons.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -30,4 +31,14 @@ public class StringUtilsTest {
 		assertFalse(StringUtils.neitherNullNorEmpty(""));
 		assertTrue(StringUtils.neitherNullNorEmpty("camelCase"));
 	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#replaceIfNull(java.lang.String, java.lang.String)}.
+	 */
+	@Test
+	public void testReplaceIfNull () {
+		assertEquals("test", StringUtils.replaceIfNull(null, "test"));
+		assertEquals("test", StringUtils.replaceIfNull("test", "test2"));
+	}
+	
 }
