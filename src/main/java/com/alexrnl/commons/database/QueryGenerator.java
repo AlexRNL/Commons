@@ -239,4 +239,25 @@ public final class QueryGenerator {
 	public static String searchAll (final Entity object) {
 		return "SELECT * FROM " + object.getEntityName();
 	}
+	
+	/**
+	 * Generates the insert prepared statement for an insert query.<br />
+	 * <code>INSERT INTO entity (columns) VALUES (?, ?, ?)</code>
+	 * @param object
+	 *        the target entity.
+	 * @return the prepared query.
+	 */
+	public static String insertPrepared (final Entity object) {
+		final StringBuilder fields = new StringBuilder(insert(object, false)).append("(");
+		int columnNumber = object.getEntityColumns().size() - 1;
+		if (columnNumber < 1) {
+			return "";
+		}
+		while (columnNumber > 1) {
+			fields.append("?, ");
+			--columnNumber;
+		}
+		return fields.append("?)").toString();
+	}
+	
 }
