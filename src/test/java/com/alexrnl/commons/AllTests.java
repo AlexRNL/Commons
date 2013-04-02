@@ -4,6 +4,7 @@ import org.junit.runner.RunWith;
 import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
+import com.alexrnl.commons.database.DatabaseTests;
 import com.alexrnl.commons.error.ErrorTests;
 import com.alexrnl.commons.time.TimeTests;
 import com.alexrnl.commons.utils.UtilsTests;
@@ -13,6 +14,6 @@ import com.alexrnl.commons.utils.UtilsTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ErrorTests.class, TimeTests.class, UtilsTests.class})
+@SuiteClasses({DatabaseTests.class, ErrorTests.class, TimeTests.class, UtilsTests.class})
 public class AllTests {
 }
