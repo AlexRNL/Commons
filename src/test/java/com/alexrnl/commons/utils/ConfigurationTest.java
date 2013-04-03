@@ -1,11 +1,15 @@
 package com.alexrnl.commons.utils;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
-import org.junit.After;
-import org.junit.AfterClass;
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.junit.Before;
-import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -13,49 +17,34 @@ import org.junit.Test;
  * @author Alex
  */
 public class ConfigurationTest {
+	/** The bad configuration for the tests. */
+	private Configuration badConf;
+	
+	/** The good configuration for the tests. */
+	private Configuration goodConf;
 	
 	/**
-	 * 
-	 */
-	@BeforeClass
-	public static void setUpBeforeClass () {
-	}
-	
-	/**
-	 * 
-	 */
-	@AfterClass
-	public static void tearDownAfterClass () {
-	}
-	
-	/**
-	 * 
+	 * Set up attributes.
+	 * @throws URISyntaxException
+	 *         if the path to the configuration is badly formatted.
 	 */
 	@Before
-	public void setUp () {
+	public void setUp () throws URISyntaxException {
+		badConf = new Configuration();
+		goodConf = new Configuration(Paths.get(getClass().getResource("/configuration.xml").toURI()));
 	}
 	
 	/**
-	 * 
-	 */
-	@After
-	public void tearDown () {
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#getInstance()}.
+	 * Test method for {@link com.alexrnl.commons.utils.Configuration#setConfigurationFile(java.nio.file.Path)}.
+	 * @throws URISyntaxException
+	 *         if the path to the configuration is badly formatted.
 	 */
 	@Test
-	public void testGetInstance () {
-		fail("Not yet implemented"); // TODO
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#setFile(java.lang.String)}.
-	 */
-	@Test
-	public void testSetFile () {
-		fail("Not yet implemented"); // TODO
+	public void testSetConfigurationFile () throws URISyntaxException {
+		assertFalse(badConf.isLoaded());
+		badConf.setConfigurationFile(Paths.get(getClass().getResource("/configuration.xml").toURI()));
+		Logger.getLogger(Configuration.class.getName()).setLevel(Level.FINE);
+		assertTrue(badConf.isLoaded());
 	}
 	
 	/**
@@ -63,7 +52,10 @@ public class ConfigurationTest {
 	 */
 	@Test
 	public void testGet () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(null, badConf.get("configuration.test"));
+		assertEquals(null, badConf.get("configuration.service"));
+		assertEquals("value", goodConf.get("configuration.test"));
+		assertEquals("ace", goodConf.get("configuration.service"));
 	}
 	
 	/**
@@ -71,6 +63,16 @@ public class ConfigurationTest {
 	 */
 	@Test
 	public void testSize () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(0, badConf.size());
+		assertEquals(2, goodConf.size());
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.Configuration#isLoaded()}.
+	 */
+	@Test
+	public void testIsLoaded () {
+		assertFalse(badConf.isLoaded());
+		assertTrue(goodConf.isLoaded());
 	}
 }
