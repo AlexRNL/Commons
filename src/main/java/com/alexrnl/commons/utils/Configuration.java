@@ -22,12 +22,12 @@ import com.alexrnl.commons.error.ExceptionUtils;
  */
 public final class Configuration {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(Configuration.class.getName());
+	private static Logger			lg					= Logger.getLogger(Configuration.class.getName());
 	
 	/** Unique instance of the class */
-	private static Configuration	singleton = new Configuration();
+	private static Configuration	singleton			= new Configuration();
 	/** The configuration file to load */
-	private static String			configurationFile = "conf/configuration.xml";
+	private static String			configurationFile	= "conf/configuration.xml";
 	
 	/** The configuration properties */
 	private final Properties		configuration;
