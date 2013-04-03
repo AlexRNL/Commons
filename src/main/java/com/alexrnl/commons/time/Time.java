@@ -192,7 +192,10 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		} else if (minutes < o.minutes) {
 			return -1;
 		}
-		assert equals(o);
+		if (this.getClass().equals(Time.class) && o.getClass().equals(Time.class)) {
+			// This is true only if both object are of type Time
+			assert equals(o);
+		}
 		return 0;
 	}
 	
