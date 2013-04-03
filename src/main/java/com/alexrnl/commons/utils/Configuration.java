@@ -28,7 +28,7 @@ public final class Configuration {
 	private static Logger		lg							= Logger.getLogger(Configuration.class.getName());
 	
 	/** The default configuration file to load. */
-	private static Path			DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration.xml");
+	private static final Path	DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration.xml");
 	
 	/** The configuration file to load */
 	private Path				configurationFile;
