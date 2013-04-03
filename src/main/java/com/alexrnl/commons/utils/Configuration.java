@@ -1,7 +1,9 @@
 package com.alexrnl.commons.utils;
 
-import java.io.FileInputStream;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.Hashtable;
 import java.util.Map.Entry;
 import java.util.Properties;
@@ -14,7 +16,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * Class access the application configuration.<br />
  * To retrieve a property, the method {@link #get(String)} should be used.
  * The default configuration file used will be <code>conf/configuration.xml</code>, it may be
- * changed using the {@link #setFile(String)} method.<br />
+ * changed using the {@link #setConfigurationFile(Path)} method.<br />
  * The {@link Configuration} is thread-safe as it is based on the {@link Properties} class, itself
  * extending a {@link Hashtable}.
  * Load the specified file using the {@link #load()} method. If the object is not loaded, it will be
@@ -26,10 +28,10 @@ public final class Configuration {
 	private static Logger		lg							= Logger.getLogger(Configuration.class.getName());
 	
 	/** The default configuration file to load. */
-	private static String		DEFAULT_CONFIGURATION_FILE	= "conf/configuration.xml";
+	private static Path			DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration.xml");
 	
 	/** The configuration file to load */
-	private String				configurationFile;
+	private Path				configurationFile;
 	/** The configuration properties */
 	private final Properties	configuration;
 	/** The state of the configuration, <code>true</code> if loaded */
@@ -37,7 +39,7 @@ public final class Configuration {
 	
 	/**
 	 * Constructor #1.<br />
-	 * Private default constructor, load the configuration properties from the configuration file.
+	 * Default constructor.
 	 */
 	public Configuration () {
 		this(DEFAULT_CONFIGURATION_FILE);
@@ -45,22 +47,24 @@ public final class Configuration {
 	
 	/**
 	 * Constructor #2.<br />
-	 * @param configurationFile the configuration file to load.
+	 * @param configurationFile
+	 *        the configuration file to load.
 	 */
-	public Configuration (final String configurationFile) {
+	public Configuration (final Path configurationFile) {
 		super();
 		this.configurationFile = configurationFile;
 		configuration = new Properties();
 		loaded = false;
+		load();
 	}
 	
 	/**
 	 * Set the configuration file to load.
-	 * @param filePath
+	 * @param configurationFile
 	 *        the path to the configuration file to load.
 	 */
-	public void setFile (final String filePath) {
-		configurationFile = filePath;
+	public void setConfigurationFile (final Path configurationFile) {
+		this.configurationFile = configurationFile;
 		loaded = false;
 		load();
 	}
@@ -71,10 +75,10 @@ public final class Configuration {
 	public void load () {
 		try {
 			configuration.clear();
-			configuration.loadFromXML(new FileInputStream(configurationFile));
+			configuration.loadFromXML(Files.newInputStream(configurationFile));
 			loaded = true;
 			if (lg.isLoggable(Level.INFO)) {
-				lg.info(size() + "Properties loaded from file: " + configurationFile);
+				lg.info(size() + " properties loaded from file: " + configurationFile);
 			}
 			if (lg.isLoggable(Level.FINE)) {
 				lg.fine("Properties successfully loaded:");
@@ -98,7 +102,7 @@ public final class Configuration {
 			load();
 		}
 		final String propertyValue = configuration.getProperty(propertyName);
-		if (propertyValue != null) {
+		if (propertyValue == null) {
 			lg.warning("No property with name " + propertyName);
 			return null;
 		}
