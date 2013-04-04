@@ -75,7 +75,7 @@ public class TimeSec extends Time implements Cloneable {
 	/**
 	 * Constructor #5.<br />
 	 * @param timeStamp
-	 *        the number of seconds since January 1st, 1970.
+	 *        the number of milliseconds since January 1st, 1970.
 	 */
 	public TimeSec (final long timeStamp) {
 		this(new Date(timeStamp));
