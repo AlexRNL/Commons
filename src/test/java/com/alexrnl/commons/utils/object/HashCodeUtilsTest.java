@@ -2,9 +2,11 @@ package com.alexrnl.commons.utils.object;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotEquals;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
+import java.math.BigInteger;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import org.junit.Before;
@@ -38,51 +40,59 @@ public class HashCodeUtilsTest {
 	}
 	
 	/** The first dummy object */
-	private Dummy		first;
+	private Dummy			first;
 	/** The second dummy object */
-	private Dummy		second;
+	private Dummy			second;
 	/** The third dummy object */
-	private Dummy		third;
+	private Dummy			third;
 	/** The fourth dummy object */
-	private Dummy		fourth;
+	private Dummy			fourth;
 	/** The fifth dummy object */
-	private Dummy		fifth;
+	private Dummy			fifth;
 	/** List with the dummy object, for iterations */
-	private List<Dummy>	dummies;
+	private List<Dummy>		dummies;
+	/** List of prime numbers */
+	private List<Integer>	primes;
 	
 	/**
 	 * Set up attributes.
 	 */
 	@Before
 	public void setUp () {
-		first = new Dummy(0, 0);
+		first = new Dummy(8, 0);
 		second = new Dummy(28, 1);
 		third = new Dummy(88, 2);
 		fourth = new Dummy(128, 4);
 		fifth = new Dummy(888, 8);
 		
-		dummies = new ArrayList<>();
+		dummies = new ArrayList<>(5);
 		dummies.add(first);
 		dummies.add(second);
 		dummies.add(third);
 		dummies.add(fourth);
 		dummies.add(fifth);
+		
+		primes = new ArrayList<>(11);
+		primes.add(2);
+		primes.add(3);
+		primes.add(5);
+		primes.add(7);
+		primes.add(11);
+		primes.add(13);
+		primes.add(17);
+		primes.add(19);
+		primes.add(23);
+		primes.add(31);
+		primes.add(37);
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(int, int, java.lang.Iterable)}.
+	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#PRIME_FOR_HASHCODE}.
 	 */
 	@Test
-	public void testHashCodeIntIntIterableOfObject () {
-		fail("Not yet implemented"); // TODO
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(int, int, java.lang.Object[])}.
-	 */
-	@Test
-	public void testHashCodeIntIntObjectArray () {
-		fail("Not yet implemented"); // TODO
+	public void testDefaultPrime () {
+		// FIXME update when implementing maths utils
+		assertTrue(BigInteger.valueOf(HashCodeUtils.PRIME_FOR_HASHCODE).isProbablePrime(128));
 	}
 	
 	/**
@@ -90,7 +100,41 @@ public class HashCodeUtilsTest {
 	 */
 	@Test
 	public void testHashCodeIntIterableOfObject () {
-		fail("Not yet implemented"); // TODO
+		for (final Integer prime : primes) {
+			for (final Dummy dummy : dummies) {
+				for (final Dummy other : dummies) {
+					if (other == dummy) {
+						assertEquals(HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+								HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { other.number, other.digit })));
+					} else {
+						assertNotEquals(HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+								HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { other.number, other.digit })));
+					}
+				}
+				
+				// Check for clone
+				final Dummy clone = new Dummy(dummy.number, dummy.digit);
+				assertEquals(HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+						HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { clone.number, clone.digit })));
+				
+				// Check for order
+				assertNotEquals(HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+						HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.digit, dummy.number })));
+				
+				// Check for small differences
+				final List<Dummy> others = new ArrayList<>(4);
+				others.add(new Dummy(dummy.number + 1, dummy.digit));
+				others.add(new Dummy(dummy.number, dummy.digit + 1 ));
+				others.add(new Dummy(dummy.number + 1, dummy.digit + 1));
+				others.add(new Dummy(dummy.number - 1, dummy.digit));
+				others.add(new Dummy(dummy.number, dummy.digit - 1));
+				others.add(new Dummy(dummy.number - 1, dummy.digit - 1));
+				for (final Dummy other : others) {
+					assertNotEquals(HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+							HashCodeUtils.hashCode(prime, Arrays.asList(new Object[] { other.number, other.digit })));
+				}
+			}
+		}
 	}
 	
 	/**
@@ -98,7 +142,41 @@ public class HashCodeUtilsTest {
 	 */
 	@Test
 	public void testHashCodeIntObjectArray () {
-		fail("Not yet implemented"); // TODO
+		for (final Integer prime : primes) {
+			for (final Dummy dummy : dummies) {
+				for (final Dummy other : dummies) {
+					if (other == dummy) {
+						assertEquals(HashCodeUtils.hashCode(prime, new Object[] { dummy.number, dummy.digit }),
+								HashCodeUtils.hashCode(prime, new Object[] { other.number, other.digit }));
+					} else {
+						assertNotEquals(HashCodeUtils.hashCode(prime, new Object[] { dummy.number, dummy.digit }),
+								HashCodeUtils.hashCode(prime, new Object[] { other.number, other.digit }));
+					}
+				}
+				
+				// Check for clone
+				final Dummy clone = new Dummy(dummy.number, dummy.digit);
+				assertEquals(HashCodeUtils.hashCode(prime, new Object[] { dummy.number, dummy.digit }),
+						HashCodeUtils.hashCode(prime, new Object[] { clone.number, clone.digit }));
+				
+				// Check for order
+				assertNotEquals(HashCodeUtils.hashCode(prime, new Object[] { dummy.number, dummy.digit }),
+						HashCodeUtils.hashCode(prime, new Object[] { dummy.digit, dummy.number }));
+				
+				// Check for small differences
+				final List<Dummy> others = new ArrayList<>(4);
+				others.add(new Dummy(dummy.number + 1, dummy.digit));
+				others.add(new Dummy(dummy.number, dummy.digit + 1 ));
+				others.add(new Dummy(dummy.number + 1, dummy.digit + 1));
+				others.add(new Dummy(dummy.number - 1, dummy.digit));
+				others.add(new Dummy(dummy.number, dummy.digit - 1));
+				others.add(new Dummy(dummy.number - 1, dummy.digit - 1));
+				for (final Dummy other : others) {
+					assertNotEquals(HashCodeUtils.hashCode(prime, new Object[] { dummy.number, dummy.digit }),
+							HashCodeUtils.hashCode(prime, new Object[] { other.number, other.digit }));
+				}
+			}
+		}
 	}
 	
 	/**
@@ -106,7 +184,40 @@ public class HashCodeUtilsTest {
 	 */
 	@Test
 	public void testHashCodeIterableOfObject () {
-		fail("Not yet implemented"); // TODO
+		for (final Dummy dummy : dummies) {
+			for (final Dummy other : dummies) {
+				if (other == dummy) {
+					assertEquals(
+							HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+							HashCodeUtils.hashCode(Arrays.asList(new Object[] { other.number, other.digit })));
+				} else {
+					assertNotEquals(HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+							HashCodeUtils.hashCode(Arrays.asList(new Object[] { other.number, other.digit })));
+				}
+			}
+			
+			// Check for clone
+			final Dummy clone = new Dummy(dummy.number, dummy.digit);
+			assertEquals(HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+					HashCodeUtils.hashCode(Arrays.asList(new Object[] { clone.number, clone.digit })));
+			
+			// Check for order
+			assertNotEquals(HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+					HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.digit, dummy.number })));
+			
+			// Check for small differences
+			final List<Dummy> others = new ArrayList<>(4);
+			others.add(new Dummy(dummy.number + 1, dummy.digit));
+			others.add(new Dummy(dummy.number, dummy.digit + 1 ));
+			others.add(new Dummy(dummy.number + 1, dummy.digit + 1));
+			others.add(new Dummy(dummy.number - 1, dummy.digit));
+			others.add(new Dummy(dummy.number, dummy.digit - 1));
+			others.add(new Dummy(dummy.number - 1, dummy.digit - 1));
+			for (final Dummy other : others) {
+				assertNotEquals(HashCodeUtils.hashCode(Arrays.asList(new Object[] { dummy.number, dummy.digit })),
+						HashCodeUtils.hashCode(Arrays.asList(new Object[] { other.number, other.digit })));
+			}
+		}
 	}
 	
 	/**
@@ -131,8 +242,21 @@ public class HashCodeUtilsTest {
 					HashCodeUtils.hashCode(new Object[] { clone.number, clone.digit }));
 			
 			// Check for order
-			assertEquals(HashCodeUtils.hashCode(new Object[] { dummy.number, dummy.digit }),
+			assertNotEquals(HashCodeUtils.hashCode(new Object[] { dummy.number, dummy.digit }),
 					HashCodeUtils.hashCode(new Object[] { dummy.digit, dummy.number }));
+			
+			// Check for small differences
+			final List<Dummy> others = new ArrayList<>(4);
+			others.add(new Dummy(dummy.number + 1, dummy.digit));
+			others.add(new Dummy(dummy.number, dummy.digit + 1 ));
+			others.add(new Dummy(dummy.number + 1, dummy.digit + 1));
+			others.add(new Dummy(dummy.number - 1, dummy.digit));
+			others.add(new Dummy(dummy.number, dummy.digit - 1));
+			others.add(new Dummy(dummy.number - 1, dummy.digit - 1));
+			for (final Dummy other : others) {
+				assertNotEquals(HashCodeUtils.hashCode(new Object[] { dummy.number, dummy.digit }),
+						HashCodeUtils.hashCode(new Object[] { other.number, other.digit }));
+			}
 		}
 	}
 }
