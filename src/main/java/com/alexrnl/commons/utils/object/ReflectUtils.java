@@ -38,8 +38,7 @@ public final class ReflectUtils {
 	public static Set<Method> retrieveMethods (final Class<?> objClass, final Class<? extends Annotation> annotationClass) {
 		final Set<Method> fieldMethods = new HashSet<>();
 		for (final Method method : objClass.getMethods()) {
-			final Annotation annotation = method.getAnnotation(annotationClass);
-			if (annotationClass == null || annotation != null) {
+			if (annotationClass == null || method.getAnnotation(annotationClass) != null) {
 				if (lg.isLoggable(Level.FINE)) {
 					lg.fine("Added method: " + method.getName());
 				}
