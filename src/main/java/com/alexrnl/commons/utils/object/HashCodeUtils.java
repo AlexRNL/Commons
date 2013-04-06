@@ -24,16 +24,15 @@ public final class HashCodeUtils {
 	 * Compute the hash code of the list of objects provided.<br />
 	 * @param attributes
 	 *        the list of attributes.
-	 * @param nullValue
-	 *        the value to use when the attribute is <code>null</code>.
 	 * @param prime
 	 *        the prime value to use for the hash code.
 	 * @return the hash code for the given set of attributes.
 	 */
-	public static int hashCode (final int nullValue, final int prime, final Iterable<Object> attributes) {
+	public static int hashCode (final int prime, final Iterable<Object> attributes) {
 		int result = 1;
+		int iteration = 1;
 		for (final Object object : attributes) {
-			result = prime * result + Objects.hashCode(object);
+			result = iteration++ * prime * result + Objects.hashCode(object);
 		}
 		return result;
 	}
@@ -42,41 +41,13 @@ public final class HashCodeUtils {
 	 * Compute the hash code of the list of objects provided.<br />
 	 * @param attributes
 	 *        the list of attributes.
-	 * @param nullValue
-	 *        the value to use when the attribute is <code>null</code>.
 	 * @param prime
 	 *        the prime value to use for the hash code.
 	 * @return the hash code for the given set of attributes.
-	 * @see #hashCode(int, int, Iterable)
+	 * @see #hashCode(int, Iterable)
 	 */
-	public static int hashCode (final int nullValue, final int prime, final Object[] attributes) {
-		return hashCode(nullValue, prime, Arrays.asList(attributes));
-	}
-	
-	/**
-	 * Compute the hash code of the list of objects provided.<br />
-	 * @param attributes
-	 *        the list of attributes.
-	 * @param nullValue
-	 *        the value to use when the attribute is <code>null</code>.
-	 * @return the hash code for the given set of attributes.
-	 * @see #hashCode(int, int, Iterable)
-	 */
-	public static int hashCode (final int nullValue, final Iterable<Object> attributes) {
-		return hashCode(nullValue, PRIME_FOR_HASHCODE, attributes);
-	}
-	
-	/**
-	 * Compute the hash code of the list of objects provided.<br />
-	 * @param attributes
-	 *        the list of attributes.
-	 * @param nullValue
-	 *        the value to use when the attribute is <code>null</code>.
-	 * @return the hash code for the given set of attributes.
-	 * @see #hashCode(int, int, Iterable)
-	 */
-	public static int hashCode (final int nullValue, final Object[] attributes) {
-		return hashCode(nullValue, Arrays.asList(attributes));
+	public static int hashCode (final int prime, final Object[] attributes) {
+		return hashCode(prime, Arrays.asList(attributes));
 	}
 	
 	/**
@@ -84,10 +55,10 @@ public final class HashCodeUtils {
 	 * @param attributes
 	 *        the list of attributes.
 	 * @return the hash code for the given set of attributes.
-	 * @see #hashCode(int, int, Iterable)
+	 * @see #hashCode(int, Iterable)
 	 */
 	public static int hashCode (final Iterable<Object> attributes) {
-		return hashCode(0, attributes);
+		return hashCode(PRIME_FOR_HASHCODE, attributes);
 	}
 	
 	/**
@@ -95,9 +66,10 @@ public final class HashCodeUtils {
 	 * @param attributes
 	 *        the list of attributes.
 	 * @return the hash code for the given set of attributes.
-	 * @see #hashCode(int, int, Iterable)
+	 * @see #hashCode(int, Iterable)
 	 */
 	public static int hashCode (final Object[] attributes) {
 		return hashCode(Arrays.asList(attributes));
 	}
+	
 }
