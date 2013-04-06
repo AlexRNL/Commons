@@ -10,6 +10,8 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.error.ExceptionUtils;
+
 /**
  * Class which automate hash code and comparison method on objects.
  * @author Alex
@@ -71,7 +73,7 @@ public final class AutoHashCode {
 				attributes.add(method.invoke(obj, (Object[]) null));
 			} catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 				lg.warning("Could not add the value of the method " + method.getName() + " because "
-						+ e.getClass() + "; " + e.getMessage());
+						+ ExceptionUtils.display(e));
 			}
 		}
 		return HashCodeUtils.hashCode(attributes);
