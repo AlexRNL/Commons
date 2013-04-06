@@ -58,7 +58,7 @@ public final class ReflectUtils {
 	 *        the methods to invoke.
 	 * @return the result of the method call.
 	 * @throws InvocationTargetException
-	 *         if the underlying method throws an exception
+	 *         if one of the underlying method throws an exception
 	 * @throws IllegalArgumentException
 	 *         if the method is an instance method and the specified object argument is not an
 	 *         instance of the class or interface declaring the underlying method (or of a subclass
@@ -67,7 +67,7 @@ public final class ReflectUtils {
 	 *         unwrapping, a parameter value cannot be converted to the corresponding formal
 	 *         parameter type by a method invocation conversion.
 	 * @throws IllegalAccessException
-	 *         if this Method object is enforcing Java language access control and the underlying
+	 *         if one of the Method object is enforcing Java language access control and the underlying
 	 *         method is inaccessible.
 	 */
 	public static List<Object> invokeMethods (final Object target, final List<Method> methods)
