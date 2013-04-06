@@ -15,7 +15,7 @@ public class AutoCompareTest {
 	 * Simple class to test the auto comparator.
 	 * @author Alex
 	 */
-	private class ComparedClass {
+	static class ComparedClass {
 		/** A string */
 		private final String	string;
 		/** An Integer array */
