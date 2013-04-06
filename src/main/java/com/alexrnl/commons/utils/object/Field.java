@@ -11,15 +11,9 @@ import java.lang.annotation.Target;
  * same type together.<br />
  * This annotation is typically used on the getters of a class. The method it annotates should not
  * have any parameters.
- * The property {@link #useForHashCode()} indicates that the field should be used (or not) to
- * compute its {@link Object#hashCode() hash code}.<br />
  * @author Alex
  */
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Field {
-	/**
-	 * <code>true</code> if the return value of the method should be used for hash code computation.
-	 */
-	boolean useForHashCode() default true;
 }

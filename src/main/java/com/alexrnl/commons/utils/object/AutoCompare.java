@@ -1,16 +1,15 @@
 package com.alexrnl.commons.utils.object;
 
-import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * Class which automate hash code and comparison method on objects.
@@ -54,7 +53,7 @@ public final class AutoCompare {
 	 */
 	private Set<Method> getEqualsMethods (final Class<?> objClass) {
 		if (!equalsMethods.containsKey(objClass)) {
-			equalsMethods.put(objClass, retrieveMethods(objClass));
+			equalsMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
 		}
 		return equalsMethods.get(objClass);
 	}
@@ -81,18 +80,18 @@ public final class AutoCompare {
 			return false;
 		}
 		
-		final Set<Method> methods = getEqualsMethods(left.getClass());
-		final List<Object> leftAttributes = new ArrayList<>(methods.size());
-		final List<Object> rightAttributes = new ArrayList<>(methods.size());
-		for (final Method method : methods) {
-			try {
-				leftAttributes.add(method.invoke(left, (Object[]) null));
-				rightAttributes.add(method.invoke(right, (Object[]) null));
-			} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				lg.warning("Could not add the value of the method " + method.getName() + " because "
-						+ e.getClass() + "; " + e.getMessage());
-				// XXX re-throw exception? the result will be inconsistent, it might be better to do it.
-			}
+		final List<Method> methods = new ArrayList<>();
+		final List<Object> leftAttributes;
+		final List<Object> rightAttributes;
+		methods.addAll(getEqualsMethods(left.getClass()));
+		try {
+			leftAttributes = ReflectUtils.invokeMethods(left, methods);
+			rightAttributes = ReflectUtils.invokeMethods(right, methods);
+		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+			lg.warning("Could not compute list of attribute, exception while invoking methods ("
+					+ ExceptionUtils.display(e) + ")");
+			// FIXME re-throw exception? the result will be inconsistent, it might be better to do it.
+			throw new RuntimeException("Comparison exception", e);
 		}
 		
 		synchronized (this) {
@@ -103,41 +102,6 @@ public final class AutoCompare {
 			
 			return comparator.areEquals();
 		}
-	}
-	
-	/**
-	 * Retrieve the methods for the class marked for comparison (annotated with {@link Field}).<br />
-	 * @param objClass
-	 *        the class to parse.
-	 * @return a {@link Set} with the {@link Method} annotates with {@link Field}.
-	 */
-	public static Set<Method> retrieveMethods (final Class<?> objClass) {
-		return retrieveMethods(objClass, false);
-	}
-	
-	/**
-	 * Retrieve the methods for the class marked for comparison (annotated with {@link Field}).<br />
-	 * @param objClass
-	 *        the class to parse.
-	 * @param forHashCode
-	 *        <code>true</code> if the methods are retrieved for a hash code computation
-	 *        (thus making use of the {@link Field#useForHashCode()} attribute.
-	 * @return a {@link Set} with the {@link Method} annotates with {@link Field}.
-	 */
-	public static Set<Method> retrieveMethods (final Class<?> objClass, final boolean forHashCode) {
-		final Set<Method> fieldMethods = new HashSet<>();
-		for (final Method method : objClass.getMethods()) {
-			final Annotation annotation = method.getAnnotation(Field.class);
-			if (annotation instanceof Field) {
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("method: " + method.getName());
-				}
-				if (!forHashCode || ((Field) annotation).useForHashCode()) {
-					fieldMethods.add(method);
-				}
-			}
-		}
-		return fieldMethods;
 	}
 	
 }

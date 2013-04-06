@@ -49,7 +49,7 @@ public final class AutoHashCode {
 	 */
 	private Set<Method> getHashCodeMethods (final Class<?> objClass) {
 		if (!hashCodeMethods.containsKey(objClass)) {
-			hashCodeMethods.put(objClass, AutoCompare.retrieveMethods(objClass, true));
+			hashCodeMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
 		}
 		return hashCodeMethods.get(objClass);
 	}
