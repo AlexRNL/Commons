@@ -50,7 +50,7 @@ public final class ReflectUtils {
 	}
 	
 	/**
-	 * Invoke the following list of methods (with no parameters) and return the result in a
+	 * Invoke the following list of methods (with no parameter) and return the result in a
 	 * {@link List}.
 	 * @param target
 	 *        the target object.
