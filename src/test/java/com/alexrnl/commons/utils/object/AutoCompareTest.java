@@ -1,6 +1,5 @@
 package com.alexrnl.commons.utils.object;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
@@ -59,7 +58,7 @@ public class AutoCompareTest {
 		 * Return the attribute integers.
 		 * @return the attribute integers.
 		 */
-		@Field(useForHashCode = false)
+		@Field
 		public Integer[] getIntegers () {
 			return integers;
 		}
@@ -118,13 +117,4 @@ public class AutoCompareTest {
 		assertFalse(comparator.compare(new Object(), three));
 	}
 	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AutoCompare#retrieveMethods(java.lang.Class, boolean)}.
-	 */
-	@Test
-	public void testRetrieveMethodsClassOfQBoolean () {
-		assertEquals(2, AutoCompare.retrieveMethods(ComparedClass.class, true).size());
-		assertEquals(3, AutoCompare.retrieveMethods(ComparedClass.class, false).size());
-		
-	}
 }
