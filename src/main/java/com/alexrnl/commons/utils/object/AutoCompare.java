@@ -67,8 +67,10 @@ public final class AutoCompare {
 	 * @param <T>
 	 *        the type of the objects to be compared
 	 * @return <code>true</code> if all the attributes marked {@link Field} are equals.
+	 * @throws ComparisonError
+	 *         if there was an issue while comparing the objects.
 	 */
-	public <T> boolean compare (final T left, final T right) {
+	public <T> boolean compare (final T left, final T right) throws ComparisonError {
 		// Basic cases
 		if (left == right) {
 			return true;
@@ -90,8 +92,7 @@ public final class AutoCompare {
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			lg.warning("Could not compute list of attribute, exception while invoking methods ("
 					+ ExceptionUtils.display(e) + ")");
-			// FIXME re-throw exception? the result will be inconsistent, it might be better to do it.
-			throw new RuntimeException("Comparison exception", e);
+			throw new ComparisonError("Comparison failed for class " + left.getClass(), e);
 		}
 		
 		synchronized (this) {
