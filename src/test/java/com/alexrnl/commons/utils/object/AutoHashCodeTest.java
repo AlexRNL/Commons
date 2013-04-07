@@ -1,21 +1,27 @@
 package com.alexrnl.commons.utils.object;
 
-import static org.junit.Assert.fail;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.alexrnl.commons.utils.object.AutoCompareTest.ComparedClass;
 
 /**
  * Test suite for the {@link AutoHashCode} class.
  * @author Alex
  */
 public class AutoHashCodeTest {
+	/** The test object for the auto hash code method. */
+	private ComparedClass testObject;
 	
 	/**
 	 * Set up attributes.
 	 */
 	@Before
 	public void setUp () {
+		testObject = new ComparedClass("test", new Integer[] { 2, 8 }, false, new double[] { 0.314159 });
 	}
 	
 	/**
@@ -23,6 +29,7 @@ public class AutoHashCodeTest {
 	 */
 	@Test
 	public void testHashCodeObject () {
-		fail("Not yet implemented"); // TODO
+		Logger.getLogger(AutoHashCode.class.getName()).setLevel(Level.FINE);
+		AutoHashCode.getInstance().hashCode(testObject);
 	}
 }
