@@ -11,10 +11,10 @@ import java.util.logging.Logger;
  */
 public final class QueryGenerator {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(QueryGenerator.class.getName());
+	private static Logger								lg			= Logger.getLogger(QueryGenerator.class.getName());
 	
 	/** Map between the entities and their id columns */
-	private static Map<Class<? extends Entity>, Column>	idColumns 			= new HashMap<>();
+	private static Map<Class<? extends Entity>, Column>	idColumns	= new HashMap<>();
 	
 	/**
 	 * Default constructor.<br />
@@ -241,7 +241,7 @@ public final class QueryGenerator {
 	}
 	
 	/**
-	 * Generates the insert prepared statement for an insert query.<br />
+	 * Generates the insert prepared statement.<br />
 	 * <code>INSERT INTO entity (columns) VALUES (?, ?, ?)</code>
 	 * @param object
 	 *        the target entity.
@@ -258,6 +258,28 @@ public final class QueryGenerator {
 			--columnNumber;
 		}
 		return fields.append("?)").toString();
+	}
+	
+	/**
+	 * Generate the update prepared statement.<br />
+	 * <code>UPDATE entity SET columns = ? WHERE idColumn = ?</code>
+	 * @param object
+	 *        the target entity
+	 * @return the prepared query
+	 */
+	public static String updatePrepared (final Entity object) {
+		final StringBuilder update = new StringBuilder(update(object));
+		
+		for (final Column column : object.getEntityColumns().values()) {
+			if (column.isID()) {
+				// Don't set the id of a column
+				continue;
+			}
+			update.append(column.getName()).append(" = ?, ");
+		}
+		update.delete(update.length() - 2, update.length());
+		
+		return update.append(whereID(object, null)).toString();
 	}
 	
 }
