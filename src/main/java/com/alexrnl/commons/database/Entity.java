@@ -45,7 +45,7 @@ public abstract class Entity implements Serializable {
 	 * Return the list of the columns of the table.
 	 * @return the list of the columns.
 	 */
-	public abstract Map<? extends Enum<?>, Column> getEntityColumns ();
+	public abstract Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns ();
 	
 	/**
 	 * Return the id field (as a {@link String}) of the entity.
