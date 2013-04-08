@@ -10,8 +10,9 @@ import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class representing a column in a entity.<br />
- * It is defined by a name and a type. The columns should be load once and for all to avoid unnecessary
- * duplicates.
+ * It is defined by a name and a type. The columns should be load once and for all to avoid
+ * unnecessary duplicates.<br />
+ * Instances of this class are immutable.
  * @author Alex
  */
 public class Column implements Serializable {
@@ -22,22 +23,14 @@ public class Column implements Serializable {
 	private static final long	serialVersionUID	= 7764202331118428284L;
 	
 	/** The Java type associated to the column */
-	private Class<?>			type;
+	private final Class<?>		type;
 	/** The name (identifier) of the column in the data base */
-	private String				name;
+	private final String		name;
 	/** <code>true</code> if the column is an index of the table */
-	private boolean				isID;
+	private final boolean		isID;
 	
 	/**
 	 * Constructor #1.<br />
-	 * Default constructor.
-	 */
-	public Column () {
-		this(null, null);
-	}
-	
-	/**
-	 * Constructor #2.<br />
 	 * @param type
 	 *            the type of the column.
 	 * @param name
@@ -56,7 +49,7 @@ public class Column implements Serializable {
 	}
 	
 	/**
-	 * Constructor #3.<br />
+	 * Constructor #2.<br />
 	 * Build a column which is not an index of the table.
 	 * @param type
 	 *            the type of the column.
@@ -77,30 +70,12 @@ public class Column implements Serializable {
 	}
 	
 	/**
-	 * Set the type.
-	 * @param type
-	 *            the type to set.
-	 */
-	public void setType (final Class<?> type) {
-		this.type = type;
-	}
-	
-	/**
 	 * Return the name.
 	 * @return the name.
 	 */
 	@Field
 	public String getName () {
 		return name;
-	}
-	
-	/**
-	 * Set the name.
-	 * @param name
-	 *            the name to set.
-	 */
-	public void setName (final String name) {
-		this.name = name;
 	}
 	
 	/**
@@ -112,16 +87,8 @@ public class Column implements Serializable {
 		return isID;
 	}
 	
-	/**
-	 * Set the isID.
-	 * @param isID
-	 *            <code>true</code> if the column is an index of the table.
-	 */
-	public void setID (final boolean isID) {
-		this.isID = isID;
-	}
-	
-	/* (non-Javadoc)
+	/*
+	 * (non-Javadoc)
 	 * @see java.lang.Object#toString()
 	 */
 	@Override
