@@ -46,4 +46,40 @@ public final class StringUtils {
 	public static String replaceIfNull (final String s, final String replace) {
 		return s == null ? replace : s;
 	}
+	
+	/**
+	 * Return the {@link Object#toString() toString} of the specified object, or its replacement if
+	 * it is <code>null</code>.
+	 * @param o
+	 *        the object to display.
+	 * @param replace
+	 *        its replacement, is the object is <code>null</code>.
+	 * @return the {@link Object#toString() toString} of the specified object, or
+	 *         <code>replace</code> if <code>o</code> is <code>null</code>.
+	 */
+	public static String replaceIfNull (final Object o, final String replace) {
+		return o == null ? replace : o.toString();
+	}
+	
+	/**
+	 * Return the string specified, or an empty {@link String}, if it is <code>null</code>.
+	 * @param s
+	 *        the string to return.
+	 * @return an empty String if the parameter is <code>null</code>, else the string.
+	 */
+	public static String emptyIfNull (final String s) {
+		return replaceIfNull(s, "");
+	}
+	
+	/**
+	 * Return the {@link Object#toString() toString} of the specified object, or an empty
+	 * {@link String}, if it is <code>null</code>.
+	 * @param o
+	 *        the object to display.
+	 * @return an empty String if the object is <code>null</code>, else the
+	 *         {@link Object#toString() toString} of the object.
+	 */
+	public static String emptyIfNull (final Object o) {
+		return replaceIfNull(o, "");
+	}
 }
