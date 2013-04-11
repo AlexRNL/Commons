@@ -7,6 +7,27 @@
 	<version>1.0-SNAPSHOT</version>
 	<name>Commons</name>
 	<url>https://github.com/AlexRNL/Commons</url>
+	<inceptionYear>2013</inceptionYear>
+	<scm>
+		<url>https://github.com/AlexRNL/Commons</url>
+		<connection>scm:git:git://github.com/AlexRNL/Commons.git</connection>
+		<developerConnection>scm:git:git@github.com:AlexRNL/Commons.git</developerConnection>
+	</scm>
+	<issueManagement>
+		<system>GitHub</system>
+		<url>https://github.com/AlexRNL/Commons/issues</url>
+	</issueManagement>
+	<developers>
+		<developer>
+			<email>alexbarfety@free.fr</email>
+			<name>Alex Barféty</name>
+			<url>https://github.com/AlexRNL</url>
+			<id>AlexRNL</id>
+		</developer>
+	</developers>
+	<properties>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+	</properties>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
@@ -28,8 +49,4 @@
 			</plugin>
 		</plugins>
 	</build>
-	<issueManagement>
-		<system>GitHub</system>
-		<url>https://github.com/AlexRNL/Commons/issues</url>
-	</issueManagement>
 </project>
