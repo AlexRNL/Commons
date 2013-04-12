@@ -1,8 +1,12 @@
-# Compiling Files #
+# Eclipse files #
+.project
+.classpath
+
+# Compilation files #
 *.class
 target
 
-# Package Files #
+# Package files #
 *.jar
 *.war
 *.ear
