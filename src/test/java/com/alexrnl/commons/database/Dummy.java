@@ -3,8 +3,6 @@ package com.alexrnl.commons.database;
 import java.util.EnumMap;
 import java.util.Map;
 
-import com.alexrnl.commons.utils.StringUtils;
-
 /**
  * Dummy entity for test purposes.
  * @author Alex
@@ -67,7 +65,7 @@ public class Dummy extends Entity {
 	
 	@Override
 	public String getID () {
-		return StringUtils.emptyIfNull(getId());
+		return String.valueOf(getId());
 	}
 	
 	/**

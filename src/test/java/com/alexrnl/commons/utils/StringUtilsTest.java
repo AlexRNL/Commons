@@ -50,22 +50,4 @@ public class StringUtilsTest {
 		assertEquals("test", StringUtils.emptyIfNull("test"));
 	}
 	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#replaceIfNull(java.lang.Object, java.lang.String)}.
-	 */
-	@Test
-	public void testReplaceIfNullObject () {
-		assertEquals("test", StringUtils.replaceIfNull((Object) null, "test"));
-		assertEquals("test", StringUtils.replaceIfNull(new StringBuilder("test"), "test2"));
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#emptyIfNull(java.lang.Object)}.
-	 */
-	@Test
-	public void testEmptyIfNullObject () {
-		assertEquals("", StringUtils.emptyIfNull((Object) null));
-		assertEquals("test", StringUtils.emptyIfNull(new StringBuilder("test")));
-	}
-	
 }
