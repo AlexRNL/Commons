@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ NoIdErrorTest.class, DAOInstantiationErrorTest.class })
+@SuiteClasses({ ColumnTest.class, NoIdErrorTest.class, DAOInstantiationErrorTest.class })
 public class DatabaseTests {
 }
