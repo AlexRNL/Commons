@@ -2,9 +2,11 @@ package com.alexrnl.commons.database;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNotSame;
 import static org.junit.Assert.assertThat;
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 import java.util.List;
@@ -97,7 +99,23 @@ public class ColumnTest {
 	 */
 	@Test
 	public void testEquals () {
-		fail("Not yet implemented");
+		for (final Column column : columns) {
+			final Column newIdColumn = new Column(column.getType(), column.getName(), column.isID());
+			assertNotSame(column, newIdColumn);
+			assertEquals(column.hashCode(), newIdColumn.hashCode());
+			
+			// Basic cases
+			assertFalse(column.equals(null));
+			assertTrue(column.equals(column));
+			assertFalse(column.equals(new Object()));
+			assertEquals(column, column);
+			
+			// Check equals on a field change
+			assertNotEquals(column, new Column(null, column.getName(), !column.isID()));
+			assertNotEquals(column, new Column(Number.class, column.getName(), !column.isID()));
+			assertNotEquals(column, new Column(column.getType(), null, !column.isID()));
+			assertNotEquals(column, new Column(column.getType(), column.getName() + ".//", !column.isID()));
+		}
 	}
 	
 }
