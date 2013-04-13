@@ -2,6 +2,7 @@ package com.alexrnl.commons.database;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.error.ExceptionUtils;
@@ -25,6 +26,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * @return the concrete implementation
 	 */
 	public static AbstractDAOFactory getImplementation () {
+		Objects.requireNonNull(implementation, "DAO Factory implementation is null");
 		return implementation;
 	}
 	
