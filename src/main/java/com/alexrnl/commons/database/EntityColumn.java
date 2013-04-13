@@ -1,11 +1,9 @@
 package com.alexrnl.commons.database;
 
-import java.util.Enumeration;
-
-
 /**
  * Interface for the entity columns.<br />
- * This interface should be implemented by the {@link Enumeration} which represent the column of the
+ * This interface should be implemented by the {@link java.util.Enumeration} which represent the
+ * column of the
  * entity in the database.<br />
  * @author Alex
  */
