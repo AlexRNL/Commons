@@ -26,6 +26,21 @@ public class AbstractDAOFactoryTest {
 		@Override
 		public void close () throws IOException {}
 	}
+	/**
+	 * Dummy factory, for test purposes.
+	 * @author Alex
+	 */
+	private static class DummyFactoryPrivate extends AbstractDAOFactory {
+		/**
+		 * Constructor #1.<br />
+		 */
+		private DummyFactoryPrivate () {
+			super();
+		}
+		
+		@Override
+		public void close () throws IOException {}
+	}
 	
 	/**
 	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getImplementation()}.
@@ -54,5 +69,21 @@ public class AbstractDAOFactoryTest {
 	public void testCreateFactoryString () {
 		AbstractDAOFactory.createFactory(DummyFactory.class.getName());
 		assertEquals(DummyFactory.class, AbstractDAOFactory.getImplementation().getClass());
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(java.lang.Class)}.
+	 */
+	@Test(expected=DAOInstantiationError.class)
+	public void testCreateFactoryClassOfQextendsAbstractDAOFactoryDAOInstantiationError () {
+		AbstractDAOFactory.createFactory(DummyFactoryPrivate.class);
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(java.lang.String)}.
+	 */
+	@Test(expected=DAOInstantiationError.class)
+	public void testCreateFactoryStringDAOInstantiationError () {
+		AbstractDAOFactory.createFactory(Object.class.getName());
 	}
 }
