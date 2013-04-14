@@ -1,8 +1,9 @@
 package com.alexrnl.commons.database;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
-import org.junit.Before;
+import java.io.IOException;
+
 import org.junit.Test;
 
 /**
@@ -10,20 +11,31 @@ import org.junit.Test;
  * @author Alex
  */
 public class AbstractDAOFactoryTest {
-	
 	/**
-	 * Set up attributes.
+	 * Dummy factory, for test purposes.
+	 * @author Alex
 	 */
-	@Before
-	public void setUp () {
+	private static class DummyFactory extends AbstractDAOFactory {
+		/**
+		 * Constructor #1.<br />
+		 */
+		public DummyFactory () {
+			super();
+		}
+		
+		@Override
+		public void close () throws IOException {}
 	}
 	
 	/**
 	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getImplementation()}.
 	 */
-	@Test
+	@Test(expected=NullPointerException.class)
 	public void testGetImplementation () {
-		fail("Not yet implemented"); // TODO
+		try {
+			AbstractDAOFactory.createFactory((Class<? extends AbstractDAOFactory>) null);
+		} catch (final DAOInstantiationError e) {}
+		AbstractDAOFactory.getImplementation();
 	}
 	
 	/**
@@ -31,7 +43,8 @@ public class AbstractDAOFactoryTest {
 	 */
 	@Test
 	public void testCreateFactoryClassOfQextendsAbstractDAOFactory () {
-		fail("Not yet implemented"); // TODO
+		AbstractDAOFactory.createFactory(DummyFactory.class);
+		assertEquals(DummyFactory.class, AbstractDAOFactory.getImplementation().getClass());
 	}
 	
 	/**
@@ -39,6 +52,7 @@ public class AbstractDAOFactoryTest {
 	 */
 	@Test
 	public void testCreateFactoryString () {
-		fail("Not yet implemented"); // TODO
+		AbstractDAOFactory.createFactory(DummyFactory.class.getName());
+		assertEquals(DummyFactory.class, AbstractDAOFactory.getImplementation().getClass());
 	}
 }
