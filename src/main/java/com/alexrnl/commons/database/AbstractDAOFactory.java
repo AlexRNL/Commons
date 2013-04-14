@@ -46,6 +46,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 			}
 			implementation = factoryClass.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
+			implementation = null;
 			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
 			throw new DAOInstantiationError(factoryClass.getName(), e);
 		}
@@ -60,6 +61,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 		try {
 			createFactory(Class.forName(factoryClass).asSubclass(AbstractDAOFactory.class));
 		} catch (ClassNotFoundException | ClassCastException e) {
+			implementation = null;
 			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
 			throw new DAOInstantiationError(factoryClass, e);
 		}
