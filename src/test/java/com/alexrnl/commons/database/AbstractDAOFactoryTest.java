@@ -3,9 +3,6 @@ package com.alexrnl.commons.database;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
-import java.io.IOException;
-import java.util.Set;
-
 import org.junit.Test;
 
 /**
@@ -14,54 +11,7 @@ import org.junit.Test;
  */
 public class AbstractDAOFactoryTest {
 	/**
-	 * Dummy factory, for test purposes.
-	 * @author Alex
-	 */
-	private static class DummyFactory extends AbstractDAOFactory {
-		/**
-		 * Constructor #1.<br />
-		 */
-		public DummyFactory () {
-			super();
-			addDAO(Dummy.class, new DAO<Dummy>() {
-				
-				@Override
-				public void close () throws IOException {}
-				
-				@Override
-				public Dummy create (final Dummy obj) {
-					return null;
-				}
-				
-				@Override
-				public Dummy find (final int id) {
-					return null;
-				}
-				
-				@Override
-				public boolean update (final Dummy obj) {
-					return false;
-				}
-				
-				@Override
-				public boolean delete (final Dummy obj) {
-					return false;
-				}
-				
-				@Override
-				public Set<Dummy> retrieveAll () {
-					return null;
-				}
-				
-				@Override
-				public Set<Dummy> search (final Column field, final String value) {
-					return null;
-				}});
-		}
-		
-	}
-	/**
-	 * Dummy factory, for test purposes.
+	 * Dummy private factory, for test purposes.
 	 * @author Alex
 	 */
 	private static class DummyFactoryPrivate extends AbstractDAOFactory {
