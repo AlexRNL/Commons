@@ -60,10 +60,6 @@ public abstract class Entity implements Serializable {
 	 */
 	public abstract String getID ();
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
 	@Override
 	protected Entity clone () throws CloneNotSupportedException {
 		return (Entity) super.clone();
