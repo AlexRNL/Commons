@@ -57,4 +57,22 @@ public final class StringUtils {
 		return replaceIfNull(s, "");
 	}
 	
+	/**
+	 * Separate a list of object with a given separator.<br />
+	 * @param separator
+	 *        the separator.
+	 * @param s
+	 *        the objects to display.
+	 * @return the objects separated by the separator specified.
+	 */
+	public static String separateWith (final String separator, final Object... s) {
+		final StringBuilder builder = new StringBuilder();
+		
+		for (final Object object : s) {
+			builder.append(object).append(separator);
+		}
+		
+		return builder.substring(0, builder.length() - separator.length()).toString();
+	}
+	
 }

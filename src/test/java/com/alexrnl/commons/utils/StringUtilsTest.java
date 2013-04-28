@@ -50,4 +50,11 @@ public class StringUtilsTest {
 		assertEquals("test", StringUtils.emptyIfNull("test"));
 	}
 	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#separateWith(String, Object...)}.
+	 */
+	@Test
+	public void testSeparateWith () {
+		assertEquals("1,2,3", StringUtils.separateWith(",", 1, 2, 3));
+	}
 }
