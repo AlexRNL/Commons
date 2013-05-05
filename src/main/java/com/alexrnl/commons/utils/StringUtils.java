@@ -129,14 +129,14 @@ public final class StringUtils {
 		for (final byte element : digest) {
 			int value = element;
 			if (value < 0) {
-				value += 256;
+				value += Byte.MAX_VALUE - Byte.MIN_VALUE + 1;
 			}
 			// Add a zero in case of 'short' hash.
-			if (value <= 14) {
-				buffer.append("0" + Integer.toHexString(value));
-			} else {
-				buffer.append(Integer.toHexString(value));
+			final String hex = Integer.toHexString(value);
+			if (hex.length() == 1) {
+				buffer.append(0);
 			}
+			buffer.append(hex);
 		}
 		return buffer.toString();
     }
@@ -145,7 +145,7 @@ public final class StringUtils {
 	 * Error while processing MD5 hash.<br />
 	 * @author Alex
 	 */
-	public static class MD5Error extends TopLevelError {
+	public static final class MD5Error extends TopLevelError {
 		/** The serial version UID */
 		private static final long	serialVersionUID	= 7373353736343009842L;
 
