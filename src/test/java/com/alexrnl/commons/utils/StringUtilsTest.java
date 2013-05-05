@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.charset.StandardCharsets;
+
 import org.junit.Test;
 
 /**
@@ -56,5 +58,23 @@ public class StringUtilsTest {
 	@Test
 	public void testSeparateWith () {
 		assertEquals("1,2,3", StringUtils.separateWith(",", 1, 2, 3));
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#getMD5(String)}.
+	 */
+	@Test
+	public void testgetMD5String () {
+		assertEquals("0cc175b9c0f1b6a831c399e269772661", StringUtils.getMD5("a"));
+		assertEquals("c3fcd3d76192e4007dfb496cca67e13b", StringUtils.getMD5("abcdefghijklmnopqrstuvwxyz"));
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#getMD5(String)}.
+	 */
+	@Test
+	public void testgetMD5StringCharset () {
+		assertEquals("0b687c31ee552ea09607eb2c2685f6eb", StringUtils.getMD5("abc123È^$ñ@!§", StandardCharsets.ISO_8859_1));
+		assertEquals("65fd8f6818ff5304e5add7cf28ed3815", StringUtils.getMD5("abc123È^$ñ@!§", StandardCharsets.UTF_8));
 	}
 }
