@@ -1,6 +1,7 @@
 # Eclipse files #
 .project
 .classpath
+.settings
 
 # Compilation files #
 *.class
