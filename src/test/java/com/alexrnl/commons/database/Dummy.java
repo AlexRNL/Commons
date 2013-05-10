@@ -17,7 +17,24 @@ public class Dummy extends Entity {
 	private Integer id;
 	/** Name of the dummy */
 	private String name;
+
+	/**
+	 * Constructor #1.<br />
+	 */
+	public Dummy () {
+		this(null);
+	}
 	
+	/**
+	 * Constructor #.<br />
+	 * @param id
+	 *        the id.
+	 */
+	public Dummy (final Integer id) {
+		super();
+		this.id = id;
+	}
+
 	@Override
 	public String getEntityName () {
 		return "Dummy";

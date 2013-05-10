@@ -52,7 +52,9 @@ public final class QueryGenerator {
 	}
 	
 	/**
-	 * Escape the special characters of a String.
+	 * Escape the special characters of a String for a basic SQL query.<br />
+	 * <em>Note that the usage of this method is not encouraged, prefer prepared statements to avoid
+	 * SQL injection issues.</em>
 	 * @param string
 	 *        the string to escape.
 	 * @return the escaped string.
@@ -155,7 +157,7 @@ public final class QueryGenerator {
 	/**
 	 * Generates the 'WHERE' part of a query which identifies it by its id.<br />
 	 * <code> WHERE idColumn = value</code><br />
-	 * If the id is <code>null</code>, then a query for a prepared statement is generated (with <code>?</code>).
+	 * If the value is <code>null</code>, then a query for a prepared statement is generated (with <code>?</code>).
 	 * @param object
 	 *        the object which represent the entity.
 	 * @param id
@@ -169,10 +171,8 @@ public final class QueryGenerator {
 	/**
 	 * Generates the 'WHERE' part of a query using a single column condition.<br />
 	 * <code> WHERE fieldName = value</code><br />
-	 * If the id is <code>null</code>, then a query for a prepared statement is generated (with
+	 * If the value is <code>null</code>, then a query for a prepared statement is generated (with
 	 * <code>?</code>).<br />
-	 * If the fieldName is <code>null</code> the field name will be replaced by <code>?</code> which
-	 * can be used in a prepared statement.<br />
 	 * @param field
 	 *        the name of the column to use.
 	 * @param value
@@ -187,10 +187,8 @@ public final class QueryGenerator {
 	 * Generates the 'WHERE' part of a query using a single column condition.<br />
 	 * <code> WHERE fieldName = value // like = false<br />
 	 *  WHERE LIKE fieldName = value% // like = true</code><br />
-	 * If the id is <code>null</code>, then a query for a prepared statement is generated (with
+	 * If the value is <code>null</code>, then a query for a prepared statement is generated (with
 	 * <code>?</code>).<br />
-	 * If the fieldName is <code>null</code> the field name will be replaced by <code>?</code> which
-	 * can be used in a prepared statement.<br />
 	 * The <code>like</code> flag allow to use the same method to generate queries with the LIKE operator
 	 * @param field
 	 *        the name of the column to use.
@@ -205,7 +203,7 @@ public final class QueryGenerator {
 		final String operator =  like ? " LIKE " : " = ";
 		String fieldValue = value == null ? "?" : escapeSpecialChars(value.toString());
 		
-		if (value != null && field.getType().getSuperclass().equals(Number.class)) {
+		if (value != null) {
 			fieldValue = "'" + fieldValue + "'";
 		}
 		
@@ -215,10 +213,8 @@ public final class QueryGenerator {
 	/**
 	 * Generates the 'WHERE' part of a query using a single column condition with the like operator.<br />
 	 * <code> WHERE fieldName LIKE value%</code><br />
-	 * If the id is <code>null</code>, then a query for a prepared statement is generated (with
+	 * If the value is <code>null</code>, then a query for a prepared statement is generated (with
 	 * <code>?</code>).<br />
-	 * If the fieldName is <code>null</code> the field name will be replaced by <code>?</code> which
-	 * can be used in a prepared statement.<br />
 	 * @param field
 	 *        the name of the column to use.
 	 * @param value

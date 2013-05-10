@@ -10,6 +10,6 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ AbstractDAOFactoryTest.class, ColumnTest.class, NoIdErrorTest.class,
-	DAOInstantiationErrorTest.class })
+	DAOInstantiationErrorTest.class , QueryGeneratorTest.class })
 public class DatabaseTests {
 }
