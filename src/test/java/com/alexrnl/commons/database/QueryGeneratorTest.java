@@ -21,9 +21,10 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.QueryGenerator#getIDColumn(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.QueryGenerator#getIDColumn(com.alexrnl.commons.database.Entity)}.<br />
+	 * This expect either an {@link java.lang.AssertionError} or a {@link com.alexrnl.commons.database.NoIdError}.
 	 */
-	@Test(expected=NoIdError.class)
+	@Test(expected=Error.class)
 	public void testGetIDColumnNoIdError () {
 		QueryGenerator.getIDColumn(new Fake());
 	}
