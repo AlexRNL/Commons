@@ -19,7 +19,9 @@ import com.alexrnl.commons.database.QueryGenerator;
 
 /**
  * This class shall be the super class of all MySQL {@link DAO}.<br />
- * Contains method which factorise similar code between classes.
+ * Contains method which factorise similar code between classes.<br />
+ * When the {@link Level#FINE} log level is enabled, all queries will be logged.
+ * When the {@link Level#FINER} log level is enabled, all queries will be timed.
  * @author Alex
  * @param <T>
  *        The class of the object to manipulate.
@@ -140,6 +142,9 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	
 	@Override
 	public void close () throws IOException {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Closing statements.");
+		}
 		try {
 			create.close();
 			find.close();
@@ -165,7 +170,6 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		T newEntity = null;
-		
 		try {
 			fillInsertStatement(create, obj);
 			create.executeUpdate();
@@ -175,7 +179,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 				if (resultSet.next()) {
 					newEntity = find(resultSet.getInt(1));
 				} else {
-					throw new SQLException("Could not retrieve last inserted id.");
+					lg.warning("Could not retrieve last inserted id for " + entityName);
 				}
 			}
 		} catch (final SQLException e) {
@@ -215,7 +219,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			return false;
 		}
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Updating the " + entityName + " with id = " + obj.getID());
+			lg.fine("Updating the " + entityName + " with " + obj);
 		}
 		
 		try {
@@ -237,6 +241,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Deleting " + entityName + " " + obj);
 		}
+		
 		try {
 			delete.setObject(1, obj.getID());
 			delete.execute();
@@ -255,9 +260,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Retrieving all " + entityName);
 		}
 		
-		// Time before query
 		long timeBefore = 0;
-		if (lg.isLoggable(Level.FINE)) {
+		if (lg.isLoggable(Level.FINER)) {
 			timeBefore = System.currentTimeMillis();
 		}
 		
@@ -272,10 +276,9 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 			return allEntities;
 		}
 		
-		// Time for query logging
-		if (lg.isLoggable(Level.FINE)) {
+		if (lg.isLoggable(Level.FINER)) {
 			final long timeAfter = System.currentTimeMillis();
-			lg.fine("Time for retrieving all " + entityName + ": " + (timeAfter - timeBefore) + " ms");
+			lg.finer("Time for retrieving all " + entityName + ": " + (timeAfter - timeBefore) + " ms");
 		}
 		
 		return allEntities;
@@ -285,6 +288,9 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	public Set<T> search (final Column field, final String value) {
 		if (field == null || value == null) {
 			return retrieveAll();
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Searching " + entityName + " for " + value + " in column " + field.getName());
 		}
 		
 		final Set<T> entities = new HashSet<>();
