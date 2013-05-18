@@ -116,5 +116,13 @@ public class Dummy extends Entity {
 	public void setName (final String name) {
 		this.name = name;
 	}
+
+	@Override
+	public Dummy clone () throws CloneNotSupportedException {
+		final Dummy clone = new Dummy();
+		clone.setId(getId());
+		clone.setName(getName());
+		return clone;
+	}
 	
 }

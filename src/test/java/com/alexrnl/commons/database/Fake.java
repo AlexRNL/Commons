@@ -68,5 +68,12 @@ public class Fake extends Entity {
 	public String getID () {
 		return Integer.toString(id);
 	}
+
+	@Override
+	public Fake clone () throws CloneNotSupportedException {
+		final Fake clone = new Fake();
+		clone.id = id;
+		return clone;
+	}
 	
 }
