@@ -169,6 +169,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Creating the " + entityName + ": " + obj.toString());
 		}
 		
+		long timeBefore = 0;
+		if (lg.isLoggable(Level.FINER)) {
+			timeBefore = System.currentTimeMillis();
+		}
+		
 		T newEntity = null;
 		try {
 			fillInsertStatement(create, obj);
@@ -186,6 +191,12 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.warning("Exception while creating a " + entityName + ": " + e.getMessage());
 			return null;
 		}
+		
+		if (lg.isLoggable(Level.FINER)) {
+			final long timeAfter = System.currentTimeMillis();
+			lg.finer("Time for creating " + entityName + ": " + (timeAfter - timeBefore) + " ms");
+		}
+		
 		return newEntity;
 	}
 	
@@ -194,6 +205,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		T entity = null;
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("Finding the " + entityName + " with id = " + id);
+		}
+		
+		long timeBefore = 0;
+		if (lg.isLoggable(Level.FINER)) {
+			timeBefore = System.currentTimeMillis();
 		}
 		
 		try {
@@ -210,6 +226,12 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.warning("Could not find " + entityName + ": " + e.getMessage());
 			return null;
 		}
+		
+		if (lg.isLoggable(Level.FINER)) {
+			final long timeAfter = System.currentTimeMillis();
+			lg.finer("Time for finding " + entityName + ": " + (timeAfter - timeBefore) + " ms");
+		}
+		
 		return entity;
 	}
 	
@@ -222,6 +244,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Updating the " + entityName + " with " + obj);
 		}
 		
+		long timeBefore = 0;
+		if (lg.isLoggable(Level.FINER)) {
+			timeBefore = System.currentTimeMillis();
+		}
+		
 		try {
 			fillUpdateStatement(update, obj);
 			update.executeUpdate();
@@ -230,6 +257,12 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.warning("Could not update " + entityName + ": " + e.getMessage());
 			return false;
 		}
+		
+		if (lg.isLoggable(Level.FINER)) {
+			final long timeAfter = System.currentTimeMillis();
+			lg.finer("Time for updating " + entityName + ": " + (timeAfter - timeBefore) + " ms");
+		}
+		
 		return true;
 	}
 	
@@ -242,6 +275,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Deleting " + entityName + " " + obj);
 		}
 		
+		long timeBefore = 0;
+		if (lg.isLoggable(Level.FINER)) {
+			timeBefore = System.currentTimeMillis();
+		}
+		
 		try {
 			delete.setObject(1, obj.getID());
 			delete.execute();
@@ -250,6 +288,12 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.warning("Could not delete " + entityName + ": " + e.getMessage());
 			return false;
 		}
+		
+		if (lg.isLoggable(Level.FINER)) {
+			final long timeAfter = System.currentTimeMillis();
+			lg.finer("Time for deleting " + entityName + ": " + (timeAfter - timeBefore) + " ms");
+		}
+		
 		return true;
 	}
 	
@@ -293,6 +337,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			lg.fine("Searching " + entityName + " for " + value + " in column " + field.getName());
 		}
 		
+		long timeBefore = 0;
+		if (lg.isLoggable(Level.FINER)) {
+			timeBefore = System.currentTimeMillis();
+		}
+		
 		final Set<T> entities = new HashSet<>();
 		try {
 			final PreparedStatement search = searches.get(field);
@@ -306,6 +355,11 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		} catch (final SQLException e) {
 			lg.warning("Could not retrieve " + entityName + ": " + e.getMessage());
 			return entities;
+		}
+		
+		if (lg.isLoggable(Level.FINER)) {
+			final long timeAfter = System.currentTimeMillis();
+			lg.finer("Time for searching " + entityName + ": " + (timeAfter - timeBefore) + " ms");
 		}
 		
 		return entities;
