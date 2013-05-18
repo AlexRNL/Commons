@@ -58,6 +58,7 @@ public class StringUtilsTest {
 	@Test
 	public void testSeparateWith () {
 		assertEquals("1,2,3", StringUtils.separateWith(",", 1, 2, 3));
+		assertEquals("1", StringUtils.separateWith(",", 1));
 	}
 	
 	/**
