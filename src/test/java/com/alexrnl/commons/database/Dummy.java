@@ -3,6 +3,10 @@ package com.alexrnl.commons.database;
 import java.util.EnumMap;
 import java.util.Map;
 
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
+
 /**
  * Dummy entity for test purposes.
  * @author Alex
@@ -12,7 +16,7 @@ public class Dummy extends Entity {
 	private static final long	serialVersionUID	= 1L;
 	
 	/** Map with the columns */
-	private EnumMap<Dummy.DummyColumn, Column> map;
+	private static EnumMap<Dummy.DummyColumn, Column> map;
 	/** Id of the class */
 	private Integer id;
 	/** Name of the dummy */
@@ -22,17 +26,27 @@ public class Dummy extends Entity {
 	 * Constructor #1.<br />
 	 */
 	public Dummy () {
-		this(null);
+		this((String) null);
 	}
 	
 	/**
-	 * Constructor #.<br />
+	 * Constructor #2.<br />
 	 * @param id
 	 *        the id.
 	 */
 	public Dummy (final Integer id) {
 		super();
 		this.id = id;
+	}
+
+	/**
+	 * Constructor #3.<br />
+	 * @param name
+	 *        the name.
+	 */
+	public Dummy (final String name) {
+		super();
+		this.name = name;
 	}
 
 	@Override
@@ -80,6 +94,14 @@ public class Dummy extends Entity {
 		return map;
 	}
 	
+	/**
+	 * Return the columns of the map.
+	 * @return the columns.
+	 */
+	public static Map<? extends Enum<? extends EntityColumn>, Column> getColumns () {
+		return map;
+	}
+
 	@Override
 	public String getID () {
 		return String.valueOf(getId());
@@ -89,6 +111,7 @@ public class Dummy extends Entity {
 	 * Return the attribute id.
 	 * @return the attribute id.
 	 */
+	@Field
 	public Integer getId () {
 		return id;
 	}
@@ -105,6 +128,7 @@ public class Dummy extends Entity {
 	 * Return the attribute name.
 	 * @return the attribute name.
 	 */
+	@Field
 	public String getName () {
 		return name;
 	}
@@ -123,6 +147,24 @@ public class Dummy extends Entity {
 		clone.setId(getId());
 		clone.setName(getName());
 		return clone;
+	}
+
+	@Override
+	public String toString () {
+		return "Dummy[ id=" + id + "; name=" + name + "]";
+	}
+
+	@Override
+	public int hashCode () {
+		return AutoHashCode.getInstance().hashCode(this);
+	}
+
+	@Override
+	public boolean equals (final Object obj) {
+		if (!(obj instanceof Dummy)) {
+			return false;
+		}
+		return AutoCompare.getInstance().compare(this, (Dummy) obj);
 	}
 	
 }
