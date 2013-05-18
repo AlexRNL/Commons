@@ -30,8 +30,6 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	/** Logger */
 	private static Logger							lg	= Logger.getLogger(SQLDAO.class.getName());
 	
-	/** The connection to the database */
-	private final Connection						connection;
 	/** Name of the entity manipulated */
 	private final String							entityName;
 	
@@ -58,7 +56,6 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	 */
 	public SQLDAO (final Connection connection) throws SQLException {
 		super();
-		this.connection = connection;
 		this.entityName = getEntitySample().getEntityName();
 		
 		// Create prepared statements
@@ -83,14 +80,6 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			
 			searches.put(column, statement);
 		}
-	}
-	
-	/**
-	 * Return the connection to the database.
-	 * @return the SQL connection.
-	 */
-	protected Connection getConnection () {
-		return connection;
 	}
 	
 	/**
