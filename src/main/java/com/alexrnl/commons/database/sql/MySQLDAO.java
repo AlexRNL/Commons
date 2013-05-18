@@ -15,7 +15,6 @@ import java.util.logging.Logger;
 import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.database.DAO;
 import com.alexrnl.commons.database.Entity;
-import com.alexrnl.commons.database.NoIdError;
 import com.alexrnl.commons.database.QueryGenerator;
 
 /**
@@ -54,10 +53,8 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 *        the connection to the database.
 	 * @throws SQLException
 	 *         The prepared statements could not be created.
-	 * @throws NoIdError
-	 *         The {@link Entity} has no ID column.
 	 */
-	public MySQLDAO (final Connection connection) throws SQLException, NoIdError {
+	public MySQLDAO (final Connection connection) throws SQLException {
 		super();
 		this.connection = connection;
 		this.entityName = getEntitySample().getEntityName();
@@ -293,12 +290,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 		final Set<T> entities = new HashSet<>();
 		try {
 			final PreparedStatement search = searches.get(field);
-			if (field.getType().equals(String.class)) {
-				// FIXME remove, might not be always relevant
-				search.setString(1, value + "%");
-			} else {
-				search.setString(1, value);
-			}
+			search.setString(1, value);
 			try (final ResultSet result = search.executeQuery()) {
 				search.clearParameters();
 				while (result.next()) {
