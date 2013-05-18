@@ -18,7 +18,7 @@ import com.alexrnl.commons.database.Entity;
 import com.alexrnl.commons.database.QueryGenerator;
 
 /**
- * This class shall be the super class of all MySQL {@link DAO}.<br />
+ * This class shall be the super class of all SQL {@link DAO}.<br />
  * Contains method which factorise similar code between classes.<br />
  * When the {@link Level#FINE} log level is enabled, all queries will be logged.
  * When the {@link Level#FINER} log level is enabled, all queries will be timed.
@@ -26,9 +26,9 @@ import com.alexrnl.commons.database.QueryGenerator;
  * @param <T>
  *        The class of the object to manipulate.
  */
-public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
+public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	/** Logger */
-	private static Logger							lg	= Logger.getLogger(MySQLDAO.class.getName());
+	private static Logger							lg	= Logger.getLogger(SQLDAO.class.getName());
 	
 	/** The connection to the database */
 	private final Connection						connection;
@@ -56,7 +56,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	 * @throws SQLException
 	 *         The prepared statements could not be created.
 	 */
-	public MySQLDAO (final Connection connection) throws SQLException {
+	public SQLDAO (final Connection connection) throws SQLException {
 		super();
 		this.connection = connection;
 		this.entityName = getEntitySample().getEntityName();
@@ -87,7 +87,7 @@ public abstract class MySQLDAO<T extends Entity> implements DAO<T> {
 	
 	/**
 	 * Return the connection to the database.
-	 * @return the MySQL connection.
+	 * @return the SQL connection.
 	 */
 	protected Connection getConnection () {
 		return connection;
