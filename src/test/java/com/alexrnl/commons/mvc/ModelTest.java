@@ -14,7 +14,7 @@ public class ModelTest extends AbstractModel {
 	/**
 	 * Constructor #1.<br />
 	 */
-	private ModelTest () {
+	public ModelTest () {
 		super();
 	}
 	
