@@ -2,6 +2,9 @@ package com.alexrnl.commons.mvc;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.logging.Level;
+import java.util.logging.Logger;
+
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
@@ -43,17 +46,35 @@ public class MVCTest {
 	}
 	
 	/**
-	 * Test the propagation of property through MVC, when changing the model.
+	 * Test the propagation of property through MVC, when changing the view.
 	 */
 	@Test
 	public void changeFromViewTest () {
 		assertEquals(8, view.getDisplayedValue().intValue());
 		assertEquals("Alex", view.getDisplayedName());
 		
-		view.setDisplayedName("Walt");
+		view.setName("Walt");
 		view.setValue(99);
 
 		assertEquals(99, view.getDisplayedValue().intValue());
 		assertEquals("Walt", view.getDisplayedName());
+	}
+	
+	/**
+	 * Test the propagation of property which does not exist in the model.
+	 */
+	@Test
+	public void changeUnexistingPropertyTest () {
+		for (int i = 0; i < 2; ++i) {
+			assertEquals(8, view.getDisplayedValue().intValue());
+			assertEquals("Alex", view.getDisplayedName());
+			
+			view.setGhostProperty("LuD");
+	
+			assertEquals(8, view.getDisplayedValue().intValue());
+			assertEquals("Alex", view.getDisplayedName());
+			Logger.getLogger(AbstractModel.class.getName()).setLevel(Level.FINE);
+			Logger.getLogger(AbstractController.class.getName()).setLevel(Level.FINE);
+		}
 	}
 }

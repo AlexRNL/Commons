@@ -55,10 +55,19 @@ public class ViewTest implements AbstractView {
 	 * @param name
 	 *        the attribute name.
 	 */
-	public void setDisplayedName (final String name) {
+	public void setName (final String name) {
 		controller.changeName(name);
 	}
 	
+	/**
+	 * Try to update a non-existing property in the model.
+	 * @param ghost
+	 *        the value to set.
+	 */
+	public void setGhostProperty (final String ghost) {
+		controller.setModelProperty("Ghost", ghost);
+	}
+
 	@Override
 	public void modelPropertyChange (final PropertyChangeEvent evt) {
 		if (ControllerTest.MODEL_VALUE_PROPERTY.equals(evt.getPropertyName())) {
