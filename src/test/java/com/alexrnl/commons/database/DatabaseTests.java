@@ -11,7 +11,8 @@ import com.alexrnl.commons.database.sql.SQLTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ AbstractDAOFactoryTest.class, ColumnTest.class, NoIdErrorTest.class,
-	DAOInstantiationErrorTest.class , QueryGeneratorTest.class, SQLTests.class })
+@SuiteClasses({ AbstractDAOFactoryTest.class, ColumnTest.class, DataSourceConfigurationTest.class,
+		NoIdErrorTest.class, DAOInstantiationErrorTest.class, QueryGeneratorTest.class,
+		SQLTests.class })
 public class DatabaseTests {
 }
