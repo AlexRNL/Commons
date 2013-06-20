@@ -102,7 +102,7 @@ public class ColumnTest {
 		for (final Column column : columns) {
 			final Column newIdColumn = new Column(column.getType(), column.getName(), column.isID());
 			assertNotSame(column, newIdColumn);
-			assertEquals(column.hashCode(), newIdColumn.hashCode());
+			assertEquals(column, newIdColumn);
 			
 			// Basic cases
 			assertFalse(column.equals(null));
