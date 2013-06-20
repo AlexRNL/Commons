@@ -13,7 +13,8 @@ import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * The abstract factory for the {@link DAO}s.<br />
- * It manages the creation of the factory through the {@link #createFactory(String)} method.<br />
+ * It manages the creation of the factory through the
+ * {@link #createFactory(String, DataSourceConfiguration)} method.<br />
  * The user of this class should extend it and add the required {@link DAO} methods needed for its
  * needs.
  * The {@link DAO} should be registered by using the {@link #addDAO(Class, DAO)} method. This will
@@ -26,6 +27,8 @@ public abstract class AbstractDAOFactory implements Closeable {
 	
 	/** Implementation of the factory to be used */
 	private static AbstractDAOFactory									implementation;
+	/** The database configuration information */
+	private static DataSourceConfiguration									dataSourceConfig;
 	
 	/** Map containing all the DAOs which keys are the class they manage */
 	private final Map<Class<? extends Entity>, DAO<? extends Entity>>	daos;
@@ -78,6 +81,14 @@ public abstract class AbstractDAOFactory implements Closeable {
 		return implementation;
 	}
 	
+	/**
+	 * Return the data source configuration to be used by the implementation.
+	 * @return the configuration information.
+	 */
+	protected static DataSourceConfiguration getDataSourceConfiguration () {
+		return dataSourceConfig;
+	}
+	
 	@Override
 	public final void close () throws IOException {
 		for (final DAO<? extends Entity> dao : daos.values()) {
@@ -89,16 +100,20 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * Create the factory from the class specified.
 	 * @param factoryClass
 	 *        the type of DAO required.
+	 * @param dataConfiguration
+	 *        the configuration of the database.
 	 */
-	public static synchronized void createFactory (final Class<? extends AbstractDAOFactory> factoryClass) {
+	public static synchronized void createFactory (final Class<? extends AbstractDAOFactory> factoryClass,
+			final DataSourceConfiguration dataConfiguration) {
 		try {
 			if (implementation != null) {
 				try {
 					implementation.close();
 				} catch (final IOException e) {
-					lg.warning("Could not close previous implementation (" + e.getMessage() + ")");
+					lg.warning("Could not close previous implementation: " + ExceptionUtils.display(e));
 				}
 			}
+			dataSourceConfig = dataConfiguration;
 			implementation = factoryClass.newInstance();
 		} catch (InstantiationException | IllegalAccessException e) {
 			implementation = null;
@@ -111,10 +126,12 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * Retrieve and create the appropriate factory.
 	 * @param factoryClass
 	 *        the type of DAO required.
+	 * @param dataConfiguration
+	 *        the configuration of the database.
 	 */
-	public static void createFactory (final String factoryClass) {
+	public static void createFactory (final String factoryClass, final DataSourceConfiguration dataConfiguration) {
 		try {
-			createFactory(Class.forName(factoryClass).asSubclass(AbstractDAOFactory.class));
+			createFactory(Class.forName(factoryClass).asSubclass(AbstractDAOFactory.class), dataConfiguration);
 		} catch (ClassNotFoundException | ClassCastException e) {
 			implementation = null;
 			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
