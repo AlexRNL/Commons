@@ -1,7 +1,9 @@
 package com.alexrnl.commons.database.dao;
 
 import java.io.Serializable;
+import java.net.URI;
 import java.nio.file.Path;
+import java.nio.file.Paths;
 
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
@@ -9,6 +11,7 @@ import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Class holding the data source configuration information.<br />
+ * This class is immutable and serializable.
  * @author Alex
  */
 public class DataSourceConfiguration implements Serializable {
@@ -22,7 +25,7 @@ public class DataSourceConfiguration implements Serializable {
 	/** The password associated to the user name */
 	private final String		password;
 	/** The path to the creation file, which allow (if set) to create the database if it does not exists */
-	private final Path			creationFile;
+	private final URI			creationFile;
 
 	/**
 	 * Constructor #1.<br />
@@ -41,7 +44,7 @@ public class DataSourceConfiguration implements Serializable {
 		this.url = url;
 		this.username = username;
 		this.password = password;
-		this.creationFile = creationFile;
+		this.creationFile = creationFile == null ? null : creationFile.toUri();
 	}
 	
 	/**
@@ -77,7 +80,7 @@ public class DataSourceConfiguration implements Serializable {
 	 */
 	@Field
 	public Path getCreationFile () {
-		return creationFile;
+		return creationFile == null ? null : Paths.get(creationFile);
 	}
 
 	@Override
@@ -95,9 +98,9 @@ public class DataSourceConfiguration implements Serializable {
 
 	@Override
 	public String toString () {
-		return "DataSource connection info [url=" + url + "; username=" + username
-				+ "; password=" + password + "; creationFile=" + creationFile + "]";
+		return "DataSource connection info [url=" + url + "; username=" + username + "; password="
+				+ password + "; creationFile="
+				+ (creationFile == null ? "null" : Paths.get("").toAbsolutePath().relativize(getCreationFile())) + "]";
 	}
-	
-	
+
 }

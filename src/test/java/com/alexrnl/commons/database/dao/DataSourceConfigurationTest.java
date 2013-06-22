@@ -17,8 +17,6 @@ import java.util.List;
 import org.junit.Before;
 import org.junit.Test;
 
-import com.alexrnl.commons.database.dao.DataSourceConfiguration;
-
 /**
  * Test suite for the {@link DataSourceConfiguration} class.
  * @author Alex
@@ -77,7 +75,7 @@ public class DataSourceConfigurationTest {
 	@Test
 	public void testGetCreationFile () {
 		assertNull(confWithCreationFile.getCreationFile());
-		assertEquals(Paths.get("conf/create.sql"), confWithoutCreationFile.getCreationFile());
+		assertEquals(Paths.get("conf/create.sql").toAbsolutePath(), confWithoutCreationFile.getCreationFile().toAbsolutePath());
 	}
 	
 	/**
