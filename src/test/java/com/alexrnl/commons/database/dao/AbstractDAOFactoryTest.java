@@ -3,6 +3,8 @@ package com.alexrnl.commons.database.dao;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
+import java.io.IOException;
+
 import org.junit.Test;
 
 import com.alexrnl.commons.database.Dummy;
@@ -24,72 +26,52 @@ public class AbstractDAOFactoryTest {
 		private DummyFactoryPrivate () {
 			super();
 		}
-		
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getImplementation()}.
-	 */
-	@Test(expected=NullPointerException.class)
-	public void testGetImplementation () {
-		try {
-			AbstractDAOFactory.createFactory((Class<? extends AbstractDAOFactory>) null, null);
-		} catch (final DAOInstantiationError e) {}
-		AbstractDAOFactory.getImplementation();
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDataSourceConfiguration()}.
-	 */
-	@Test()
-	public void testGetDataSourceConfiguration() {
-		final DataSourceConfiguration dataSourceConfig = new DataSourceConfiguration("localhost:8080/db", "aba", "ldr", null);
-		AbstractDAOFactory.createFactory(DummyFactory.class, dataSourceConfig);
-		assertEquals(dataSourceConfig, AbstractDAOFactory.getDataSourceConfiguration());
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(Class, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration, java.lang.Class)}.
+	 * @throws IOException
+	 *         if there was an error while closing the DAOs.
 	 */
 	@Test
-	public void testCreateFactoryClassOfQextendsAbstractDAOFactory () {
-		AbstractDAOFactory.createFactory(DummyFactory.class, null);
-		assertEquals(DummyFactory.class, AbstractDAOFactory.getImplementation().getClass());
+	public void testBuildFactoryStringDataSourceConfigurationClassOfT () throws IOException {
+		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), null);
+		assertEquals(DummyFactory.class, factory.getClass());
+		factory.close();
 	}
-	
+
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration)}.
 	 */
 	@Test
-	public void testCreateFactoryString () {
-		AbstractDAOFactory.createFactory(DummyFactory.class.getName(), null);
-		assertEquals(DummyFactory.class, AbstractDAOFactory.getImplementation().getClass());
+	public void testBuildFactoryStringDataSourceConfiguration () {
+		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), null);
+		assertEquals(DummyFactory.class, factory.getClass());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.Class, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration, java.lang.Class)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
-	public void testCreateFactoryClassOfQextendsAbstractDAOFactoryDAOInstantiationError () {
-		AbstractDAOFactory.createFactory(DummyFactoryPrivate.class, null);
+	public void testBuildFactoryStringDataSourceConfigurationClassOfTPrivateClassError () {
+		AbstractDAOFactory.buildFactory(DummyFactoryPrivate.class.getName(), null);
 	}
-	
+
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
-	public void testCreateFactoryStringDAOInstantiationError () {
-		AbstractDAOFactory.createFactory(Object.class.getName(), null);
+	public void testBuildFactoryStringDataSourceConfigurationNotADAOError () {
+		AbstractDAOFactory.buildFactory(Object.class.getName(), null);
 	}
-	
+
 	/**
 	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDAOs()}.
 	 */
 	@Test
 	public void testGetDAOs () {
-		AbstractDAOFactory.createFactory(DummyFactory.class, null);
-		final AbstractDAOFactory daos = AbstractDAOFactory.getImplementation();
-		assertEquals(1, daos.getDAOs().size());
+		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), null);
+		assertEquals(1, factory.getDAOs().size());
 	}
 	
 	/**
@@ -97,9 +79,18 @@ public class AbstractDAOFactoryTest {
 	 */
 	@Test
 	public void testGetDAO () {
-		AbstractDAOFactory.createFactory(DummyFactory.class, null);
-		final AbstractDAOFactory daos = AbstractDAOFactory.getImplementation();
-		assertNotNull(daos.getDAO(Dummy.class));
+		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), null);
+		assertNotNull(factory.getDAO(Dummy.class));
+	}
+
+	/**
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDataSourceConfiguration()}.
+	 */
+	@Test()
+	public void testGetDataSourceConfiguration() {
+		final DataSourceConfiguration dataSourceConfig = new DataSourceConfiguration("localhost:8080/db", "aba", "ldr", null);
+		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), dataSourceConfig);
+		assertEquals(dataSourceConfig, factory.getDataSourceConfiguration());
 	}
 	
 }

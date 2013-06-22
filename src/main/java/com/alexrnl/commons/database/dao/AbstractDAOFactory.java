@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Objects;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.database.structure.Entity;
@@ -15,7 +14,8 @@ import com.alexrnl.commons.error.ExceptionUtils;
 /**
  * The abstract factory for the {@link DAO}s.<br />
  * It manages the creation of the factory through the
- * {@link #createFactory(String, DataSourceConfiguration)} method.<br />
+ * {@link #buildFactory(String, DataSourceConfiguration, Class)} method.<br />
+ * Concrete classes need to have a default constructor to be instantiated dynamically.<br />
  * The user of this class should extend it and add the required {@link DAO} methods needed for its
  * needs.
  * The {@link DAO} should be registered by using the {@link #addDAO(Class, DAO)} method. This will
@@ -26,13 +26,49 @@ public abstract class AbstractDAOFactory implements Closeable {
 	/** Logger */
 	private static Logger												lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
 	
-	/** Implementation of the factory to be used */
-	private static AbstractDAOFactory									implementation;
 	/** The database configuration information */
-	private static DataSourceConfiguration									dataSourceConfig;
+	private DataSourceConfiguration										dataSourceConfig;
 	
 	/** Map containing all the DAOs which keys are the class they manage */
 	private final Map<Class<? extends Entity>, DAO<? extends Entity>>	daos;
+	
+	/**
+	 * Retrieve and create the appropriate factory using the name of the class.<br />
+	 * Using this method will avoid dependencies to the concerte factory type and allow changing
+	 * factories easily.
+	 * @param factoryClass
+	 *        the type of DAO required.
+	 * @param dataSourceConfig
+	 *        the configuration of the database.
+	 * @param parentClass
+	 *        the parent class of the factory, useful for casting to an intermediate type
+	 * @return the instance of the factory to use.
+	 * @see AbstractDAOFactory#buildFactory(String, DataSourceConfiguration)
+	 */
+	public static <T extends AbstractDAOFactory> T buildFactory (final String factoryClass,
+			final DataSourceConfiguration dataSourceConfig, final Class<T> parentClass) {
+		T factory = null;
+		try {
+			factory = Class.forName(factoryClass).asSubclass(parentClass).newInstance();
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | ClassCastException e) {
+			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
+			throw new DAOInstantiationError(factoryClass, e);
+		}
+		factory.setDataSourceConfiguration(dataSourceConfig);
+		return factory;
+	}
+	
+	/**
+	 * Retrieve and create the appropriate factory using the name of the class.
+	 * @param factoryClass
+	 *        the type of DAO required.
+	 * @param dataSourceConfig
+	 *        the configuration of the database.
+	 * @return the instance of the factory to use.
+	 */
+	public static AbstractDAOFactory buildFactory (final String factoryClass, final DataSourceConfiguration dataSourceConfig) {
+		return buildFactory(factoryClass, dataSourceConfig, AbstractDAOFactory.class);
+	}
 	
 	/**
 	 * Constructor #1.<br />
@@ -42,7 +78,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 		super();
 		daos = new HashMap<>();
 	}
-	
+
 	/**
 	 * Return an {@link Collections#unmodifiableCollection(Collection) unmodifiable collection} of
 	 * the DAOs build with the factory.
@@ -74,69 +110,26 @@ public abstract class AbstractDAOFactory implements Closeable {
 	}
 	
 	/**
-	 * Return the implementation of the factory to be used.
-	 * @return the concrete implementation
-	 */
-	public static AbstractDAOFactory getImplementation () {
-		Objects.requireNonNull(implementation, "DAO Factory implementation is null");
-		return implementation;
-	}
-	
-	/**
 	 * Return the data source configuration to be used by the implementation.
 	 * @return the configuration information.
 	 */
-	protected static DataSourceConfiguration getDataSourceConfiguration () {
+	protected DataSourceConfiguration getDataSourceConfiguration () {
 		return dataSourceConfig;
+	}
+	
+	/**
+	 * Set the configuration of the data source to use for this factory.
+	 * @param dataSourceConfig
+	 *        the configuration to use.
+	 */
+	protected void setDataSourceConfiguration (final DataSourceConfiguration dataSourceConfig) {
+		this.dataSourceConfig = dataSourceConfig;
 	}
 	
 	@Override
 	public void close () throws IOException {
 		for (final DAO<? extends Entity> dao : daos.values()) {
 			dao.close();
-		}
-	}
-	
-	/**
-	 * Create the factory from the class specified.
-	 * @param factoryClass
-	 *        the type of DAO required.
-	 * @param dataConfiguration
-	 *        the configuration of the database.
-	 */
-	public static synchronized void createFactory (final Class<? extends AbstractDAOFactory> factoryClass,
-			final DataSourceConfiguration dataConfiguration) {
-		try {
-			if (implementation != null) {
-				try {
-					implementation.close();
-				} catch (final IOException e) {
-					lg.warning("Could not close previous implementation: " + ExceptionUtils.display(e));
-				}
-			}
-			dataSourceConfig = dataConfiguration;
-			implementation = factoryClass.newInstance();
-		} catch (InstantiationException | IllegalAccessException e) {
-			implementation = null;
-			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
-			throw new DAOInstantiationError(factoryClass.getName(), e);
-		}
-	}
-	
-	/**
-	 * Retrieve and create the appropriate factory.
-	 * @param factoryClass
-	 *        the type of DAO required.
-	 * @param dataConfiguration
-	 *        the configuration of the database.
-	 */
-	public static void createFactory (final String factoryClass, final DataSourceConfiguration dataConfiguration) {
-		try {
-			createFactory(Class.forName(factoryClass).asSubclass(AbstractDAOFactory.class), dataConfiguration);
-		} catch (ClassNotFoundException | ClassCastException e) {
-			implementation = null;
-			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
-			throw new DAOInstantiationError(factoryClass, e);
 		}
 	}
 	
