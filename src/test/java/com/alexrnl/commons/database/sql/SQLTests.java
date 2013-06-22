@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ SQLDAOTest.class })
+@SuiteClasses({ SQLDAOTest.class, QueryGeneratorTest.class })
 public class SQLTests {
 }
