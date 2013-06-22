@@ -1,9 +1,13 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.structure;
 
 import static org.junit.Assert.assertEquals;
 
 
 import org.junit.Test;
+
+import com.alexrnl.commons.database.Dummy;
+import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.database.structure.NoIdError;
 
 /**
  * Test suite for the {@link NoIdError} class.
@@ -17,7 +21,7 @@ public class NoIdErrorTest {
 	private final NoIdError	dummyException = new NoIdError(Dummy.class);
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.NoIdError#getEntityClass()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.NoIdError#getEntityClass()}.
 	 */
 	@Test
 	public void testGetEntityClass () {

@@ -3,11 +3,15 @@ package com.alexrnl.commons.database;
 import java.io.IOException;
 import java.util.Set;
 
+import com.alexrnl.commons.database.dao.AbstractDAOFactory;
+import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.structure.Column;
+
 /**
  * Dummy factory, for test purposes.
  * @author Alex
  */
-class DummyFactory extends AbstractDAOFactory {
+public class DummyFactory extends AbstractDAOFactory {
 	/**
 	 * Constructor #1.<br />
 	 */

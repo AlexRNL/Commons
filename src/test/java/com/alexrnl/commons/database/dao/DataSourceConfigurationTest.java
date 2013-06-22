@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
@@ -16,6 +16,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 
 /**
  * Test suite for the {@link DataSourceConfiguration} class.
@@ -43,7 +45,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#getUrl()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#getUrl()}.
 	 */
 	@Test
 	public void testGetUrl () {
@@ -52,7 +54,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#getUsername()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#getUsername()}.
 	 */
 	@Test
 	public void testGetUsername () {
@@ -61,7 +63,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#getPassword()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#getPassword()}.
 	 */
 	@Test
 	public void testGetPassword () {
@@ -70,7 +72,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#getCreationFile()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#getCreationFile()}.
 	 */
 	@Test
 	public void testGetCreationFile () {
@@ -79,7 +81,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#hashCode()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -100,7 +102,7 @@ public class DataSourceConfigurationTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#equals(java.lang.Object)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#equals(java.lang.Object)}.
 	 */
 	@Test
 	public void testEqualsObject () {
@@ -127,7 +129,7 @@ public class DataSourceConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DataSourceConfiguration#toString()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DataSourceConfiguration#toString()}.
 	 */
 	@Test
 	public void testToString () {

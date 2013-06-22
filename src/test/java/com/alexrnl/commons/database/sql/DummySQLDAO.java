@@ -6,10 +6,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Map;
 
-import com.alexrnl.commons.database.Column;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.Dummy.DummyColumn;
-import com.alexrnl.commons.database.EntityColumn;
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.EntityColumn;
 
 /**
  * DAO for the Dummy entity.

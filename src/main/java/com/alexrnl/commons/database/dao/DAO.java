@@ -1,7 +1,10 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import java.io.Closeable;
 import java.util.Set;
+
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
 
 /**
  * Basic CRUD operations on an abstract object.

@@ -1,9 +1,12 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
+
+import com.alexrnl.commons.database.Dummy;
+import com.alexrnl.commons.database.DummyFactory;
 
 /**
  * Test suite for the {@link AbstractDAOFactory} class.
@@ -25,7 +28,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getImplementation()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getImplementation()}.
 	 */
 	@Test(expected=NullPointerException.class)
 	public void testGetImplementation () {
@@ -36,7 +39,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getDataSourceConfiguration()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDataSourceConfiguration()}.
 	 */
 	@Test()
 	public void testGetDataSourceConfiguration() {
@@ -46,7 +49,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(Class, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(Class, DataSourceConfiguration)}.
 	 */
 	@Test
 	public void testCreateFactoryClassOfQextendsAbstractDAOFactory () {
@@ -55,7 +58,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
 	 */
 	@Test
 	public void testCreateFactoryString () {
@@ -64,7 +67,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(java.lang.Class, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.Class, DataSourceConfiguration)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
 	public void testCreateFactoryClassOfQextendsAbstractDAOFactoryDAOInstantiationError () {
@@ -72,7 +75,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#createFactory(java.lang.String, DataSourceConfiguration)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
 	public void testCreateFactoryStringDAOInstantiationError () {
@@ -80,7 +83,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getDAOs()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDAOs()}.
 	 */
 	@Test
 	public void testGetDAOs () {
@@ -90,7 +93,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.AbstractDAOFactory#getDAO(Class)}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDAO(Class)}.
 	 */
 	@Test
 	public void testGetDAO () {

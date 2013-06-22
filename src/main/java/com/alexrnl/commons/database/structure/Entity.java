@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.structure;
 
 import java.io.Serializable;
 import java.util.Map;

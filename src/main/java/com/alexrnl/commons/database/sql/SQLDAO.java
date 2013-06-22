@@ -12,10 +12,9 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alexrnl.commons.database.Column;
-import com.alexrnl.commons.database.DAO;
-import com.alexrnl.commons.database.Entity;
-import com.alexrnl.commons.database.QueryGenerator;
+import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
 
 /**
  * This class shall be the super class of all SQL {@link DAO}.<br />

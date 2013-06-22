@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.structure;
 
 /**
  * Interface for the entity columns.<br />

@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import java.io.Closeable;
 import java.io.IOException;
@@ -9,6 +9,7 @@ import java.util.Map;
 import java.util.Objects;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.error.ExceptionUtils;
 
 /**

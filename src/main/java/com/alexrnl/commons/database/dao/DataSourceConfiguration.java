@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import java.io.Serializable;
 import java.nio.file.Path;

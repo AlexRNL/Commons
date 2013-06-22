@@ -3,6 +3,10 @@ package com.alexrnl.commons.database;
 import java.util.EnumMap;
 import java.util.Map;
 
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.database.structure.EntityColumn;
+
 /**
  * A fake class for entities (no ID column defined).
  * @author Alex

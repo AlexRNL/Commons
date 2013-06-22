@@ -1,9 +1,13 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.sql;
 
 import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.alexrnl.commons.database.structure.Column;
+import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.database.structure.NoIdError;
 
 /**
  * Utility methods to build SQL queries.

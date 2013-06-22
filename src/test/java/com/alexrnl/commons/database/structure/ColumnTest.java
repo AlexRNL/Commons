@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.structure;
 
 import static org.hamcrest.core.IsNot.not;
 import static org.junit.Assert.assertEquals;
@@ -13,6 +13,8 @@ import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.alexrnl.commons.database.structure.Column;
 
 /**
  * Test suite for the {@link Column} class.
@@ -40,7 +42,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#getType()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#getType()}.
 	 */
 	@Test
 	public void testGetType () {
@@ -49,7 +51,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#getName()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#getName()}.
 	 */
 	@Test
 	public void testGetName () {
@@ -58,7 +60,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#isID()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#isID()}.
 	 */
 	@Test
 	public void testIsID () {
@@ -67,7 +69,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#toString()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -76,7 +78,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#hashCode()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -95,7 +97,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.Column#hashCode()}.
+	 * Test method for {@link com.alexrnl.commons.database.structure.Column#hashCode()}.
 	 */
 	@Test
 	public void testEquals () {

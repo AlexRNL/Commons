@@ -1,9 +1,11 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 
 import org.junit.Test;
+
+import com.alexrnl.commons.database.dao.DAOInstantiationError;
 
 /**
  * Test suite for the {@link DAOInstantiationError} class.
@@ -16,7 +18,7 @@ public class DAOInstantiationErrorTest {
 	private final DAOInstantiationError knownDAO  = new DAOInstantiationError("com.alexrnl.commons.database.DummyDBDAO");
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.DAOInstantiationError#getDAOFactory()}.
+	 * Test method for {@link com.alexrnl.commons.database.dao.DAOInstantiationError#getDAOFactory()}.
 	 */
 	@Test
 	public void testGetDAOFactory () {

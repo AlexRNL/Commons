@@ -1,4 +1,4 @@
-package com.alexrnl.commons.database;
+package com.alexrnl.commons.database.structure;
 
 import com.alexrnl.commons.error.TopLevelError;
 
