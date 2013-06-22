@@ -69,7 +69,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * @param dao
 	 *        the {@link DAO} of the class.
 	 */
-	public <T extends Entity> void addDAO (final Class<T> entityClass, final DAO<T> dao) {
+	protected <T extends Entity> void addDAO (final Class<T> entityClass, final DAO<T> dao) {
 		daos.put(entityClass, dao);
 	}
 	
