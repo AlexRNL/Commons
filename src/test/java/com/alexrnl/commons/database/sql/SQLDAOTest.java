@@ -86,7 +86,7 @@ public class SQLDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#create(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#create(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testCreate () {
@@ -117,7 +117,7 @@ public class SQLDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#update(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#update(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testUpdate () {
@@ -133,7 +133,7 @@ public class SQLDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#delete(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#delete(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testDelete () {
@@ -166,7 +166,7 @@ public class SQLDAOTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#search(com.alexrnl.commons.database.Column, java.lang.String)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.SQLDAO#search(com.alexrnl.commons.database.structure.Column, java.lang.String)}.
 	 */
 	@Test
 	public void testSearch () {

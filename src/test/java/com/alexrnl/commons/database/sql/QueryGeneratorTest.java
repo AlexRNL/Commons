@@ -5,9 +5,8 @@ import static org.junit.Assert.assertEquals;
 import org.junit.Test;
 
 import com.alexrnl.commons.database.Dummy;
-import com.alexrnl.commons.database.Fake;
 import com.alexrnl.commons.database.Dummy.DummyColumn;
-import com.alexrnl.commons.database.sql.QueryGenerator;
+import com.alexrnl.commons.database.Fake;
 
 /**
  * Test suite for the {@link QueryGenerator} class.
@@ -16,7 +15,7 @@ import com.alexrnl.commons.database.sql.QueryGenerator;
 public class QueryGeneratorTest {
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#getIDColumn(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#getIDColumn(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testGetIDColumn () {
@@ -24,7 +23,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#getIDColumn(com.alexrnl.commons.database.Entity)}.<br />
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#getIDColumn(com.alexrnl.commons.database.structure.Entity)}.<br />
 	 * This expect either an {@link java.lang.AssertionError} or a {@link com.alexrnl.commons.database.structure.NoIdError}.
 	 */
 	@Test(expected=Error.class)
@@ -43,7 +42,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insert(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insert(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testInsertEntity () {
@@ -51,7 +50,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insert(com.alexrnl.commons.database.Entity, boolean)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insert(com.alexrnl.commons.database.structure.Entity, boolean)}.
 	 */
 	@Test
 	public void testInsertEntityBoolean () {
@@ -60,7 +59,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#delete(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#delete(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testDeleteEntity () {
@@ -68,7 +67,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#delete(com.alexrnl.commons.database.Entity, boolean)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#delete(com.alexrnl.commons.database.structure.Entity, boolean)}.
 	 */
 	@Test
 	public void testDeleteEntityBoolean () {
@@ -77,7 +76,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#update(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#update(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testUpdate () {
@@ -85,7 +84,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereID(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereID(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testWhereIDEntity () {
@@ -93,7 +92,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereID(com.alexrnl.commons.database.Entity, java.lang.Object)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereID(com.alexrnl.commons.database.structure.Entity, java.lang.Object)}.
 	 */
 	@Test
 	public void testWhereIDEntityObject () {
@@ -102,7 +101,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#where(com.alexrnl.commons.database.Column, java.lang.Object)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#where(com.alexrnl.commons.database.structure.Column, java.lang.Object)}.
 	 */
 	@Test
 	public void testWhereColumnObject () {
@@ -111,7 +110,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#where(com.alexrnl.commons.database.Column, java.lang.Object, boolean)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#where(com.alexrnl.commons.database.structure.Column, java.lang.Object, boolean)}.
 	 */
 	@Test
 	public void testWhereColumnObjectBoolean () {
@@ -125,7 +124,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereLike(com.alexrnl.commons.database.Column, java.lang.Object)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#whereLike(com.alexrnl.commons.database.structure.Column, java.lang.Object)}.
 	 */
 	@Test
 	public void testWhereLike () {
@@ -134,7 +133,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#searchAll(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#searchAll(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testSearchAll () {
@@ -142,7 +141,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insertPrepared(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#insertPrepared(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testInsertPrepared () {
@@ -150,7 +149,7 @@ public class QueryGeneratorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#updatePrepared(com.alexrnl.commons.database.Entity)}.
+	 * Test method for {@link com.alexrnl.commons.database.sql.QueryGenerator#updatePrepared(com.alexrnl.commons.database.structure.Entity)}.
 	 */
 	@Test
 	public void testUpdatePrepared () {
