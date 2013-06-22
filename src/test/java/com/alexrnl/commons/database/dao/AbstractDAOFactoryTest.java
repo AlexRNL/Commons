@@ -26,6 +26,9 @@ public class AbstractDAOFactoryTest {
 		private DummyFactoryPrivate () {
 			super();
 		}
+
+		@Override
+		protected void init () {}
 	}
 	
 	/**

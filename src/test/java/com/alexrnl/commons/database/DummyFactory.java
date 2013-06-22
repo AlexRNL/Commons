@@ -17,6 +17,10 @@ public class DummyFactory extends AbstractDAOFactory {
 	 */
 	public DummyFactory () {
 		super();
+	}
+
+	@Override
+	protected void init () {
 		addDAO(Dummy.class, new DAO<Dummy>() {
 			
 			@Override

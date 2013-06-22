@@ -19,7 +19,9 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * The user of this class should extend it and add the required {@link DAO} methods needed for its
  * needs.
  * The {@link DAO} should be registered by using the {@link #addDAO(Class, DAO)} method. This will
- * allow to properly close the {@link DAO}s by the abstract factory.
+ * allow to properly close the {@link DAO}s by the abstract factory.<br />
+ * Finally, implementation should create their connection and DAOs in the {@link #init()} method,
+ * to ensure proper access to the configuration file.
  * @author Alex
  */
 public abstract class AbstractDAOFactory implements Closeable {
@@ -55,6 +57,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 			throw new DAOInstantiationError(factoryClass, e);
 		}
 		factory.setDataSourceConfiguration(dataSourceConfig);
+		factory.init();
 		return factory;
 	}
 	
@@ -78,6 +81,12 @@ public abstract class AbstractDAOFactory implements Closeable {
 		super();
 		daos = new HashMap<>();
 	}
+	
+	/**
+	 * Method which will initialize the connection (if any) and creates the DAOs.<br/>
+	 * Attempting to access the data source configuration file will fail if done in the constructor.
+	 */
+	protected abstract void init ();
 
 	/**
 	 * Return an {@link Collections#unmodifiableCollection(Collection) unmodifiable collection} of
