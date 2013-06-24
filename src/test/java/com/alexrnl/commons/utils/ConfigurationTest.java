@@ -20,6 +20,9 @@ public class ConfigurationTest {
 	/** The bad configuration for the tests. */
 	private Configuration badConf;
 	
+	/** The good XML configuration for the tests. */
+	private Configuration goodConfXML;
+	
 	/** The good configuration for the tests. */
 	private Configuration goodConf;
 	
@@ -31,20 +34,9 @@ public class ConfigurationTest {
 	@Before
 	public void setUp () throws URISyntaxException {
 		badConf = new Configuration();
-		goodConf = new Configuration(Paths.get(getClass().getResource("/configuration.xml").toURI()));
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#setConfigurationFile(java.nio.file.Path)}.
-	 * @throws URISyntaxException
-	 *         if the path to the configuration is badly formatted.
-	 */
-	@Test
-	public void testSetConfigurationFile () throws URISyntaxException {
-		assertFalse(badConf.isLoaded());
-		badConf.setConfigurationFile(Paths.get(getClass().getResource("/configuration.xml").toURI()));
+		goodConfXML = new Configuration(Paths.get(getClass().getResource("/configuration.xml").toURI()));
 		Logger.getLogger(Configuration.class.getName()).setLevel(Level.FINE);
-		assertTrue(badConf.isLoaded());
+		goodConf = new Configuration(Paths.get(getClass().getResource("/configuration.properties").toURI()), false);
 	}
 	
 	/**
@@ -54,6 +46,8 @@ public class ConfigurationTest {
 	public void testGet () {
 		assertEquals(null, badConf.get("configuration.test"));
 		assertEquals(null, badConf.get("configuration.service"));
+		assertEquals("value", goodConfXML.get("configuration.test"));
+		assertEquals("ace", goodConfXML.get("configuration.service"));
 		assertEquals("value", goodConf.get("configuration.test"));
 		assertEquals("ace", goodConf.get("configuration.service"));
 	}
@@ -64,6 +58,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSize () {
 		assertEquals(0, badConf.size());
+		assertEquals(2, goodConfXML.size());
 		assertEquals(2, goodConf.size());
 	}
 	
@@ -73,6 +68,7 @@ public class ConfigurationTest {
 	@Test
 	public void testIsLoaded () {
 		assertFalse(badConf.isLoaded());
+		assertTrue(goodConfXML.isLoaded());
 		assertTrue(goodConf.isLoaded());
 	}
 }

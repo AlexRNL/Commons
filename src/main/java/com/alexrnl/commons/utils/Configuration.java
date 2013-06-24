@@ -15,8 +15,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
 /**
  * Class access the application configuration.<br />
  * To retrieve a property, the method {@link #get(String)} should be used.
- * The default configuration file used will be <code>conf/configuration.xml</code>, it may be
- * changed using the {@link #setConfigurationFile(Path)} method.<br />
+ * The default configuration file used will be <code>conf/configuration.xml</code><br />
  * The {@link Configuration} is thread-safe as it is based on the {@link Properties} class, itself
  * extending a {@link Hashtable}.
  * Load the specified file using the {@link #load()} method. If the object is not loaded, it will be
@@ -31,7 +30,9 @@ public final class Configuration {
 	private static final Path	DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration.xml");
 	
 	/** The configuration file to load */
-	private Path				configurationFile;
+	private final Path			configurationFile;
+	/** <code>true</code> if the configuration file is in XML format */
+	private final boolean		xml;
 	/** The configuration properties */
 	private final Properties	configuration;
 	/** The state of the configuration, <code>true</code> if loaded */
@@ -51,31 +52,36 @@ public final class Configuration {
 	 *        the configuration file to load.
 	 */
 	public Configuration (final Path configurationFile) {
-		super();
-		this.configurationFile = configurationFile;
-		configuration = new Properties();
-		loaded = false;
-		load();
+		this(configurationFile, true);
 	}
 	
 	/**
-	 * Set the configuration file to load.
+	 * Constructor #3.<br />
 	 * @param configurationFile
-	 *        the path to the configuration file to load.
+	 *        the configuration file to load.
+	 * @param xml
+	 *        <code>true</code> if the configuration file is in XML format.
 	 */
-	public void setConfigurationFile (final Path configurationFile) {
+	public Configuration (final Path configurationFile, final boolean xml) {
+		super();
 		this.configurationFile = configurationFile;
-		loaded = false;
+		this.xml = xml;
+		configuration = new Properties();
 		load();
 	}
 	
 	/**
 	 * Load the properties from the configuration file.
 	 */
-	public void load () {
+	private void load () {
 		try {
+			loaded = false;
 			configuration.clear();
-			configuration.loadFromXML(Files.newInputStream(configurationFile));
+			if (xml) {
+				configuration.loadFromXML(Files.newInputStream(configurationFile));
+			} else {
+				configuration.load(Files.newInputStream(configurationFile));
+			}
 			loaded = true;
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info(size() + " properties loaded from file: " + configurationFile);
