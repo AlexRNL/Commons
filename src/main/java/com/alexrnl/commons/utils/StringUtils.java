@@ -35,6 +35,53 @@ public final class StringUtils {
 	}
 
 	/**
+	 * Error while processing MD5 hash.<br />
+	 * @author Alex
+	 */
+	public static final class MD5Error extends TopLevelError {
+		/** The serial version UID */
+		private static final long	serialVersionUID	= 7373353736343009842L;
+	
+		/**
+		 * Constructor #1.<br />
+		 * Default constructor.
+		 */
+		private MD5Error () {
+			super();
+		}
+		
+		/**
+		 * Constructor #2.<br />
+		 * @param message
+		 *        the message of the error.
+		 * @param cause
+		 *        the cause of the error.
+		 */
+		private MD5Error (final String message, final Throwable cause) {
+			super(message, cause);
+		}
+		
+		/**
+		 * Constructor #3.<br />
+		 * @param message
+		 *        the message of the error.
+		 */
+		private MD5Error (final String message) {
+			super(message);
+		}
+		
+		/**
+		 * Constructor #4.<br />
+		 * @param cause
+		 *        the cause of the error.
+		 */
+		private MD5Error (final Throwable cause) {
+			super(cause);
+		}
+	
+	}
+
+	/**
 	 * Constructor #1.<br />
 	 * Default private constructor.
 	 */
@@ -140,51 +187,4 @@ public final class StringUtils {
 		}
 		return buffer.toString();
     }
-	
-	/**
-	 * Error while processing MD5 hash.<br />
-	 * @author Alex
-	 */
-	public static final class MD5Error extends TopLevelError {
-		/** The serial version UID */
-		private static final long	serialVersionUID	= 7373353736343009842L;
-
-		/**
-		 * Constructor #1.<br />
-		 * Default constructor.
-		 */
-		private MD5Error () {
-			super();
-		}
-		
-		/**
-		 * Constructor #2.<br />
-		 * @param message
-		 *        the message of the error.
-		 * @param cause
-		 *        the cause of the error.
-		 */
-		private MD5Error (final String message, final Throwable cause) {
-			super(message, cause);
-		}
-		
-		/**
-		 * Constructor #3.<br />
-		 * @param message
-		 *        the message of the error.
-		 */
-		private MD5Error (final String message) {
-			super(message);
-		}
-		
-		/**
-		 * Constructor #4.<br />
-		 * @param cause
-		 *        the cause of the error.
-		 */
-		private MD5Error (final Throwable cause) {
-			super(cause);
-		}
-
-	}
 }
