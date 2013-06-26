@@ -3,7 +3,11 @@ package com.alexrnl.commons.utils;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import javax.swing.text.html.HTML.Tag;
 
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.error.TopLevelError;
@@ -17,6 +21,16 @@ public final class StringUtils {
 	/** Logger */
 	private static Logger				lg					= Logger.getLogger(StringUtils.class.getName());
 	
+	/** The HTML tag for a new HTML document */
+	public static final String			HTML_HTML_START		= "<" + Tag.HTML + ">";
+	/** The HTML tag for the end of an HTML document */
+	public static final String			HTML_HTML_END		= "</" + Tag.HTML + ">";
+	/** The HTML tag for new line */
+	public static final String			HTML_NEW_LINE		= "<" + Tag.BR + " />";
+	/** The new line character */
+	public static final Character		NEW_LINE			= '\n';
+	/** The space character */
+	public static final Character		SPACE				= ' ';
 	/** The name of the MD5 algorithm */
 	private static final String			MD5_ALGORITHM_NAME	= "MD5";
 	/** The MD5 message digest algorithm */
@@ -187,4 +201,88 @@ public final class StringUtils {
 		}
 		return buffer.toString();
     }
+	
+	/**
+	 * Remove the multiple spaces which compose a String.<br />
+	 * @param input
+	 *        the String to clean-up.
+	 * @return the input, with only single spaces.
+	 */
+	public static String removeMultipleSpaces (final String input) {
+		Objects.requireNonNull(input, "Cannot work on null input String");
+		// If the string has only spaces
+		if (input.trim().isEmpty()) {
+			return input.trim();
+		}
+		
+		// Other cases
+		final StringBuilder result = new StringBuilder();
+		for (final String part : input.split(SPACE.toString())) {
+			if (!part.isEmpty()) {
+				result.append(part).append(SPACE);
+			}
+		}
+		return result.substring(0, result.length() - 1).toString();
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a specified length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @param maxLength
+	 *        the maximum length allowed.
+	 * @return the string divided in several lines.
+	 */
+	public static String splitInLines (final String input, final int maxLength) {
+		Objects.requireNonNull(input, "Cannot work on null input String");
+		if (maxLength < 1) {
+			lg.warning("Cannot split line with maxLength=" + maxLength);
+			throw new IllegalArgumentException("maxLength for spliting in line cannot be less than 1 (was " + maxLength + ")");
+		}
+		
+		// If input is shorter than the limit
+		if (input.trim().length() < maxLength) {
+			return input.trim();
+		}
+		
+		// Other cases
+		final StringBuilder result = new StringBuilder();
+		String remaining = removeMultipleSpaces(input);
+		while (remaining.length() > maxLength) {
+			String nextLine = remaining.substring(0, maxLength);
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Next characters to split '" + nextLine + "'");
+			}
+			final int lastSpace = nextLine.lastIndexOf(SPACE);
+			if (lastSpace > 0) {
+				nextLine = nextLine.substring(0, lastSpace);
+			} else {
+				lg.warning("No space in line '" + nextLine + "' cannot properly split String.");
+			}
+			if (lg.isLoggable(Level.FINE)) {
+				lg.fine("Next line is '" + nextLine + "'");
+			}
+			result.append(nextLine).append(NEW_LINE);
+			remaining = remaining.substring(nextLine.length()).trim();
+		}
+		result.append(remaining);
+		
+		return result.toString();
+	}
+	
+	/**
+	 * Cut a {@link String} in multiple line, so they don't exceed a certain length.<br />
+	 * @param input
+	 *        the input string to be cut.
+	 * @param maxLength
+	 *        the maximum length allowed.
+	 * @return the content spread on several lines (using <code>&lt;br /&gt;</code>) and between
+	 *         <code>&lt;html&gt;</code> tags.
+	 * @see #splitInLines(String, int)
+	 */
+	public static String splitInLinesHTML (final String input, final int maxLength) {
+		final StringBuilder result = new StringBuilder(HTML_HTML_START);
+		result.append(splitInLines(input, maxLength)).append(HTML_HTML_END);
+		return result.toString().replace("" + NEW_LINE, HTML_NEW_LINE);
+	}
 }
