@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ TimeTest.class, TimeSecTest.class })
+@SuiteClasses({ SpinnerTimeModelTest.class, TimeTest.class, TimeSecTest.class })
 public class TimeTests {
 }
