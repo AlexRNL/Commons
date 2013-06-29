@@ -32,14 +32,14 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	 * Constructor #1.<br />
 	 * @param value
 	 *        the value of the spinner.
-	 * @param step
-	 *        the step.
-	 * @param maxValue
-	 *        the maximum time reachable.
 	 * @param minValue
 	 *        the minimum time reachable.
+	 * @param maxValue
+	 *        the maximum time reachable.
+	 * @param step
+	 *        the step between two distinct times.
 	 */
-	public SpinnerTimeModel (final Time value, final Time step, final Time maxValue, final Time minValue) {
+	public SpinnerTimeModel (final Time value, final Time minValue, final Time maxValue, final Time step) {
 		super();
 		this.step = step;
 		this.maxValue = maxValue;
@@ -57,13 +57,13 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	 * Constructor #2.<br />
 	 * @param value
 	 *        the value of the spinner.
-	 * @param maxValue
-	 *        the maximum time reachable.
 	 * @param minValue
 	 *        the minimum time reachable.
+	 * @param maxValue
+	 *        the maximum time reachable.
 	 */
-	public SpinnerTimeModel (final Time value, final Time maxValue, final Time minValue) {
-		this(value, new Time(0, 1), maxValue, minValue);
+	public SpinnerTimeModel (final Time value, final Time minValue, final Time maxValue) {
+		this(value, minValue, maxValue, new Time(0, 1));
 	}
 	
 	@Override

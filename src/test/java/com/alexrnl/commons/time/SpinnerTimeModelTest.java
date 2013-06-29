@@ -26,8 +26,8 @@ public class SpinnerTimeModelTest {
 	 */
 	@Before
 	public void setUp () {
-		spinnerMorning = new SpinnerTimeModel(new Time(9), Time.get("12:00"), Time.get("8:00"));
-		spinnerAfternoon = new SpinnerTimeModel(new Time(16), Time.get("0:5"), Time.get("18:00"), Time.get("14:00"));
+		spinnerMorning = new SpinnerTimeModel(new Time(9), Time.get("8:00"), Time.get("12:00"));
+		spinnerAfternoon = new SpinnerTimeModel(new Time(16), Time.get("14:00"), Time.get("18:00"), Time.get("0:5"));
 		spinnerNullBounds = new SpinnerTimeModel(new Time(), null, null);
 	}
 	
@@ -37,7 +37,7 @@ public class SpinnerTimeModelTest {
 	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void constructorBeforeMin () {
-		new SpinnerTimeModel(new Time(), Time.get("12:00"), Time.get("8:00"));
+		new SpinnerTimeModel(new Time(), Time.get("8:00"), Time.get("12:00"));
 	}
 	
 	/**
@@ -46,7 +46,7 @@ public class SpinnerTimeModelTest {
 	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void constructorAfterMax () {
-		new SpinnerTimeModel(new Time(14), Time.get("12:00"), Time.get("8:00"));
+		new SpinnerTimeModel(new Time(14), Time.get("8:00"), Time.get("12:00"));
 	}
 	
 	/**
