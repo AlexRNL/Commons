@@ -41,10 +41,16 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	 */
 	public SpinnerTimeModel (final Time value, final Time step, final Time maxValue, final Time minValue) {
 		super();
-		this.value = value;
 		this.step = step;
 		this.maxValue = maxValue;
 		this.minValue = minValue;
+		if (!isValid(value)) {
+			lg.warning("Value for SpinnerTimeModel is not valid: " + value + " < " + minValue
+					+ " OR" + value + " > "  + maxValue);
+			throw new IllegalArgumentException("Value for TimeSpinnerModel is not in specified bounds: min="
+					+ minValue + "; max=" + maxValue + "; value=" + value);
+		}
+		this.value = value;
 	}
 	
 	/**
@@ -71,15 +77,25 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 			throw new IllegalArgumentException("Illegal value for time " + value);
 		}
 		if (!value.equals(this.value)) {
+			final Time newValue;
 			if (value instanceof Time) {
-				this.value = (Time) value;
+				newValue = (Time) value;
 			} else if (value instanceof String) {
-				this.value = Time.get((String) value);
+				newValue = Time.get((String) value);
 			} else {
-				lg.warning("Should not arrived at this point, severe class casting problem with " +
+				lg.severe("Should not arrived at this point, severe class casting problem with " +
 						value + " of class " + value.getClass());
 				throw new IllegalArgumentException("Should not arrive here: value is not Time or " +
 						"String but is" + value.getClass());
+			}
+			if (isValid(newValue)) {
+				this.value = newValue;
+				if (lg.isLoggable(Level.FINE)) {
+					lg.fine("New value for SpinnerTimeModel: " + value);
+				}
+			} else if (lg.isLoggable(Level.INFO)) {
+				lg.info("Could not set " + newValue + " for SpinnerTimeModel, out of ["
+						+ minValue + ";" + maxValue + "]");
 			}
 			fireStateChanged();
 		}
@@ -93,6 +109,22 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	@Override
 	public Object getPreviousValue () {
 		return incrTime(-1);
+	}
+	
+	/**
+	 * Check if the new value for the model is within the bounds of this model.
+	 * @param newValue
+	 *        the new value to test.
+	 * @return <code>true</code> if the value is between the minimum and maximum time allowed.
+	 */
+	private boolean isValid (final Time newValue) {
+		if ((maxValue != null) && (maxValue.compareTo(newValue) < 0)) {
+			return false;
+		}
+		if ((minValue != null) && (minValue.compareTo(newValue) > 0)) {
+			return false;
+		}
+		return true;
 	}
 	
 	/**
@@ -119,14 +151,7 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 			lg.fine("newValue: " + newValue);
 		}
 		
-		// Bound checking
-		if ((maxValue != null) && (maxValue.compareTo(newValue) < 0)) {
-			return null;
-		}
-		if ((minValue != null) && (minValue.compareTo(newValue) > 0)) {
-			return null;
-		}
-		return newValue;
+		return isValid(newValue) ? newValue : null;
 	}
 	
 }

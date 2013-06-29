@@ -1,6 +1,10 @@
 package com.alexrnl.commons.time;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNull;
+
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +14,39 @@ import org.junit.Test;
  * @author Alex
  */
 public class SpinnerTimeModelTest {
+	/** Spinner for morning times */
+	private SpinnerTimeModel	spinnerMorning;
+	/** Spinner for evening times */
+	private SpinnerTimeModel	spinnerAfternoon;
+	/** Spinner with <code>null</code> for bounds */
+	private SpinnerTimeModel	spinnerNullBounds;
 	
 	/**
 	 * Set up test attributes.
 	 */
 	@Before
 	public void setUp () {
+		spinnerMorning = new SpinnerTimeModel(new Time(9), Time.get("12:00"), Time.get("8:00"));
+		spinnerAfternoon = new SpinnerTimeModel(new Time(16), Time.get("0:5"), Time.get("18:00"), Time.get("14:00"));
+		spinnerNullBounds = new SpinnerTimeModel(new Time(), null, null);
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorBeforeMin () {
+		new SpinnerTimeModel(new Time(), Time.get("12:00"), Time.get("8:00"));
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void constructorAfterMax () {
+		new SpinnerTimeModel(new Time(14), Time.get("12:00"), Time.get("8:00"));
 	}
 	
 	/**
@@ -23,7 +54,8 @@ public class SpinnerTimeModelTest {
 	 */
 	@Test
 	public void testGetValue () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(new Time(9), spinnerMorning.getValue());
+		assertEquals(new Time(16), spinnerAfternoon.getValue());
 	}
 	
 	/**
@@ -31,7 +63,25 @@ public class SpinnerTimeModelTest {
 	 */
 	@Test
 	public void testSetValue () {
-		fail("Not yet implemented"); // TODO
+		spinnerMorning.setValue(Time.get("14:00"));
+		spinnerAfternoon.setValue("14:00");
+		spinnerNullBounds.setValue(new Time());
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#setValue(java.lang.Object)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetValueNull () {
+		spinnerMorning.setValue(null);
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#setValue(java.lang.Object)}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testSetValueBadClass () {
+		spinnerMorning.setValue(new Object());
 	}
 	
 	/**
@@ -39,7 +89,12 @@ public class SpinnerTimeModelTest {
 	 */
 	@Test
 	public void testGetNextValue () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(Time.get("9:01"), spinnerMorning.getNextValue());
+		Logger.getLogger(SpinnerTimeModel.class.getName()).setLevel(Level.FINE);
+		assertEquals(Time.get("16:05"), spinnerAfternoon.getNextValue());
+		
+		spinnerMorning.setValue(Time.get("12:00"));
+		assertNull(spinnerMorning.getNextValue());
 	}
 	
 	/**
@@ -47,6 +102,11 @@ public class SpinnerTimeModelTest {
 	 */
 	@Test
 	public void testGetPreviousValue () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(Time.get("8:59"), spinnerMorning.getPreviousValue());
+		Logger.getLogger(SpinnerTimeModel.class.getName()).setLevel(Level.FINE);
+		assertEquals(Time.get("15:55"), spinnerAfternoon.getPreviousValue());
+		
+		spinnerAfternoon.setValue(Time.get("14:03"));
+		assertNull(spinnerAfternoon.getPreviousValue());
 	}
 }
