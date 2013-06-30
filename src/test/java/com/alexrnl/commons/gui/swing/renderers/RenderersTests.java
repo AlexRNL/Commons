@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ LafRendererTest.class })
+@SuiteClasses({ LafRendererTest.class, ListCellTextHighLighterRendererTest.class })
 public class RenderersTests {
 	
 }
