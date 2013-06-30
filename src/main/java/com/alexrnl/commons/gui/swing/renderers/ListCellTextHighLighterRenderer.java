@@ -3,6 +3,7 @@ package com.alexrnl.commons.gui.swing.renderers;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Collection;
+import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -31,6 +32,8 @@ public class ListCellTextHighLighterRenderer extends ListCellTextRenderer<String
 	 */
 	public ListCellTextHighLighterRenderer (final Collection<String> toHighlight, final Color highlightColor) {
 		super();
+		Objects.requireNonNull(toHighlight, "Collection of strings to highlight cannot be null");
+		Objects.requireNonNull(highlightColor, "Color for highlighting cannot be null");
 		this.toHighlight = toHighlight;
 		this.highlightColor = highlightColor;
 	}
@@ -45,7 +48,8 @@ public class ListCellTextHighLighterRenderer extends ListCellTextRenderer<String
 		if (toHighlight.contains(component.getText()) && !isSelected) {
 			component.setBackground(highlightColor);
 			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Highlighting " + component.getText());
+				lg.fine("Highlighting " + component.getText() + " with " + highlightColor
+						+ "; " + component.getBackground());
 			}
 		}
 		
