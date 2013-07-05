@@ -37,7 +37,6 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 
 	/**
 	 * Constructor #1.<br />
-	 * Default constructor.
 	 * @param title
 	 *        the title of the frame.
 	 * @param iconFile
