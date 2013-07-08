@@ -55,14 +55,10 @@ public class AbstractFrameTest {
 		}
 
 		@Override
-		protected void preInit (final Object... parameters) {
-			// TODO Auto-generated method stub
-		}
+		protected void preInit (final Object... parameters) {}
 
 		@Override
-		protected void build () {
-			// TODO Auto-generated method stub
-		}
+		protected void build () {}
 	}
 	
 	/**
@@ -97,10 +93,20 @@ public class AbstractFrameTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.AbstractFrame#getFrame()}.
+	 * Test method while the frame is being rendered.
+	 * @throws InterruptedException
+	 *         if the thread was interrupted while waiting for the frame to be drawn.
 	 */
 	@Test
-	public void testGetFrame () {
-		// TODO more test, while the frame is loading
+	public void testWaitingForBuild () throws InterruptedException {
+		final TestFrame frame = new TestFrame();
+		synchronized (frame) {
+			while (!frame.isReady()) {
+				assertFalse(frame.isReady());
+				frame.wait();
+			}
+		}
+		assertTrue(frame.isReady());
+		
 	}
 }
