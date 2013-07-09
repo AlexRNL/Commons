@@ -22,7 +22,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * loaded on the first call to the {@link #get(String)} method (which, thus may take a bit of time).
  * @author Alex
  */
-public final class Configuration {
+public class Configuration {
 	/** Logger */
 	private static Logger		lg							= Logger.getLogger(Configuration.class.getName());
 	
@@ -95,6 +95,16 @@ public final class Configuration {
 		} catch (final IOException e) {
 			lg.warning("Exception while loading configuration (" + ExceptionUtils.display(e) + ")");
 		}
+	}
+	
+	/**
+	 * Check if the specified property is in the configuration file.
+	 * @param propertyName
+	 *        the name of the property to check.
+	 * @return <code>true</code> if the property is in the file.
+	 */
+	public boolean has (final String propertyName) {
+		return loaded && configuration.getProperty(propertyName) != null;
 	}
 	
 	/**
