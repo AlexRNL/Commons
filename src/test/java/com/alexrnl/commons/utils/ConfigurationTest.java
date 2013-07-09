@@ -40,6 +40,16 @@ public class ConfigurationTest {
 	}
 	
 	/**
+	 * Test method for {@link com.alexrnl.commons.utils.Configuration#has(java.lang.String)}.
+	 */
+	@Test
+	public void testHas () {
+		assertFalse(badConf.has("hello.world"));
+		assertFalse(goodConfXML.has("aba.ldr"));
+		assertTrue(goodConf.has("configuration.test"));
+	}
+	
+	/**
 	 * Test method for {@link com.alexrnl.commons.utils.Configuration#get(java.lang.String)}.
 	 */
 	@Test
