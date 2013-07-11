@@ -1,6 +1,9 @@
 package com.alexrnl.commons.translation;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+
+import java.net.URISyntaxException;
+import java.nio.file.Paths;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,12 +13,17 @@ import org.junit.Test;
  * @author Alex
  */
 public class TranslatorTest {
+	/** The translator to test */
+	private Translator translator;
 	
 	/**
 	 * Set up attributes.
+	 * @throws URISyntaxException
+	 *         if the path to the test translation file is not valid.
 	 */
 	@Before
-	public void setUp () {
+	public void setUp () throws URISyntaxException {
+		translator = new Translator(Paths.get(getClass().getResource("/locale.xml").toURI()));
 	}
 	
 	/**
@@ -23,15 +31,11 @@ public class TranslatorTest {
 	 */
 	@Test
 	public void testGetString () {
-		fail("Not yet implemented"); // TODO
-	}
-	
-	/**
-	 * Test method for {@link com.alexrnl.commons.translation.Translator#Translator(java.nio.file.Path)}.
-	 */
-	@Test
-	public void testTranslator () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("aba.ldr", translator.get("aba.ldr"));
+		assertEquals("The Name", translator.get("commons.test.name"));
+		assertEquals("Hey, this has The Name, isn't that cool?", translator.get("commons.test.include"));
+		assertEquals("Hey, this has The Name", translator.get("commons.test.includeEnd"));
+		assertEquals("Hey, this has commons.test.missing", translator.get("commons.test.includeFake"));
 	}
 	
 	/**
@@ -39,7 +43,12 @@ public class TranslatorTest {
 	 */
 	@Test
 	public void testGetStringObjectArray () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("aba.ldr", translator.get("aba.ldr", (Object[]) null));
+		assertEquals("The Name", translator.get("commons.test.name", (Object[]) null));
+		assertEquals("The Name", translator.get("commons.test.name", new Object[0]));
+		assertEquals("My parameter LDR", translator.get("commons.test.parameter", "LDR"));
+		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA"));
+		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA", "XXX"));
 	}
 	
 	/**
@@ -47,6 +56,6 @@ public class TranslatorTest {
 	 */
 	@Test
 	public void testGetField () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("The Name", translator.getField("commons.test.name"));
 	}
 }

@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE properties SYSTEM "http://java.sun.com/dtd/properties.dtd">
+<properties>
+	<entry key="commons.test.name">The Name</entry>
+	<entry key="commons.test.include">Hey, this has §commons.test.name, isn't that cool?</entry>
+	<entry key="commons.test.includeEnd">Hey, this has §commons.test.name</entry>
+	<entry key="commons.test.includeFake">Hey, this has §commons.test.missing</entry>
+	<entry key="commons.test.parameter">My parameter %0</entry>
+	<entry key="commons.test.parameters">This %0 is really %1!</entry>
+</properties>
