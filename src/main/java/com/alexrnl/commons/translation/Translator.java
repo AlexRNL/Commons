@@ -57,17 +57,34 @@ public class Translator extends Configuration {
 		// Replace other translations included in the current one
 		while (translation.contains(INCLUDE_PREFIX.toString())) {
 			// Isolate the string to replace, from the Constants.INCLUDE_PREFIX to the next space
-			final int location = translation.indexOf(INCLUDE_PREFIX);
+			final int location = translation.indexOf(INCLUDE_PREFIX) + 1;
 			final int endLocation = translation.substring(location).indexOf(StringUtils.SPACE) + location;
-			final String strToReplace;
-			if (endLocation == -1) {
+			String strToReplace;
+			if (endLocation < location) {
 				// End of string case
 				strToReplace = translation.substring(location);
 			} else {
 				strToReplace = translation.substring(location, endLocation);
 			}
+			final String backUpStr = strToReplace;
+			
+			// If the substring has some punctuation marks at the end, it may be shorter than
+			// the current one (which stops before the space)
+			while (!strToReplace.isEmpty() && !has(strToReplace)) {
+				strToReplace = strToReplace.substring(0, strToReplace.length() - 1);
+			}
+			// In case it has not been found at all
+			if (strToReplace.isEmpty()) {
+				strToReplace = backUpStr;
+				lg.warning("Could not found any suitable translation for the include key: " + strToReplace);
+			}
+			
 			// Replace the prefix + key with the translation of the key (hence the substring)
-			translation = translation.replace(strToReplace, get(strToReplace.substring(1)));
+			final StringBuilder newTranslation = new StringBuilder();
+			newTranslation.append(translation.substring(0, location - 1));
+			newTranslation.append(get(strToReplace));
+			newTranslation.append(translation.substring(location + strToReplace.length()));
+			translation = newTranslation.toString();
 		}
 		
 		return translation;
