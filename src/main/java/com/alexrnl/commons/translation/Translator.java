@@ -10,7 +10,31 @@ import com.alexrnl.commons.utils.StringUtils;
 /**
  * Implementation of the translator.<br />
  * Class which provide utilities method to translate key to the locale set in the configuration
- * file.
+ * file.<br />
+ * It features:
+ * <ul>
+ * <li>Translation inclusion: to avoid duplicate translation (i.e. for currency euro/dollar/yen) a
+ * translation may include a reference to another key by prefixing it with the
+ * {@link #INCLUDE_PREFIX character '§'}. Example:
+ * 
+ * <pre>
+ * commons.currency		<=>		euro
+ * commons.enterPrice	<=> 	Enter price in §commons.currency
+ * </pre>
+ * 
+ * will be resolve as <em>Enter price in euro</em> when requesting the translation of key
+ * <em>commons.enterPrice</em>.</li>
+ * <li>Translation parameters: you may pass parameters to the translator which will be included in
+ * the final translation. Reference the parameter location in the locale by using the
+ * {@link #PARAMETER_PREFIX character %} and the digit referencing the parameter. Example:
+ * 
+ * <pre>
+ * commons.priceTeeShirt	<=>		The price for the Tee-Shirt is of %0 euros.
+ * </pre>
+ * 
+ * will be resolved as <em>The price for the Tee-Shirt is of 8 euros</em> when calling
+ * {@link #get(String, Object...) get("commons.priceTeeShirt", 8)}.</li>
+ * </ul>
  * @author Alex
  */
 public class Translator extends Configuration {
