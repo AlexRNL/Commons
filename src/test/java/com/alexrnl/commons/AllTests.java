@@ -9,6 +9,7 @@ import com.alexrnl.commons.error.ErrorTests;
 import com.alexrnl.commons.gui.GUITests;
 import com.alexrnl.commons.mvc.MVCTests;
 import com.alexrnl.commons.time.TimeTests;
+import com.alexrnl.commons.translation.TranslationsTests;
 import com.alexrnl.commons.utils.UtilsTests;
 
 /**
@@ -17,6 +18,6 @@ import com.alexrnl.commons.utils.UtilsTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ DatabaseTests.class, ErrorTests.class, GUITests.class, MVCTests.class,
-		TimeTests.class, UtilsTests.class })
+		TimeTests.class, TranslationsTests.class, UtilsTests.class })
 public class AllTests {
 }
