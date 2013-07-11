@@ -103,7 +103,7 @@ public class Configuration {
 	 *        the name of the property to check.
 	 * @return <code>true</code> if the property is in the file.
 	 */
-	public boolean has (final String propertyName) {
+	public final boolean has (final String propertyName) {
 		return loaded && configuration.getProperty(propertyName) != null;
 	}
 	
@@ -129,7 +129,7 @@ public class Configuration {
 	 * Check if the configuration file is loaded.
 	 * @return <code>true</code> if the configuration is loaded.
 	 */
-	public boolean isLoaded () {
+	public final boolean isLoaded () {
 		return loaded;
 	}
 	
@@ -137,7 +137,7 @@ public class Configuration {
 	 * Return the number of properties held by the configuration file.
 	 * @return the number of properties.
 	 */
-	public int size () {
+	public final int size () {
 		return configuration.size();
 	}
 	
