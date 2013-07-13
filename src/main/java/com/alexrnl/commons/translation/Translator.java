@@ -144,15 +144,4 @@ public class Translator extends Configuration {
 		return translation;
 	}
 	
-	/**
-	 * Get the translation of a specific key and append the field value separator.
-	 * @param key
-	 *        the key to translate.
-	 * @return the translation of the key from the specified locale file.
-	 */
-	public String getField (final String key) {
-		return get(key);
-		// TODO put that in commons? '+ get(TranslationKeys.MISC.fieldValueSeparator());'
-	}
-	
 }

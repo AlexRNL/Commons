@@ -51,11 +51,4 @@ public class TranslatorTest {
 		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA", "XXX"));
 	}
 	
-	/**
-	 * Test method for {@link com.alexrnl.commons.translation.Translator#getField(java.lang.String)}.
-	 */
-	@Test
-	public void testGetField () {
-		assertEquals("The Name", translator.getField("commons.test.name"));
-	}
 }
