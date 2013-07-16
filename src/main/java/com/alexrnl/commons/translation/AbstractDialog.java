@@ -9,28 +9,33 @@ package com.alexrnl.commons.translation;
  * parameter array by default (i.e. no parameter are accepted by this dialog); override the method
  * {@link #getParameters()} if necessary.
  * Example of implementation (with the use of the parameters):
+ * 
  * <pre>
  * public class HelloDialog extends AbstractDialog {
- * 	private String helloKey;
- * 	private Object[] parameters;
+ * 	private String		helloKey;
+ * 	private Object[]	parameters;
  * 
  * 	public HelloDialog (String name) {
  * 		super();
- * 		this.helloKey = "commons.dialogs.hello";
+ * 		this.helloKey = &quot;commons.dialogs.hello&quot;;
  * 		this.parameters = new Object[1];
  * 		parameters[0] = name;
  * 	}
  * 
- *	public String toString () {
- *		return helloKey;
- *	}
- *
- *	public Object[] getParameters () {
- *		return parameters;
- *	}
- *	
+ * 	public String toString () {
+ * 		return helloKey;
+ * 	}
+ * 
+ * 	public Object[] getParameters () {
+ * 		return parameters;
+ * 	}
+ * 
  * }
  * </pre>
+ * 
+ * When instantiating this class, the translation key for the title will be
+ * <code>commons.dialogs.hello.title</code> and the translation key for the message will be
+ * <code>commons.dialogs.hello.message</code>.
  * @author Alex
  */
 public abstract class AbstractDialog implements ParametrableTranslation {
@@ -59,7 +64,9 @@ public abstract class AbstractDialog implements ParametrableTranslation {
 	public abstract String toString ();
 
 	/**
-	 * By default, all dialogs are parametrable
+	 * By default, all dialogs are configurable but return no parameters.<br />
+	 * This allow to define generic behavior for displaying dialogs, override this if the dialog
+	 * requires parameters.
 	 */
 	@Override
 	public Object[] getParameters () {
