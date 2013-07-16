@@ -41,6 +41,8 @@ public class Translator extends Configuration {
 	/** Logger */
 	private static Logger			lg					= Logger.getLogger(Translator.class.getName());
 	
+	/** Character which is used to separate hierarchy levels of translations */
+	public static final Character	HIERARCHY_SEPARATOR	= '.';
 	/** Character used for mnemonics in menu bar */
 	public static final Character	MNEMONIC_MARK		= '#';
 	/** Character used for parameters in translations */

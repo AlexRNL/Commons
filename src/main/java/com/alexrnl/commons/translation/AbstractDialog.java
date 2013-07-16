@@ -39,13 +39,17 @@ package com.alexrnl.commons.translation;
  * @author Alex
  */
 public abstract class AbstractDialog implements ParametrableTranslation {
-	
+	/** The string defining the key for the dialog's title */
+	public static final String	TITLE	= "title";
+	/** The string defining the key for the dialog's message */
+	public static final String	MESSAGE	= "message";
+
 	/**
 	 * The title of the dialog.
 	 * @return the translation of the dialog's title.
 	 */
 	public String title () {
-		return toString() + "." + "title";
+		return toString() + Translator.HIERARCHY_SEPARATOR + TITLE;
 	}
 	
 	/**
@@ -53,7 +57,7 @@ public abstract class AbstractDialog implements ParametrableTranslation {
 	 * @return the translation of the dialog's message.
 	 */
 	public String message () {
-		return toString() + "." + "message";
+		return toString() + Translator.HIERARCHY_SEPARATOR + MESSAGE;
 	}
 
 	/**
