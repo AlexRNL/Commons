@@ -1,6 +1,7 @@
 package com.alexrnl.commons.translation;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertNotNull;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,6 +11,8 @@ import org.junit.Test;
  * @author Alex
  */
 public class AbstractDialogTest {
+	/** The dialog to test */
+	private HelloDialog	dialog;
 	
 	/**
 	 * Basic class extending the abstract dialog.
@@ -18,29 +21,18 @@ public class AbstractDialogTest {
 	private static class HelloDialog extends AbstractDialog {
 		/** The key to the translation dialog */
 		private final String	helloKey;
-		/** Parameters of the dialog */
-		private final Object[]	parameters;
 		
 		/**
 		 * Constructor #1.<br />
-		 * @param name
-		 *        the name to say hello to.
 		 */
-		public HelloDialog (final String name) {
+		public HelloDialog () {
 			super();
 			this.helloKey = "commons.dialogs.hello";
-			this.parameters = new Object[1];
-			parameters[0] = name;
 		}
 		
 		@Override
 		public String toString () {
 			return helloKey;
-		}
-		
-		@Override
-		public Object[] getParameters () {
-			return parameters;
 		}
 		
 	}
@@ -50,6 +42,7 @@ public class AbstractDialogTest {
 	 */
 	@Before
 	public void setUp () {
+		dialog = new HelloDialog();
 	}
 	
 	/**
@@ -57,7 +50,7 @@ public class AbstractDialogTest {
 	 */
 	@Test
 	public void testTitle () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.dialogs.hello.title", dialog.title());
 	}
 	
 	/**
@@ -65,7 +58,7 @@ public class AbstractDialogTest {
 	 */
 	@Test
 	public void testMessage () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.dialogs.hello.message", dialog.message());
 	}
 	
 	/**
@@ -73,7 +66,7 @@ public class AbstractDialogTest {
 	 */
 	@Test
 	public void testToString () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.dialogs.hello", dialog.toString());
 	}
 	
 	/**
@@ -81,6 +74,7 @@ public class AbstractDialogTest {
 	 */
 	@Test
 	public void testGetParameters () {
-		fail("Not yet implemented"); // TODO
+		assertNotNull(dialog.getParameters());
+		assertEquals(0, dialog.getParameters().length);
 	}
 }
