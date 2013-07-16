@@ -11,14 +11,14 @@ package com.alexrnl.commons.translation;
  * Example of implementation (with the use of the parameters):
  * <pre>
  * public class HelloDialog extends AbstractDialog {
- * 	private helloKey;
- * 	private parameters;
+ * 	private String helloKey;
+ * 	private Object[] parameters;
  * 
  * 	public HelloDialog (String name) {
  * 		super();
  * 		this.helloKey = "commons.dialogs.hello";
  * 		this.parameters = new Object[1];
- * 		Object[0] = name;
+ * 		parameters[0] = name;
  * 	}
  * 
  *	public String toString () {
@@ -26,7 +26,7 @@ package com.alexrnl.commons.translation;
  *	}
  *
  *	public Object[] getParameters () {
- *		return parameters
+ *		return parameters;
  *	}
  *	
  * }
