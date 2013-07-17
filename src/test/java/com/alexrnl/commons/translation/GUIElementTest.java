@@ -1,6 +1,6 @@
 package com.alexrnl.commons.translation;
 
-import static org.junit.Assert.fail;
+import static org.junit.Assert.assertEquals;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -26,7 +26,7 @@ public class GUIElementTest {
 	 */
 	@Test
 	public void testToString () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.menu.open", component.toString());
 	}
 	
 	/**
@@ -34,7 +34,7 @@ public class GUIElementTest {
 	 */
 	@Test
 	public void testGetText () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.menu.open", component.getText());
 	}
 	
 	/**
@@ -42,7 +42,7 @@ public class GUIElementTest {
 	 */
 	@Test
 	public void testGetShortcut () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.menu.open.shortcut", component.getShortcut());
 	}
 	
 	/**
@@ -50,6 +50,6 @@ public class GUIElementTest {
 	 */
 	@Test
 	public void testGetToolTip () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("commons.menu.open.tooltip", component.getToolTip());
 	}
 }
