@@ -155,7 +155,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	 * @return the string to display.
 	 */
 	private static String msTimeDiff (final long reference) {
-		return  (System.currentTimeMillis() - reference) + " ms";
+		return  (System.nanoTime() - reference)/1000 + " µseconds";
 	}
 	
 	@Override
@@ -169,7 +169,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		T newEntity = null;
@@ -206,7 +206,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		try {
@@ -242,7 +242,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		try {
@@ -272,7 +272,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		try {
@@ -300,7 +300,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		try {
@@ -332,7 +332,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		
 		long timeBefore = 0;
 		if (lg.isLoggable(Level.FINER)) {
-			timeBefore = System.currentTimeMillis();
+			timeBefore = System.nanoTime();
 		}
 		
 		final Set<T> entities = new HashSet<>();
