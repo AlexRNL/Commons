@@ -46,7 +46,7 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 		this.minValue = minValue;
 		if (!isValid(value)) {
 			lg.warning("Value for SpinnerTimeModel is not valid: " + value + " < " + minValue
-					+ " OR" + value + " > "  + maxValue);
+					+ " OR " + value + " > "  + maxValue);
 			throw new IllegalArgumentException("Value for TimeSpinnerModel is not in specified bounds: min="
 					+ minValue + "; max=" + maxValue + "; value=" + value);
 		}
