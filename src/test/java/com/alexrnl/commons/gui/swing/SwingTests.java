@@ -11,7 +11,7 @@ import com.alexrnl.commons.gui.swing.renderers.RenderersTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ RenderersTests.class, AbstractFrameTest.class })
+@SuiteClasses({ RenderersTests.class, AbstractFrameTest.class, SwingUtilsTest.class })
 public class SwingTests {
 	
 }
