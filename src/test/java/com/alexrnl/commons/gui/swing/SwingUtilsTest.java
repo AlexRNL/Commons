@@ -9,7 +9,6 @@ import java.util.logging.Logger;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -17,13 +16,6 @@ import org.junit.Test;
  * @author Alex
  */
 public class SwingUtilsTest {
-	
-	/**
-	 * Test attributes.
-	 */
-	@Before
-	public void setUp () {
-	}
 	
 	/**
 	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#setLookAndFeel(java.lang.String)}.
