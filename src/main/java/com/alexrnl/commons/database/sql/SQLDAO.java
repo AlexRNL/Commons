@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * This class shall be the super class of all SQL {@link DAO}.<br />
@@ -143,7 +144,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			}
 			searches.clear();
 		} catch (final SQLException e) {
-			lg.warning("Error while closing statements (" + e.getClass() + "; " + e.getMessage() + ")");
+			lg.warning("Error while closing statements: " + ExceptionUtils.display(e));
 			throw new IOException("Exception while closing statements", e);
 		}
 	}
@@ -186,7 +187,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 				}
 			}
 		} catch (final SQLException e) {
-			lg.warning("Exception while creating a " + entityName + ": " + e.getMessage());
+			lg.warning("Exception while creating a " + entityName + ": " + ExceptionUtils.display(e));
 			return null;
 		}
 		
@@ -280,7 +281,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			delete.execute();
 			delete.clearParameters();
 		} catch (final SQLException e) {
-			lg.warning("Could not delete " + entityName + ": " + e.getMessage());
+			lg.warning("Could not delete " + entityName + ": " + ExceptionUtils.display(e));
 			return false;
 		}
 		
@@ -310,7 +311,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 				}
 			}
 		} catch (final SQLException e) {
-			lg.warning("Could not retrieve all " + entityName + ": " + e.getMessage());
+			lg.warning("Could not retrieve all " + entityName + ": " + ExceptionUtils.display(e));
 			return allEntities;
 		}
 		
@@ -346,7 +347,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 				}
 			}
 		} catch (final SQLException e) {
-			lg.warning("Could not retrieve " + entityName + ": " + e.getMessage());
+			lg.warning("Could not retrieve " + entityName + ": " + ExceptionUtils.display(e));
 			return entities;
 		}
 		
