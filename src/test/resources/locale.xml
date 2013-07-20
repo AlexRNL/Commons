@@ -7,4 +7,8 @@
 	<entry key="commons.test.includeFake">Hey, this has §commons.test.missing</entry>
 	<entry key="commons.test.parameter">My parameter %0</entry>
 	<entry key="commons.test.parameters">This %0 is really %1!</entry>
+	
+	<entry key="commons.menu.file.open">#Open a file</entry>
+	<entry key="commons.menu.file.close">Close a file#</entry>
+	<entry key="commons.menu.file.quit">Quit the application</entry>
 </properties>
