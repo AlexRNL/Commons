@@ -26,7 +26,7 @@ import com.alexrnl.commons.translation.Translator;
 import com.alexrnl.commons.utils.StringUtils;
 
 /**
- * TODO
+ * Utility class for Swing related methods.<br />
  * @author Alex
  */
 public final class SwingUtils {
