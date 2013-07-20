@@ -244,7 +244,10 @@ public final class SwingUtils {
 	private static void installMnemonics (final Translator translator, final JMenuItem menu, final String key) {
 		String text = translator.get(key);
 		final int mnemonicIndex = text.indexOf(Translator.MNEMONIC_MARK);
-		if (mnemonicIndex > -1) {
+		if (mnemonicIndex == text.length() - 1) {
+			lg.warning("Mnemonic mark at the end of the translation, cannot set mnemonic");
+			menu.setText(text.substring(0, mnemonicIndex));
+		} else if (mnemonicIndex > -1) {
 			text = text.substring(0, mnemonicIndex) + text.substring(mnemonicIndex + 1);
 			menu.setText(text);
 			menu.setMnemonic(KeyEvent.getExtendedKeyCodeForChar(text.charAt(mnemonicIndex)));
