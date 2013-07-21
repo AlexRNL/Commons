@@ -15,6 +15,7 @@ import java.util.logging.Logger;
 import javax.swing.JMenu;
 import javax.swing.JMenuItem;
 import javax.swing.KeyStroke;
+import javax.swing.LookAndFeel;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
@@ -45,12 +46,23 @@ public class SwingUtilsTest {
 	/**
 	 * Test method for
 	 * {@link com.alexrnl.commons.gui.swing.SwingUtils#setLookAndFeel(java.lang.String)}.
+	 * @throws ClassNotFoundException
+	 *         if a LAF class cannot be found.
+	 * @throws IllegalAccessException
+	 *         if a LAF class cannot be accessed.
+	 * @throws InstantiationException
+	 *         if a LAF class cannot be instantiated.
 	 */
 	@Test
-	public void testSetLookAndFeel () {
+	public void testSetLookAndFeel () throws InstantiationException, IllegalAccessException, ClassNotFoundException {
 		assertFalse(SwingUtils.setLookAndFeel(null));
 		assertFalse(SwingUtils.setLookAndFeel(""));
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
+			if (!Class.forName(laf.getClassName()).asSubclass(LookAndFeel.class)
+					.newInstance().isSupportedLookAndFeel()) {
+				// Skip the test if the current look and feel cannot be installed on the platform
+				continue;
+			}
 			assertTrue(SwingUtils.setLookAndFeel(laf.getName()));
 			Logger.getLogger(SwingUtils.class.getName()).setLevel(Level.FINE);
 		}
