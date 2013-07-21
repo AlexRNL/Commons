@@ -11,4 +11,8 @@
 	<entry key="commons.menu.file.open">#Open a file</entry>
 	<entry key="commons.menu.file.close">Close a file#</entry>
 	<entry key="commons.menu.file.quit">Quit the application</entry>
+	<entry key="commons.menu.file">File</entry>
+	<entry key="commons.menu.file.shortcut">ctrl + f</entry>
+	<entry key="commons.menu.file.tooltip">Access to basic commands</entry>
+	<entry key="commons.menu.help">Help</entry>
 </properties>

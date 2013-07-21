@@ -2,21 +2,26 @@ package com.alexrnl.commons.gui.swing;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JMenu;
+import javax.swing.JMenuItem;
+import javax.swing.KeyStroke;
 import javax.swing.UIManager;
 import javax.swing.UIManager.LookAndFeelInfo;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.alexrnl.commons.translation.GUIElement;
 import com.alexrnl.commons.translation.Translator;
 
 /**
@@ -38,7 +43,8 @@ public class SwingUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#setLookAndFeel(java.lang.String)}.
+	 * Test method for
+	 * {@link com.alexrnl.commons.gui.swing.SwingUtils#setLookAndFeel(java.lang.String)}.
 	 */
 	@Test
 	public void testSetLookAndFeel () {
@@ -57,8 +63,20 @@ public class SwingUtilsTest {
 	 */
 	@Test
 	public void testGetMenuItem () {
-		fail("Implement test method");
-		// TODO implements test method
+		final JMenuItem file = SwingUtils.getMenuItem(translator, new GUIElement("commons.menu.file"), null);
+		assertEquals("File", file.getText());
+		assertEquals(KeyStroke.getKeyStroke("ctrl f"), file.getAccelerator());
+		assertEquals("Access to basic commands", file.getToolTipText());
+		assertEquals(0, file.getActionListeners().length);
+		
+		final JMenuItem help = SwingUtils.getMenuItem(translator, new GUIElement("commons.menu.help"), new ActionListener() {
+			@Override
+			public void actionPerformed (final ActionEvent e) {}
+		});
+		assertEquals("Help", help.getText());
+		assertNull(help.getAccelerator());
+		assertNull(help.getToolTipText());
+		assertEquals(1, help.getActionListeners().length);
 	}
 		
 	/**
