@@ -3,6 +3,7 @@ package com.alexrnl.commons.gui.swing;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
@@ -51,6 +52,15 @@ public class SwingUtilsTest {
 		assertFalse(SwingUtils.setLookAndFeel("LDR"));
 	}
 	
+	/**
+	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#getMenuItem(Translator, com.alexrnl.commons.translation.GUIElement, java.awt.event.ActionListener)}.
+	 */
+	@Test
+	public void testGetMenuItem () {
+		fail("Implement test method");
+		// TODO implements test method
+	}
+		
 	/**
 	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#getMenu(com.alexrnl.commons.translation.Translator, String)}.
 	 */
