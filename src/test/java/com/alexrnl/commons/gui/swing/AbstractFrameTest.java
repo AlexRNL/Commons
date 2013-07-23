@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeEvent;
 import java.io.IOException;
 import java.net.URISyntaxException;
@@ -72,6 +73,11 @@ public class AbstractFrameTest {
 	 */
 	@Test
 	public void testFinalState () throws URISyntaxException, IOException, InterruptedException {
+		if (GraphicsEnvironment.isHeadless()) {
+			System.out.println("Cannot test " + AbstractFrame.class.getName()
+				+ " on headless environment");
+			return;
+		}
 		Logger.getLogger(AbstractFrame.class.getName()).setLevel(Level.WARNING);
 		final TestFrame frame = new TestFrame();
 		assertFalse(frame.isReady());
@@ -99,6 +105,11 @@ public class AbstractFrameTest {
 	 */
 	@Test
 	public void testWaitingForBuild () throws InterruptedException {
+		if (GraphicsEnvironment.isHeadless()) {
+                        System.out.println("Cannot test " + AbstractFrame.class.getName()
+                                + " on headless environment");
+                        return;
+                }
 		final TestFrame frame = new TestFrame();
 		synchronized (frame) {
 			while (!frame.isReady()) {
