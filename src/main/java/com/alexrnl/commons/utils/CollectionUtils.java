@@ -2,6 +2,7 @@ package com.alexrnl.commons.utils;
 
 import java.util.Iterator;
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -33,6 +34,9 @@ public final class CollectionUtils {
 		while (it.hasNext()) {
 			final T current = it.next();
 			if (it.hasNext() && current.compareTo(it.next()) > 0) {
+				if (lg.isLoggable(Level.INFO)) {
+					lg.info("Collection is unordered at element " + current);
+				}
 				return false;
 			}
 		}
