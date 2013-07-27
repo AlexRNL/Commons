@@ -39,7 +39,7 @@ public final class CollectionUtils {
 		T current = it.next();
 		while (it.hasNext()) {
 			final T next = it.next();
-			if (it.hasNext() && current.compareTo(next) > 0) {
+			if (current.compareTo(next) > 0) {
 				if (lg.isLoggable(Level.INFO)) {
 					lg.info("Collection is unordered at element " + current);
 				}
