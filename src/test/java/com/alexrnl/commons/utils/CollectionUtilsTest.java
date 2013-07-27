@@ -22,7 +22,7 @@ public class CollectionUtilsTest {
 		assertTrue(CollectionUtils.isSorted(new LinkedList<Integer>()));
 		assertTrue(CollectionUtils.isSorted(Arrays.asList(new Integer[] {1, 1, 2, 3, 8, 20, 28})));
 		assertFalse(CollectionUtils.isSorted(Arrays.asList(new Integer[] {1, 0, 2, 3, 8, 20})));
-		
+		assertFalse(CollectionUtils.isSorted(Arrays.asList(new Integer[] {0, 2, 1, 3, 8, 20})));
 	}
 	
 	/**

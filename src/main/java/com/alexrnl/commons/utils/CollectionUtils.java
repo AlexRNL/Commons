@@ -31,14 +31,21 @@ public final class CollectionUtils {
 		Objects.requireNonNull(collection);
 		final Iterator<T> it = collection.iterator();
 		
+		// Empty collection case
+		if (!it.hasNext()) {
+			return true;
+		}
+
+		T current = it.next();
 		while (it.hasNext()) {
-			final T current = it.next();
-			if (it.hasNext() && current.compareTo(it.next()) > 0) {
+			final T next = it.next();
+			if (it.hasNext() && current.compareTo(next) > 0) {
 				if (lg.isLoggable(Level.INFO)) {
 					lg.info("Collection is unordered at element " + current);
 				}
 				return false;
 			}
+			current = next;
 		}
 		
 		return true;
