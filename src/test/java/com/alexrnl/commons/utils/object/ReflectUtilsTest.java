@@ -16,6 +16,7 @@ import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.object.AutoCompareTest.ComparedClass;
 
 /**
@@ -69,8 +70,7 @@ public class ReflectUtilsTest {
 			assertEquals("test", ones.get(2));
 			assertEquals("track", twos.get(2));
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			fail("TODO (" + e.getMessage() + ")");
-			e.printStackTrace();
+			fail("Error while invoking a method: " + ExceptionUtils.display(e));
 		}
 		
 	}
