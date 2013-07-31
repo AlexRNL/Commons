@@ -87,28 +87,16 @@ public class Column implements Serializable {
 		return isID;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString () {
 		return "name: " + name + ", type: " + type.getSimpleName() + ", is id: " + isID;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Column)) {

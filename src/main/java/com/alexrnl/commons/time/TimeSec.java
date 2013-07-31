@@ -211,10 +211,6 @@ public class TimeSec extends Time implements Cloneable {
 				getSeconds() - time.getSeconds());
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo (final Time o) {
 		if (o == null) {
@@ -258,10 +254,6 @@ public class TimeSec extends Time implements Cloneable {
 		return compareTo(time) < 0;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString () {
 		String s = Integer.toString(seconds);
@@ -271,19 +263,11 @@ public class TimeSec extends Time implements Cloneable {
 		return super.toString() + TIME_SEPARATOR + s;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Time)) {
@@ -292,10 +276,6 @@ public class TimeSec extends Time implements Cloneable {
 		return AutoCompare.getInstance().compare(this, (Time) obj);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
 	@Override
 	public TimeSec clone () throws CloneNotSupportedException {
 		return new TimeSec(this);

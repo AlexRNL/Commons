@@ -173,10 +173,6 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		return new Time(hours - time.hours, minutes - time.minutes);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Comparable#compareTo(java.lang.Object)
-	 */
 	@Override
 	public int compareTo (final Time o) {
 		if (o == null) {
@@ -221,10 +217,6 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		return compareTo(time) < 0;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#toString()
-	 */
 	@Override
 	public String toString () {
 		String h = Integer.toString(hours);
@@ -238,19 +230,11 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		return h + TIME_SEPARATOR + m;
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#hashCode()
-	 */
 	@Override
 	public int hashCode () {
 		return AutoHashCode.getInstance().hashCode(this);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
 	@Override
 	public boolean equals (final Object obj) {
 		if (!(obj instanceof Time)) {
@@ -259,10 +243,6 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		return AutoCompare.getInstance().compare(this, (Time) obj);
 	}
 	
-	/*
-	 * (non-Javadoc)
-	 * @see java.lang.Object#clone()
-	 */
 	@Override
 	public Time clone () throws CloneNotSupportedException {
 		return new Time(this);
