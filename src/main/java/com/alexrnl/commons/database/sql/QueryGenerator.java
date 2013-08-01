@@ -28,15 +28,14 @@ public final class QueryGenerator {
 	}
 	
 	/**
-	 * Return the id {@link Column} of the entity.
+	 * Return the id {@link Column} of the entity.<br />
+	 * A {@link NoIdError} will be thrown if non could be found.
 	 * @param object
 	 *        the object which represent the entity.
 	 * @return the {@link Column} which is defined as the unique (and identifying) column of the
 	 *         object.
-	 * @throws NoIdError
-	 *         if no such {@link Column} could be found.
 	 */
-	public static Column getIDColumn (final Entity object) throws NoIdError {
+	public static Column getIDColumn (final Entity object) {
 		// If the id column has previously been found
 		if (idColumns.containsKey(object.getClass())) {
 			return idColumns.get(object.getClass());
