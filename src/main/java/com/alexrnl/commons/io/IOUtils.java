@@ -15,6 +15,9 @@ public final class IOUtils {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(IOUtils.class.getName());
 	
+	/** The byte order mark used at the beginning of unicode files */
+	public static final Character UNICODE_BYTE_ORDER_MARK = '\ufeff';
+	
 	/**
 	 * Constructor #1.<br />
 	 * Default private constructor.
