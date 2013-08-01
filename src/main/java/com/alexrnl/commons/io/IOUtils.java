@@ -16,6 +16,14 @@ public final class IOUtils {
 	private static Logger	lg	= Logger.getLogger(IOUtils.class.getName());
 	
 	/**
+	 * Constructor #1.<br />
+	 * Default private constructor.
+	 */
+	private IOUtils () {
+		super();
+	}
+	
+	/**
 	 * Read the next line on the buffered reader provided.<br />
 	 * @param reader
 	 *        the stream to read.
