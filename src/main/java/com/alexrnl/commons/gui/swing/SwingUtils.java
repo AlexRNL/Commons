@@ -49,6 +49,12 @@ public final class SwingUtils {
 	 * @return <code>true</code> if the new look and feel was successfully set.
 	 */
 	public static boolean setLookAndFeel (final String lookAndFeelName) {
+		if (UIManager.getLookAndFeel().getName().equals(lookAndFeelName)) {
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Look and Feel " + lookAndFeelName + " is alredy set, nothing to do");
+			}
+			return true;
+		}
 		boolean lookAndFeelApplied = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
 			if (lg.isLoggable(Level.FINE)) {
@@ -57,8 +63,8 @@ public final class SwingUtils {
 			if (laf.getName().equals(lookAndFeelName)) {
 				try {
 					UIManager.setLookAndFeel(laf.getClassName());
-					if (lg.isLoggable(Level.FINE)) {
-						lg.fine("Look and feel properly setted (" + laf.getName() + ").");
+					if (lg.isLoggable(Level.INFO)) {
+						lg.info("Look and feel properly setted (" + laf.getName() + ").");
 					}
 					lookAndFeelApplied = true;
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException

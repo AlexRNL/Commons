@@ -65,6 +65,7 @@ public class SwingUtilsTest {
 			}
 			assertTrue(SwingUtils.setLookAndFeel(laf.getName()));
 			Logger.getLogger(SwingUtils.class.getName()).setLevel(Level.FINE);
+			assertTrue(SwingUtils.setLookAndFeel(laf.getName()));
 		}
 		UIManager.installLookAndFeel(new LookAndFeelInfo("LDR", "com.alexrnl.commons.gui.swing.ldr"));
 		assertFalse(SwingUtils.setLookAndFeel("LDR"));
