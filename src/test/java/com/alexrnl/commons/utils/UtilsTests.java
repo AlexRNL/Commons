@@ -12,6 +12,6 @@ import com.alexrnl.commons.utils.object.ObjectTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ CollectionUtilsTest.class, ConfigurationTest.class, ObjectTests.class,
-		StringUtilsTest.class })
+		StringUtilsTest.class, WordTest.class })
 public class UtilsTests {
 }
