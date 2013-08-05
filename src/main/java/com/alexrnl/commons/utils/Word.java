@@ -1,6 +1,7 @@
 package com.alexrnl.commons.utils;
 
 import java.util.Objects;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 /**
@@ -19,16 +20,21 @@ public final class Word {
 	private final int		end;
 	
 	/**
-	 * Constructor #.<br />
+	 * Constructor #1.<br />
 	 * @param word
-	 *        the word represented.
+	 *        the word represented (cannot be null).
 	 * @param begin
 	 *        the index of the beginning of the word.
 	 * @param end
 	 *        the index of the end of the word.
 	 */
-	private Word (final String word, final int begin, final int end) {
+	public Word (final String word, final int begin, final int end) {
 		super();
+		Objects.requireNonNull(word);
+		if (word.length() != end - begin) {
+			throw new IllegalArgumentException("Word " + word + " does not fit between "
+					+ begin + " and " + end);
+		}
 		this.word = word;
 		this.begin = begin;
 		this.end = end;
@@ -82,7 +88,11 @@ public final class Word {
 			currentIndex++;
 		}
 		
-		return new Word(string.substring(begin, end), begin, end);
+		final String word = string.substring(begin, end);
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("The next word in '" + string + "' is '" + word + "'");
+		}
+		return new Word(word, begin, end);
 	}
 	
 	/**
