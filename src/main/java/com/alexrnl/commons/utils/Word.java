@@ -1,16 +1,24 @@
 package com.alexrnl.commons.utils;
 
+import java.io.Serializable;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Represent a word in a {@link String}.<br />
  * @author Alex
  */
-public final class Word {
+public final class Word implements Serializable, Comparable<String>, CharSequence {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(Word.class.getName());
+
+	/** Serial version UID */
+	private static final long	serialVersionUID	= -2514704200569256612L;
 	
 	/** The word it self */
 	private final String	word;
@@ -44,6 +52,7 @@ public final class Word {
 	 * Return the attribute word.
 	 * @return the attribute word.
 	 */
+	@Field
 	public String getWord () {
 		return word;
 	}
@@ -52,6 +61,7 @@ public final class Word {
 	 * Return the attribute begin.
 	 * @return the attribute begin.
 	 */
+	@Field
 	public int getBegin () {
 		return begin;
 	}
@@ -60,10 +70,49 @@ public final class Word {
 	 * Return the attribute end.
 	 * @return the attribute end.
 	 */
+	@Field
 	public int getEnd () {
 		return end;
 	}
 	
+	@Override
+	public int length () {
+		return word.length();
+	}
+
+	@Override
+	public char charAt (final int index) {
+		return word.charAt(index);
+	}
+
+	@Override
+	public CharSequence subSequence (final int start, final int end) {
+		return word.subSequence(start, end);
+	}
+
+	@Override
+	public int compareTo (final String o) {
+		return word.compareTo(o);
+	}
+
+	@Override
+	public String toString () {
+		return word;
+	}
+	
+	@Override
+	public int hashCode () {
+		return AutoHashCode.getInstance().hashCode(this);
+	}
+
+	@Override
+	public boolean equals (final Object obj) {
+		if (!(obj instanceof Word)) {
+			return false;
+		}
+		return AutoCompare.getInstance().compare(this, (Word) obj);
+	}
+
 	/**
 	 * Return the next word in the {@link String}.<br />
 	 * @param string
@@ -86,6 +135,11 @@ public final class Word {
 				end = currentIndex;
 			}
 			currentIndex++;
+		}
+		
+		// This is the end of the string and no word have been found
+		if (!beginFound) {
+			return new Word("", currentIndex, end);
 		}
 		
 		final String word = string.substring(begin, end);
