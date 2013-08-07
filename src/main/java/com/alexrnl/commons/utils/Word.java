@@ -15,17 +15,17 @@ import com.alexrnl.commons.utils.object.Field;
  */
 public final class Word implements Serializable, Comparable<String>, CharSequence {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(Word.class.getName());
-
+	private static Logger		lg					= Logger.getLogger(Word.class.getName());
+	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -2514704200569256612L;
 	
 	/** The word it self */
-	private final String	word;
+	private final String		word;
 	/** The index of the beginning of the word */
-	private final int		begin;
+	private final int			begin;
 	/** The index of the end of the word */
-	private final int		end;
+	private final int			end;
 	
 	/**
 	 * Constructor #1.<br />
