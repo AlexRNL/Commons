@@ -1,5 +1,6 @@
 package com.alexrnl.commons.io;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 
@@ -59,6 +60,25 @@ public class IOUtilsTest {
 	@Test(expected = NullPointerException.class)
 	public void testReadLineNullPointerException () throws IOException {
 		IOUtils.readLine(null);
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.io.IOUtils#getFilename(java.nio.file.Path)}.
+	 */
+	@Test
+	public void testGetFilename () {
+		assertEquals("hello", IOUtils.getFilename(Paths.get("serv", "io", "hello.txt")));
+		assertEquals("hello", IOUtils.getFilename(Paths.get("io", "hello")));
+		assertEquals("hel.lo", IOUtils.getFilename(Paths.get("serv", "hel.lo.txt")));
+		assertEquals(".classpath", IOUtils.getFilename(Paths.get(".classpath")));
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.io.IOUtils#getFilename(java.nio.file.Path)}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testGetFilenameNullPointerException () {
+		IOUtils.getFilename(null);
 	}
 	
 }
