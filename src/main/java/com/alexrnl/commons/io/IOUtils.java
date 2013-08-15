@@ -18,6 +18,8 @@ public final class IOUtils {
 	
 	/** The byte order mark used at the beginning of unicode files */
 	public static final Character	UNICODE_BYTE_ORDER_MARK	= '\ufeff';
+	/** The character used to separate the filename from its extension */
+	public static final Character	FILE_EXTENSION_SEPARATOR	= '.';
 	
 	/**
 	 * Constructor #1.<br />
@@ -52,6 +54,7 @@ public final class IOUtils {
 	/**
 	 * Return the raw filename of the specified path.<br />
 	 * Strip all the parent folders and the extension of the file to just return the filename.
+	 * <strong>Note that for Unix hidden files (starting with '.'), this method return the full filename.</strong>
 	 * @param path
 	 *        the file.
 	 * @return the filename, without the folders and the extension.
@@ -59,10 +62,10 @@ public final class IOUtils {
 	public static String getFilename (final Path path) {
 		Objects.requireNonNull(path);
 		final String filename = path.getFileName().toString();
-		final int extensionSeparatorIndex = filename.lastIndexOf('.');
-		if (extensionSeparatorIndex < 0) {
+		final int extensionSeparatorIndex = filename.lastIndexOf(FILE_EXTENSION_SEPARATOR);
+		if (extensionSeparatorIndex <= 0) {
 			return filename;
 		}
-		return filename.substring(extensionSeparatorIndex);
+		return filename.substring(0, extensionSeparatorIndex);
 	}
 }
