@@ -3,6 +3,7 @@ package com.alexrnl.commons.io;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
+import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -46,5 +47,22 @@ public final class IOUtils {
 			throw new EOFException("End of stream reached");
 		}
 		return line;
+	}
+	
+	/**
+	 * Return the raw filename of the specified path.<br />
+	 * Strip all the parent folders and the extension of the file to just return the filename.
+	 * @param path
+	 *        the file.
+	 * @return the filename, without the folders and the extension.
+	 */
+	public static String getFilename (final Path path) {
+		Objects.requireNonNull(path);
+		final String filename = path.getFileName().toString();
+		final int extensionSeparatorIndex = filename.lastIndexOf('.');
+		if (extensionSeparatorIndex < 0) {
+			return filename;
+		}
+		return filename.substring(extensionSeparatorIndex);
 	}
 }
