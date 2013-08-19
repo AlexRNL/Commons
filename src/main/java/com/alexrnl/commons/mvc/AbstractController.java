@@ -161,16 +161,29 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 * Dispose of the resources used by the controller.<br />
 	 * Clear frames, window, unsubscribe models and listeners, etc.
 	 */
-	public abstract void dispose ();
+	public void dispose () {
+		synchronized (registeredModels) {
+			registeredModels.clear();
+		}
+		synchronized (registeredViews) {
+			registeredViews.clear();
+		}
+	}
 	
 	/**
 	 * Persists any changes to the database.<br />
+	 * By default, does nothing. Override this, if required.
 	 * @return <code>true</code> if the operation succeeded.
 	 */
-	public abstract boolean persist ();
+	public boolean persist () {
+		return true;
+	}
 	
 	/**
 	 * Reload the models registered from the database.<br />
+	 * By default, does nothing. Override this, if required.
 	 */
-	public abstract void reload ();
+	public void reload () {
+		// Nothing to do here
+	}
 }

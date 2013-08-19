@@ -1,6 +1,5 @@
 package com.alexrnl.commons.mvc;
 
-
 /**
  * Basic controller implementation, for test purposes.
  * @author Alex
@@ -10,7 +9,6 @@ public class ControllerTest extends AbstractController {
 	public static final String	MODEL_VALUE_PROPERTY	= "Value";
 	/** The name of the name property */
 	public static final String	MODEL_NAME_PROPERTY		= "Name";
-	
 	
 	/**
 	 * Change the value of the model.
@@ -30,17 +28,4 @@ public class ControllerTest extends AbstractController {
 		setModelProperty(MODEL_NAME_PROPERTY, name);
 	}
 	
-	@Override
-	public void dispose () {
-		
-	}
-	
-	@Override
-	public boolean persist () {
-		return true;
-	}
-	
-	@Override
-	public void reload () {
-	}
 }

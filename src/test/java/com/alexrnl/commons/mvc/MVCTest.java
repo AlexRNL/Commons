@@ -41,8 +41,9 @@ public class MVCTest {
 	 */
 	@After
 	public void tearDown () {
-		controller.removeModel(model);
-		controller.removeView(view);
+		controller.dispose();
+		assertEquals(0, controller.getRegisteredModels().length);
+		assertEquals(0, controller.getRegisteredViews().length);
 	}
 	
 	/**
