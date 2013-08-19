@@ -64,13 +64,19 @@ public abstract class AbstractModel {
 	
 	/**
 	 * Persists the current model in the database.<br />
-	 * Create or update operation, depending on the state of the entity in the database.
+	 * Create or update operation, depending on the state of the entity in the database.<br />
+	 * By default, does nothing. Override this, if required.
 	 * @return <code>true</code> if the operation has succeeded.
 	 */
-	public abstract boolean persist ();
+	public boolean persist () {
+		return true;
+	}
 	
 	/**
 	 * Reload the model with the information from the database and fire refresh messages.<br />
+	 * By default, does nothing. Override this, if required.
 	 */
-	public abstract void reload ();
+	public void reload () {
+		// Nothing to do here
+	}
 }

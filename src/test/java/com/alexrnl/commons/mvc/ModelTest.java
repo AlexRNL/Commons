@@ -62,11 +62,4 @@ public class ModelTest extends AbstractModel {
 		fireModelChange("Name", oldName, name);
 	}
 
-	@Override
-	public boolean persist () {
-		return true;
-	}
-	
-	@Override
-	public void reload () {}
 }
