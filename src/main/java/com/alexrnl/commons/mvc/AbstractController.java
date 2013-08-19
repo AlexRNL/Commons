@@ -36,24 +36,19 @@ public abstract class AbstractController implements PropertyChangeListener {
 		registeredViews = new LinkedList<>();
 	}
 	
-	@Override
-	public void propertyChange (final PropertyChangeEvent evt) {
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
-					+ " (" + evt.getOldValue() + ")");
-		}
-		for (final AbstractView view : registeredViews) {
-			view.modelPropertyChange(evt);
-		}
-	}
-	
 	/**
 	 * Add a model and subscribe to its modifications.
 	 * @param model
 	 *        the model to add to the controller.
 	 */
 	public void addModel (final AbstractModel model) {
-		registeredModels.add(model);
+		if (model == null) {
+			lg.warning("Cannot add null model to controller");
+			return;
+		}
+		synchronized (registeredModels) {
+			registeredModels.add(model);
+		}
 		model.addModelChangeListener(this);
 	}
 	
@@ -63,26 +58,24 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 *        the model to remove.
 	 */
 	public void removeModel (final AbstractModel model) {
-		registeredModels.remove(model);
+		if (model == null) {
+			lg.warning("Cannot remove null model to controller");
+			return;
+		}
+		synchronized (registeredModels) {
+			registeredModels.remove(model);
+		}
 		model.removeModelListener(this);
 	}
 	
 	/**
-	 * Add a view to notify on models changes.
-	 * @param view
-	 *        the view to notify.
+	 * Return a safe copy of the registered models.
+	 * @return the registered models.
 	 */
-	public void addView (final AbstractView view) {
-		registeredViews.add(view);
-	}
-	
-	/**
-	 * Remove a view from the controller and thus will not receive any future property changes.
-	 * @param view
-	 *        the view to remove from future notifications.
-	 */
-	public void removeView (final AbstractView view) {
-		registeredViews.remove(view);
+	protected AbstractModel[] getRegisteredModels () {
+		synchronized (registeredModels) {
+			return registeredModels.toArray(new AbstractModel[0]);
+		}
 	}
 	
 	/**
@@ -93,7 +86,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 *        the value to set, of the appropriate class.
 	 */
 	public void setModelProperty (final String propertyName, final Object newValue) {
-		for (final AbstractModel model : registeredModels) {
+		for (final AbstractModel model : getRegisteredModels()) {
 			try {
 				final Method method = model.getClass().getMethod(ReflectUtils.SETTER_PREFIX + propertyName,
 						new Class<?>[] { newValue.getClass() });
@@ -112,7 +105,58 @@ public abstract class AbstractController implements PropertyChangeListener {
 			}
 		}
 	}
+
+	/**
+	 * Add a view to notify on models changes.
+	 * @param view
+	 *        the view to notify.
+	 */
+	public void addView (final AbstractView view) {
+		if (view == null) {
+			lg.warning("Cannot add null view to controller");
+			return;
+		}
+		synchronized (registeredViews) {
+			registeredViews.add(view);
+		}
+	}
 	
+	/**
+	 * Remove a view from the controller and thus will not receive any future property changes.
+	 * @param view
+	 *        the view to remove from future notifications.
+	 */
+	public void removeView (final AbstractView view) {
+		if (view == null) {
+			lg.warning("Cannot remove null view to controller");
+			return;
+		}
+		synchronized (registeredViews) {
+			registeredViews.remove(view);
+		}
+	}
+	
+	/**
+	 * Return a safe copy of the registered models.
+	 * @return the registered models.
+	 */
+	protected AbstractView[] getRegisteredViews () {
+		synchronized (registeredViews) {
+			return registeredViews.toArray(new AbstractView[0]);
+		}
+	}
+	
+	@Override
+	public void propertyChange (final PropertyChangeEvent evt) {
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
+					+ " (" + evt.getOldValue() + ")");
+		}
+		for (final AbstractView view : getRegisteredViews()) {
+			view.modelPropertyChange(evt);
+		}
+	}
+
 	/**
 	 * Dispose of the resources used by the controller.<br />
 	 * Clear frames, window, unsubscribe models and listeners, etc.
