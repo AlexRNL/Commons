@@ -41,7 +41,7 @@ public class ModelTest extends AbstractModel {
 	public void setValue (final Integer value) {
 		final Integer oldValue = getValue();
 		this.value = value;
-		fireModelChange("Value", oldValue, value);
+		fireModelChange(ControllerTest.MODEL_VALUE_PROPERTY, oldValue, value);
 	}
 
 	/**
@@ -59,7 +59,7 @@ public class ModelTest extends AbstractModel {
 	public void setName (final String name) {
 		final String oldName = getName();
 		this.name = name;
-		fireModelChange("Name", oldName, name);
+		fireModelChange(ControllerTest.MODEL_NAME_PROPERTY, oldName, name);
 	}
 
 }
