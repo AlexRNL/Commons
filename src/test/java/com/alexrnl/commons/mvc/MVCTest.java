@@ -77,4 +77,13 @@ public class MVCTest {
 			Logger.getLogger(AbstractController.class.getName()).setLevel(Level.FINE);
 		}
 	}
+	
+	/**
+	 * Test that the controller can handle the addition of <code>null</code> views and model.
+	 */
+	@Test
+	public void addNullModelAndView () {
+		controller.addModel(null);
+		controller.addView(null);
+	}
 }
