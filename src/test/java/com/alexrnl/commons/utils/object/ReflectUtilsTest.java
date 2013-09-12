@@ -4,12 +4,18 @@ import static org.junit.Assert.assertArrayEquals;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
+import java.io.Serializable;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.AbstractMap;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -72,6 +78,37 @@ public class ReflectUtilsTest {
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
 			fail("Error while invoking a method: " + ExceptionUtils.display(e));
 		}
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#getAllInterfaces(Class)}.
+	 */
+	@Test
+	public void testGetAllInterfaces () {
+		final Set<Class<?>> objectInterfaces = new HashSet<>(1);
+		objectInterfaces.add(Object.class);
+		assertEquals(objectInterfaces, ReflectUtils.getAllInterfaces(Object.class));
 		
+		final Set<Class<?>> comparedClassInterfaces = new HashSet<>(2);
+		comparedClassInterfaces.add(ComparedClass.class);
+		comparedClassInterfaces.add(Object.class);
+		assertEquals(comparedClassInterfaces, ReflectUtils.getAllInterfaces(ComparedClass.class));
+		
+		final Set<Class<?>> hashMapInterfaces = new HashSet<>(6);
+		hashMapInterfaces.add(Serializable.class);
+		hashMapInterfaces.add(Cloneable.class);
+		hashMapInterfaces.add(Map.class);
+		hashMapInterfaces.add(HashMap.class);
+		hashMapInterfaces.add(AbstractMap.class);
+		hashMapInterfaces.add(Object.class);
+		assertEquals(hashMapInterfaces, ReflectUtils.getAllInterfaces(HashMap.class));
+	}
+	
+	/**
+	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#getAllInterfaces(Class)}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testGetAllInterfacesNullPointerException () {
+		ReflectUtils.getAllInterfaces(null);
 	}
 }

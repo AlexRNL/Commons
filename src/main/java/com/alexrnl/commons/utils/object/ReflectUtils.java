@@ -4,8 +4,10 @@ import java.lang.annotation.Annotation;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Objects;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -85,5 +87,26 @@ public final class ReflectUtils {
 		}
 		
 		return results;
+	}
+	
+	/**
+	 * Find all public interfaces of the specified class.<br />
+	 * @param objClass
+	 *        the class to find all interfaces.
+	 * @return a set with all the public interfaces possible for the specified class.
+	 */
+	public static Set<Class<?>> getAllInterfaces (final Class<?> objClass) {
+		Objects.requireNonNull(objClass);
+		final Set<Class<?>> allInterfaces = new HashSet<>();
+		Class<?> currentClass = objClass;
+		while (currentClass != null) {
+			allInterfaces.add(currentClass);
+			allInterfaces.addAll(Arrays.asList(currentClass.getInterfaces()));
+			currentClass = currentClass.getSuperclass();
+		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Public interfaces of " + objClass + ": " + allInterfaces);
+		}
+		return allInterfaces;
 	}
 }
