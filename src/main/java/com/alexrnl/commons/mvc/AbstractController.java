@@ -6,6 +6,7 @@ import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -87,20 +88,25 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 */
 	public void setModelProperty (final String propertyName, final Object newValue) {
 		for (final AbstractModel model : getRegisteredModels()) {
-			try {
-				final Method method = model.getClass().getMethod(ReflectUtils.SETTER_PREFIX + propertyName,
-						new Class<?>[] { newValue.getClass() });
-				method.invoke(model, newValue);
-			} catch (SecurityException | IllegalAccessException | IllegalArgumentException
-					| InvocationTargetException e) {
-				lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
-						+ " for property " + propertyName + " (" + e.getClass() + "; "
-						+ e.getMessage() + ")");
-			} catch (final NoSuchMethodException e) {
-				// This is a "normal" exception (model does not have the property to update)
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("Model " + model.getClass().getSimpleName() + " has no setter for " +
-							"property " + propertyName + " (" + e.getMessage() + ")");
+			final Set<Class<?>> classes = ReflectUtils.getAllInterfaces(newValue.getClass());
+			lg.info("Classes: " + classes);
+			for (final Class<?> attributeClass : classes) {
+				try {
+					final Method method = model.getClass().getMethod(ReflectUtils.SETTER_PREFIX + propertyName,
+							new Class<?>[] { attributeClass });
+					method.invoke(model, newValue);
+					lg.info("call to " + method.toGenericString());
+				} catch (SecurityException | IllegalAccessException | IllegalArgumentException
+						| InvocationTargetException e) {
+					lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
+							+ " for property " + propertyName + " (" + e.getClass() + "; "
+							+ e.getMessage() + ")");
+				} catch (final NoSuchMethodException e) {
+					// This is a "normal" exception (model does not have the property to update)
+					if (lg.isLoggable(Level.FINE)) {
+						lg.fine("Model " + model.getClass().getSimpleName() + " has no setter for " +
+								"property " + propertyName + " (" + e.getMessage() + ")");
+					}
 				}
 			}
 		}
