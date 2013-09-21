@@ -25,7 +25,7 @@ public class LafRendererTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.LafRenderer#getText(javax.swing.UIManager.LookAndFeelInfo)}.
+	 * Test method for {@link LafRenderer#getText(javax.swing.UIManager.LookAndFeelInfo)}.
 	 */
 	@Test
 	public void testGetTextLookAndFeelInfo () {

@@ -41,7 +41,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#Word(String, int, int)}.
+	 * Test method for {@link Word#Word(String, int, int)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testWordNullPointerException () {
@@ -49,7 +49,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#Word(String, int, int)}.
+	 * Test method for {@link Word#Word(String, int, int)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testWordIllegalArgumentException () {
@@ -57,7 +57,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#getWord()}.
+	 * Test method for {@link Word#getWord()}.
 	 */
 	@Test
 	public void testGetWord () {
@@ -65,7 +65,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#getBegin()}.
+	 * Test method for {@link Word#getBegin()}.
 	 */
 	@Test
 	public void testGetBegin () {
@@ -73,13 +73,13 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#getEnd()}.
+	 * Test method for {@link Word#getEnd()}.
 	 */
 	@Test
 	public void testGetEnd () {
 		assertEquals(5, simpleWord.getEnd());
 	}/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#hashCode()}.
+	 * Test method for {@link Word#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -95,7 +95,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#length()}.
+	 * Test method for {@link Word#length()}.
 	 */
 	@Test
 	public void testLength () {
@@ -105,7 +105,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#charAt(int)}.
+	 * Test method for {@link Word#charAt(int)}.
 	 */
 	@Test
 	public void testCharAt () {
@@ -119,7 +119,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#subSequence(int, int)}.
+	 * Test method for {@link Word#subSequence(int, int)}.
 	 */
 	@Test
 	public void testSubSequence () {
@@ -127,7 +127,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#compareTo(java.lang.String)}.
+	 * Test method for {@link Word#compareTo(String)}.
 	 */
 	@Test
 	public void testCompareTo () {
@@ -139,7 +139,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#toString()}.
+	 * Test method for {@link Word#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -149,7 +149,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#equals(java.lang.Object)}.
+	 * Test method for {@link Word#equals(Object)}.
 	 */
 	@Test
 	public void testEqualsObject () {
@@ -166,7 +166,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#getNextWord(java.lang.String)}.
+	 * Test method for {@link Word#getNextWord(String)}.
 	 */
 	@Test
 	public void testGetNextWord () {
@@ -176,7 +176,7 @@ public class WordTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Word#allowedInWord(char)}.
+	 * Test method for {@link Word#allowedInWord(char)}.
 	 */
 	@Test
 	public void testAllowedInWord () {

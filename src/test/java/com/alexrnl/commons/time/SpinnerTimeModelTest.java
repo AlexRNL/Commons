@@ -32,7 +32,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
+	 * Test method for {@link SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
 	 */
 	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
@@ -41,7 +41,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
+	 * Test method for {@link SpinnerTimeModel#SpinnerTimeModel(Time, Time, Time)}.
 	 */
 	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
@@ -50,7 +50,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#getValue()}.
+	 * Test method for {@link SpinnerTimeModel#getValue()}.
 	 */
 	@Test
 	public void testGetValue () {
@@ -59,7 +59,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#setValue(java.lang.Object)}.
+	 * Test method for {@link SpinnerTimeModel#setValue(Object)}.
 	 */
 	@Test
 	public void testSetValue () {
@@ -69,7 +69,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#setValue(java.lang.Object)}.
+	 * Test method for {@link SpinnerTimeModel#setValue(Object)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetValueNull () {
@@ -77,7 +77,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#setValue(java.lang.Object)}.
+	 * Test method for {@link SpinnerTimeModel#setValue(Object)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSetValueBadClass () {
@@ -85,7 +85,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#getNextValue()}.
+	 * Test method for {@link SpinnerTimeModel#getNextValue()}.
 	 */
 	@Test
 	public void testGetNextValue () {
@@ -98,7 +98,7 @@ public class SpinnerTimeModelTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.SpinnerTimeModel#getPreviousValue()}.
+	 * Test method for {@link SpinnerTimeModel#getPreviousValue()}.
 	 */
 	@Test
 	public void testGetPreviousValue () {

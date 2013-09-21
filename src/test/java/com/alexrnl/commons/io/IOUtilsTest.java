@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import org.junit.Before;
@@ -29,7 +30,7 @@ public class IOUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.io.IOUtils#readLine(java.io.BufferedReader)}.
+	 * Test method for {@link IOUtils#readLine(BufferedReader)}.
 	 * @throws URISyntaxException
 	 *         if the path to the test file is not correct.
 	 * @throws IOException
@@ -53,7 +54,7 @@ public class IOUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.io.IOUtils#readLine(java.io.BufferedReader)}.
+	 * Test method for {@link IOUtils#readLine(BufferedReader)}.
 	 * @throws IOException
 	 *         if there was an issue while reading the file.
 	 */
@@ -63,7 +64,7 @@ public class IOUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.io.IOUtils#getFilename(java.nio.file.Path)}.
+	 * Test method for {@link IOUtils#getFilename(Path)}.
 	 */
 	@Test
 	public void testGetFilename () {
@@ -74,7 +75,7 @@ public class IOUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.io.IOUtils#getFilename(java.nio.file.Path)}.
+	 * Test method for {@link IOUtils#getFilename(Path)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testGetFilenameNullPointerException () {

@@ -46,7 +46,7 @@ public class AbstractDialogTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.AbstractDialog#title()}.
+	 * Test method for {@link AbstractDialog#title()}.
 	 */
 	@Test
 	public void testTitle () {
@@ -54,7 +54,7 @@ public class AbstractDialogTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.AbstractDialog#message()}.
+	 * Test method for {@link AbstractDialog#message()}.
 	 */
 	@Test
 	public void testMessage () {
@@ -62,7 +62,7 @@ public class AbstractDialogTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.AbstractDialog#toString()}.
+	 * Test method for {@link AbstractDialog#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -70,7 +70,7 @@ public class AbstractDialogTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.AbstractDialog#getParameters()}.
+	 * Test method for {@link AbstractDialog#getParameters()}.
 	 */
 	@Test
 	public void testGetParameters () {

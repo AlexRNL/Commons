@@ -21,7 +21,7 @@ public class NoIdErrorTest {
 	private final NoIdError	dummyException = new NoIdError(Dummy.class);
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.NoIdError#getEntityClass()}.
+	 * Test method for {@link NoIdError#getEntityClass()}.
 	 */
 	@Test
 	public void testGetEntityClass () {
@@ -30,7 +30,7 @@ public class NoIdErrorTest {
 	}
 	
 	/**
-	 * Test method for {@link java.lang.Throwable#getMessage()}.
+	 * Test method for {@link Throwable#getMessage()}.
 	 */
 	@Test
 	public void testGetMessage () {

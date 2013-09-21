@@ -45,7 +45,7 @@ public class SwingUtilsTest {
 	
 	/**
 	 * Test method for
-	 * {@link com.alexrnl.commons.gui.swing.SwingUtils#setLookAndFeel(java.lang.String)}.
+	 * {@link SwingUtils#setLookAndFeel(String)}.
 	 * @throws ClassNotFoundException
 	 *         if a LAF class cannot be found.
 	 * @throws IllegalAccessException
@@ -72,7 +72,7 @@ public class SwingUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#getMenuItem(Translator, com.alexrnl.commons.translation.GUIElement, java.awt.event.ActionListener)}.
+	 * Test method for {@link SwingUtils#getMenuItem(Translator, GUIElement, ActionListener)}.
 	 */
 	@Test
 	public void testGetMenuItem () {
@@ -93,7 +93,7 @@ public class SwingUtilsTest {
 	}
 		
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.SwingUtils#getMenu(com.alexrnl.commons.translation.Translator, String)}.
+	 * Test method for {@link SwingUtils#getMenu(Translator, String)}.
 	 */
 	@Test
 	public void testGetMenu () {

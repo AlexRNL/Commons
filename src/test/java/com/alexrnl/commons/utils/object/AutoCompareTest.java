@@ -103,7 +103,7 @@ public class AutoCompareTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AutoCompare#compare(java.lang.Object, java.lang.Object)}.
+	 * Test method for {@link AutoCompare#compare(java.lang.Object, Object)}.
 	 */
 	@Test
 	public void testCompare () {

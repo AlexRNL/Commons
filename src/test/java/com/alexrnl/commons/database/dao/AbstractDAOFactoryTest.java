@@ -32,7 +32,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration, java.lang.Class)}.
+	 * Test method for {@link AbstractDAOFactory#buildFactory(java.lang.String, DataSourceConfiguration, Class)}.
 	 * @throws IOException
 	 *         if there was an error while closing the DAOs.
 	 */
@@ -44,7 +44,7 @@ public class AbstractDAOFactoryTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration)}.
+	 * Test method for {@link AbstractDAOFactory#buildFactory(String, DataSourceConfiguration)}.
 	 */
 	@Test
 	public void testBuildFactoryStringDataSourceConfiguration () {
@@ -53,7 +53,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration, java.lang.Class)}.
+	 * Test method for {@link AbstractDAOFactory#buildFactory(java.lang.String, DataSourceConfiguration, Class)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
 	public void testBuildFactoryStringDataSourceConfigurationClassOfTPrivateClassError () {
@@ -61,7 +61,7 @@ public class AbstractDAOFactoryTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#buildFactory(java.lang.String, com.alexrnl.commons.database.dao.DataSourceConfiguration)}.
+	 * Test method for {@link AbstractDAOFactory#buildFactory(String, DataSourceConfiguration)}.
 	 */
 	@Test(expected=DAOInstantiationError.class)
 	public void testBuildFactoryStringDataSourceConfigurationNotADAOError () {
@@ -69,7 +69,7 @@ public class AbstractDAOFactoryTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDAOs()}.
+	 * Test method for {@link AbstractDAOFactory#getDAOs()}.
 	 */
 	@Test
 	public void testGetDAOs () {
@@ -78,7 +78,7 @@ public class AbstractDAOFactoryTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDAO(Class)}.
+	 * Test method for {@link AbstractDAOFactory#getDAO(Class)}.
 	 */
 	@Test
 	public void testGetDAO () {
@@ -87,7 +87,7 @@ public class AbstractDAOFactoryTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.AbstractDAOFactory#getDataSourceConfiguration()}.
+	 * Test method for {@link AbstractDAOFactory#getDataSourceConfiguration()}.
 	 */
 	@Test()
 	public void testGetDataSourceConfiguration() {

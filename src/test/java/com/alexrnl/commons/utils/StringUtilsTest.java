@@ -17,7 +17,7 @@ import org.junit.Test;
 public class StringUtilsTest {
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#nullOrEmpty(java.lang.String)}.
+	 * Test method for {@link StringUtils#nullOrEmpty(String)}.
 	 */
 	@Test
 	public void testNullOrEmpty () {
@@ -27,7 +27,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#neitherNullNorEmpty(java.lang.String)}.
+	 * Test method for {@link StringUtils#neitherNullNorEmpty(String)}.
 	 */
 	@Test
 	public void testNeitherNullNorEmpty () {
@@ -37,7 +37,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#replaceIfNull(java.lang.String, java.lang.String)}.
+	 * Test method for {@link StringUtils#replaceIfNull(java.lang.String, String)}.
 	 */
 	@Test
 	public void testReplaceIfNull () {
@@ -46,7 +46,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#emptyIfNull(java.lang.String)}.
+	 * Test method for {@link StringUtils#emptyIfNull(String)}.
 	 */
 	@Test
 	public void testEmptyIfNull () {
@@ -55,7 +55,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#separateWith(String, Object...)}.
+	 * Test method for {@link StringUtils#separateWith(String, Object...)}.
 	 */
 	@Test
 	public void testSeparateWith () {
@@ -64,7 +64,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#getMD5(String)}.
+	 * Test method for {@link StringUtils#getMD5(String)}.
 	 */
 	@Test
 	public void testgetMD5String () {
@@ -73,7 +73,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#getMD5(String)}.
+	 * Test method for {@link StringUtils#getMD5(String)}.
 	 */
 	@Test
 	public void testgetMD5StringCharset () {
@@ -82,7 +82,7 @@ public class StringUtilsTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#removeMultipleSpaces(String)}.
+	 * Test method for {@link StringUtils#removeMultipleSpaces(String)}.
 	 */
 	@Test
 	public void testRemoveMultipleSpaces () {
@@ -96,7 +96,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#removeMultipleSpaces(String)}.
+	 * Test method for {@link StringUtils#removeMultipleSpaces(String)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testRemoveMultipleSpacesNull () {
@@ -104,7 +104,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#splitInLines(String, int)}.
+	 * Test method for {@link StringUtils#splitInLines(String, int)}.
 	 */
 	@Test
 	public void testSplitInLines () {
@@ -118,7 +118,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#splitInLines(String, int)}.
+	 * Test method for {@link StringUtils#splitInLines(String, int)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testSplitInLinesNull () {
@@ -126,7 +126,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#splitInLines(String, int)}.
+	 * Test method for {@link StringUtils#splitInLines(String, int)}.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testSplitInLinesIllegalArgument () {
@@ -134,7 +134,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.StringUtils#splitInLinesHTML(String, int)}.
+	 * Test method for {@link StringUtils#splitInLinesHTML(String, int)}.
 	 */
 	@Test
 	public void testSplitInLinesHTML () {

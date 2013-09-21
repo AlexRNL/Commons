@@ -58,7 +58,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#hashCode()}.
+	 * Test method for {@link TimeSec#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -82,7 +82,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#compareTo(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link TimeSec#compareTo(Time)}.
 	 */
 	@Test
 	public void testCompareTo () {
@@ -103,7 +103,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#after(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link TimeSec#after(Time)}.
 	 */
 	@Test
 	public void testAfter () {
@@ -116,7 +116,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#before(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link TimeSec#before(Time)}.
 	 */
 	@Test
 	public void testBefore () {
@@ -129,7 +129,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#toString()}.
+	 * Test method for {@link TimeSec#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -142,7 +142,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#equals(java.lang.Object)}.
+	 * Test method for {@link TimeSec#equals(Object)}.
 	 */
 	@Test
 	public void testEqualsObject () {
@@ -166,7 +166,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#get(java.lang.String)}.
+	 * Test method for {@link TimeSec#get(String)}.
 	 */
 	@Test
 	public void testGetString () {
@@ -179,7 +179,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#getCurrent()}.
+	 * Test method for {@link TimeSec#getCurrent()}.
 	 */
 	@Test
 	public void testGetCurrent () {
@@ -192,7 +192,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#getSeconds()}.
+	 * Test method for {@link TimeSec#getSeconds()}.
 	 */
 	@Test
 	public void testGetSeconds () {
@@ -205,7 +205,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#getTime()}.
+	 * Test method for {@link TimeSec#getTime()}.
 	 */
 	@Test
 	public void testGetTime () {
@@ -216,7 +216,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#add(com.alexrnl.commons.time.TimeSec)}.
+	 * Test method for {@link TimeSec#add(TimeSec)}.
 	 */
 	@Test
 	public void testAddTimeSec () {
@@ -229,7 +229,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#sub(com.alexrnl.commons.time.TimeSec)}.
+	 * Test method for {@link TimeSec#sub(TimeSec)}.
 	 */
 	@Test
 	public void testSubTimeSec () {
@@ -242,7 +242,7 @@ public class TimeSecTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.TimeSec#clone()}.
+	 * Test method for {@link TimeSec#clone()}.
 	 */
 	@Test
 	public void testClone () {

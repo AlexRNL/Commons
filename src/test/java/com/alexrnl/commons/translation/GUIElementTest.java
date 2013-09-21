@@ -22,7 +22,7 @@ public class GUIElementTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.GUIElement#toString()}.
+	 * Test method for {@link GUIElement#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -30,7 +30,7 @@ public class GUIElementTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.GUIElement#getText()}.
+	 * Test method for {@link GUIElement#getText()}.
 	 */
 	@Test
 	public void testGetText () {
@@ -38,7 +38,7 @@ public class GUIElementTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.GUIElement#getShortcut()}.
+	 * Test method for {@link GUIElement#getShortcut()}.
 	 */
 	@Test
 	public void testGetShortcut () {
@@ -46,7 +46,7 @@ public class GUIElementTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.GUIElement#getToolTip()}.
+	 * Test method for {@link GUIElement#getToolTip()}.
 	 */
 	@Test
 	public void testGetToolTip () {

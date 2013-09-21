@@ -20,7 +20,7 @@ public class ComparisonErrorTest {
 	private final ComparisonError	messageAndCause	= new ComparisonError("Error while comparing Dummy", new NullPointerException());
 	
 	/**
-	 * Test method for {@link java.lang.Throwable#getMessage()}.
+	 * Test method for {@link Throwable#getMessage()}.
 	 */
 	@Test
 	public void testGetMessage () {
@@ -31,7 +31,7 @@ public class ComparisonErrorTest {
 	}
 	
 	/**
-	 * Test method for {@link java.lang.Throwable#getCause()}.
+	 * Test method for {@link Throwable#getCause()}.
 	 */
 	@Test
 	public void testGetCause () {

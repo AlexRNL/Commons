@@ -18,7 +18,7 @@ public class DAOInstantiationErrorTest {
 	private final DAOInstantiationError knownDAO  = new DAOInstantiationError("com.alexrnl.commons.database.DummyDBDAO");
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.dao.DAOInstantiationError#getDAOFactory()}.
+	 * Test method for {@link DAOInstantiationError#getDAOFactory()}.
 	 */
 	@Test
 	public void testGetDAOFactory () {
@@ -27,7 +27,7 @@ public class DAOInstantiationErrorTest {
 	}
 	
 	/**
-	 * Test method for {@link java.lang.Throwable#getMessage()}.
+	 * Test method for {@link Throwable#getMessage()}.
 	 */
 	@Test
 	public void testGetMessage () {

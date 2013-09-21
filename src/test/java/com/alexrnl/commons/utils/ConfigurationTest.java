@@ -40,7 +40,7 @@ public class ConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#has(java.lang.String)}.
+	 * Test method for {@link Configuration#has(String)}.
 	 */
 	@Test
 	public void testHas () {
@@ -50,7 +50,7 @@ public class ConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#get(java.lang.String)}.
+	 * Test method for {@link Configuration#get(String)}.
 	 */
 	@Test
 	public void testGet () {
@@ -63,7 +63,7 @@ public class ConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#size()}.
+	 * Test method for {@link Configuration#size()}.
 	 */
 	@Test
 	public void testSize () {
@@ -73,7 +73,7 @@ public class ConfigurationTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.Configuration#isLoaded()}.
+	 * Test method for {@link Configuration#isLoaded()}.
 	 */
 	@Test
 	public void testIsLoaded () {

@@ -45,7 +45,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#retrieveMethods(java.lang.Class, java.lang.Class)}.
+	 * Test method for {@link ReflectUtils#retrieveMethods(java.lang.Class, Class)}.
 	 */
 	@Test
 	public void testRetrieveMethods () {
@@ -55,7 +55,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#invokeMethods(java.lang.Object, java.util.List)}.
+	 * Test method for {@link ReflectUtils#invokeMethods(java.lang.Object, List)}.
 	 */
 	@Test
 	public void testInvokeMethods () {
@@ -81,7 +81,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#getAllInterfaces(Class)}.
+	 * Test method for {@link ReflectUtils#getAllInterfaces(Class)}.
 	 */
 	@Test
 	public void testGetAllInterfaces () {
@@ -105,7 +105,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.ReflectUtils#getAllInterfaces(Class)}.
+	 * Test method for {@link ReflectUtils#getAllInterfaces(Class)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testGetAllInterfacesNullPointerException () {

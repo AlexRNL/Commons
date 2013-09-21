@@ -40,7 +40,7 @@ public class AttributeComparatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AttributeComparator#add(java.lang.Object, java.lang.Object)}.
+	 * Test method for {@link AttributeComparator#add(java.lang.Object, Object)}.
 	 */
 	@Test
 	public void testAddTT () {
@@ -51,7 +51,7 @@ public class AttributeComparatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AttributeComparator#add(com.alexrnl.commons.utils.object.AttributeComparator.Attributes)}.
+	 * Test method for {@link AttributeComparator#add(AttributeComparator.Attributes)}.
 	 */
 	@Test
 	public void testAddAttributesOfT () {
@@ -62,7 +62,7 @@ public class AttributeComparatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AttributeComparator#clear()}.
+	 * Test method for {@link AttributeComparator#clear()}.
 	 */
 	@Test
 	public void testClear () {
@@ -74,7 +74,7 @@ public class AttributeComparatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AttributeComparator#areEquals()}.
+	 * Test method for {@link AttributeComparator#areEquals()}.
 	 */
 	@Test
 	public void testAreEquals () {
@@ -93,7 +93,7 @@ public class AttributeComparatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AttributeComparator#areEquals(java.lang.Object, java.lang.Object)}.
+	 * Test method for {@link AttributeComparator#areEquals(java.lang.Object, Object)}.
 	 */
 	@Test
 	public void testAreEqualsTT () {

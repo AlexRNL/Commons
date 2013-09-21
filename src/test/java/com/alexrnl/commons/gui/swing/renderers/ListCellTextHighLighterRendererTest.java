@@ -37,7 +37,7 @@ public class ListCellTextHighLighterRendererTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.ListCellTextHighLighterRenderer#ListCellTextHighLighterRenderer(java.util.Collection, java.awt.Color)}.
+	 * Test method for {@link ListCellTextHighLighterRenderer#ListCellTextHighLighterRenderer(java.util.Collection, Color)}.
 	 */
 	@SuppressWarnings("unused")
 	@Test(expected = NullPointerException.class)
@@ -46,7 +46,7 @@ public class ListCellTextHighLighterRendererTest {
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.ListCellTextHighLighterRenderer#ListCellTextHighLighterRenderer(java.util.Collection, java.awt.Color)}.
+	 * Test method for {@link ListCellTextHighLighterRenderer#ListCellTextHighLighterRenderer(java.util.Collection, Color)}.
 	 */
 	@SuppressWarnings("unused")
 	@Test(expected = NullPointerException.class)
@@ -55,7 +55,7 @@ public class ListCellTextHighLighterRendererTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.ListCellTextHighLighterRenderer#getListCellRendererComponent(javax.swing.JList, java.lang.String, int, boolean, boolean)}.
+	 * Test method for {@link ListCellTextHighLighterRenderer#getListCellRendererComponent(javax.swing.JList, String, int, boolean, boolean)}.
 	 */
 	@Test
 	public void testGetListCellRendererComponentJListOfQextendsStringStringIntBooleanBoolean () {
@@ -74,7 +74,7 @@ public class ListCellTextHighLighterRendererTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.ListCellTextHighLighterRenderer#getText(java.lang.String)}.
+	 * Test method for {@link ListCellTextHighLighterRenderer#getText(String)}.
 	 */
 	@Test
 	public void testGetTextString () {

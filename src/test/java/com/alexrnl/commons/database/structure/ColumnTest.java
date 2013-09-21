@@ -42,7 +42,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#getType()}.
+	 * Test method for {@link Column#getType()}.
 	 */
 	@Test
 	public void testGetType () {
@@ -51,7 +51,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#getName()}.
+	 * Test method for {@link Column#getName()}.
 	 */
 	@Test
 	public void testGetName () {
@@ -60,7 +60,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#isID()}.
+	 * Test method for {@link Column#isID()}.
 	 */
 	@Test
 	public void testIsID () {
@@ -69,7 +69,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#toString()}.
+	 * Test method for {@link Column#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -78,7 +78,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#hashCode()}.
+	 * Test method for {@link Column#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -97,7 +97,7 @@ public class ColumnTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.database.structure.Column#hashCode()}.
+	 * Test method for {@link Column#hashCode()}.
 	 */
 	@Test
 	public void testEquals () {

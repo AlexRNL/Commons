@@ -55,7 +55,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#hashCode()}.
+	 * Test method for {@link Time#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
@@ -77,7 +77,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#get(java.lang.String)}.
+	 * Test method for {@link Time#get(String)}.
 	 */
 	@Test
 	public void testGet () {
@@ -89,7 +89,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#getCurrent()}.
+	 * Test method for {@link Time#getCurrent()}.
 	 */
 	@Test
 	public void testGetCurrent () {
@@ -101,7 +101,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#getHours()}.
+	 * Test method for {@link Time#getHours()}.
 	 */
 	@Test
 	public void testGetHours () {
@@ -113,7 +113,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#getMinutes()}.
+	 * Test method for {@link Time#getMinutes()}.
 	 */
 	@Test
 	public void testGetMinutes () {
@@ -125,7 +125,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#add(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link Time#add(Time)}.
 	 */
 	@Test
 	public void testAdd () {
@@ -138,7 +138,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#sub(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link Time#sub(Time)}.
 	 */
 	@Test
 	public void testSub () {
@@ -151,7 +151,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#compareTo(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link Time#compareTo(Time)}.
 	 */
 	@Test
 	public void testCompareTo () {
@@ -171,7 +171,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#after(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link Time#after(Time)}.
 	 */
 	@Test
 	public void testAfter () {
@@ -183,7 +183,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#before(com.alexrnl.commons.time.Time)}.
+	 * Test method for {@link Time#before(Time)}.
 	 */
 	@Test
 	public void testBefore () {
@@ -195,7 +195,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#toString()}.
+	 * Test method for {@link Time#toString()}.
 	 */
 	@Test
 	public void testToString () {
@@ -207,7 +207,7 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#equals(java.lang.Object)}.
+	 * Test method for {@link Time#equals(Object)}.
 	 */
 	@Test
 	public void testEqualsObject () {
@@ -230,8 +230,8 @@ public class TimeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.time.Time#clone()}.<br />
-	 * It also test the {@link com.alexrnl.commons.time.Time#Time(Time)}.
+	 * Test method for {@link Time#clone()}.<br />
+	 * It also test the {@link Time#Time(Time)}.
 	 */
 	@Test
 	public void testClone () {

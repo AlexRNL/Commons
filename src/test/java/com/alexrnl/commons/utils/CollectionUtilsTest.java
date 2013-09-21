@@ -15,7 +15,7 @@ import org.junit.Test;
 public class CollectionUtilsTest {
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.CollectionUtils#isSorted(java.lang.Iterable)}.
+	 * Test method for {@link CollectionUtils#isSorted(Iterable)}.
 	 */
 	@Test
 	public void testIsSorted () {
@@ -27,7 +27,7 @@ public class CollectionUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.CollectionUtils#isSorted(java.lang.Iterable)}.
+	 * Test method for {@link CollectionUtils#isSorted(Iterable)}.
 	 */
 	@Test(expected = NullPointerException.class)
 	public void testIsSortedNullPointer () {

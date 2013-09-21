@@ -26,7 +26,7 @@ public class SpinnerEditableRendererTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.gui.swing.renderers.SpinnerEditableRenderer#SpinnerEditableRenderer(javax.swing.JSpinner)}.
+	 * Test method for {@link SpinnerEditableRenderer#SpinnerEditableRenderer(javax.swing.JSpinner)}.
 	 */
 	@Test
 	public void testSpinnerEditableRenderer () {

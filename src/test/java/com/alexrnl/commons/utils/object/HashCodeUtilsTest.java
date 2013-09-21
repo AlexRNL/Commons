@@ -87,7 +87,7 @@ public class HashCodeUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#PRIME_FOR_HASHCODE}.
+	 * Test method for {@link HashCodeUtils#PRIME_FOR_HASHCODE}.
 	 */
 	@Test
 	public void testDefaultPrime () {
@@ -96,7 +96,7 @@ public class HashCodeUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(int, java.lang.Iterable)}.
+	 * Test method for {@link HashCodeUtils#hashCode(int, Iterable)}.
 	 */
 	@Test
 	public void testHashCodeIntIterableOfObject () {
@@ -138,7 +138,7 @@ public class HashCodeUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(int, java.lang.Object[])}.
+	 * Test method for {@link HashCodeUtils#hashCode(int, Object[])}.
 	 */
 	@Test
 	public void testHashCodeIntObjectArray () {
@@ -180,7 +180,7 @@ public class HashCodeUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(java.lang.Iterable)}.
+	 * Test method for {@link HashCodeUtils#hashCode(Iterable)}.
 	 */
 	@Test
 	public void testHashCodeIterableOfObject () {
@@ -221,7 +221,7 @@ public class HashCodeUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.HashCodeUtils#hashCode(java.lang.Object[])}.
+	 * Test method for {@link HashCodeUtils#hashCode(Object[])}.
 	 */
 	@Test
 	public void testHashCodeObjectArray () {

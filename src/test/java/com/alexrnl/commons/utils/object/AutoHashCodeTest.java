@@ -25,7 +25,7 @@ public class AutoHashCodeTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.utils.object.AutoHashCode#hashCode(java.lang.Object)}.
+	 * Test method for {@link AutoHashCode#hashCode(Object)}.
 	 */
 	@Test
 	public void testHashCodeObject () {

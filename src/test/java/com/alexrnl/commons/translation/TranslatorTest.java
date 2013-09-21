@@ -27,7 +27,7 @@ public class TranslatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.Translator#get(java.lang.String)}.
+	 * Test method for {@link Translator#get(String)}.
 	 */
 	@Test
 	public void testGetString () {
@@ -39,7 +39,7 @@ public class TranslatorTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.translation.Translator#get(java.lang.String, java.lang.Object[])}.
+	 * Test method for {@link Translator#get(java.lang.String, Object[])}.
 	 */
 	@Test
 	public void testGetStringObjectArray () {

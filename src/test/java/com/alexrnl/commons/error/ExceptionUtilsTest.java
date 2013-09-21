@@ -22,7 +22,7 @@ public class ExceptionUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.error.ExceptionUtils#display(java.lang.Throwable)}.
+	 * Test method for {@link ExceptionUtils#display(Throwable)}.
 	 */
 	@Test
 	public void testDisplayClassAndMessage () {
