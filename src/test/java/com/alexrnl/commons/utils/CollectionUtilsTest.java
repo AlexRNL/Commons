@@ -1,10 +1,15 @@
 package com.alexrnl.commons.utils;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.io.IOException;
 import java.util.Arrays;
 import java.util.LinkedList;
+import java.util.Map;
+import java.util.Map.Entry;
+import java.util.Properties;
 
 import org.junit.Test;
 
@@ -32,5 +37,31 @@ public class CollectionUtilsTest {
 	@Test(expected = NullPointerException.class)
 	public void testIsSortedNullPointer () {
 		CollectionUtils.isSorted(null);
+	}
+	
+	/**
+	 * Test method for {@link CollectionUtils#convertPropertiesToMap(java.util.Properties)}
+	 * @throws IOException
+	 *         if the property file to test could not be read.
+	 */
+	@Test
+	public void testConvertPropertiesToMap () throws IOException {
+		final Properties properties = new Properties();
+		properties.load(CollectionUtilsTest.class.getResourceAsStream("/configuration.properties"));
+		final Map<String, String> map = CollectionUtils.convertPropertiesToMap(properties);
+		
+		assertEquals(properties.size(), map.size());
+		for (final Entry<Object, Object> property : properties.entrySet()) {
+			assertTrue(map.containsKey(property.getKey()));
+			assertEquals(property.getValue(), map.get(property.getKey()));
+		}
+	}
+	
+	/**
+	 * Test method for {@link CollectionUtils#convertPropertiesToMap(java.util.Properties)}
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testConvertPropertiesToMapNullPointer () {
+		CollectionUtils.convertPropertiesToMap(null);
 	}
 }

@@ -1,7 +1,11 @@
 package com.alexrnl.commons.utils;
 
+import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
+import java.util.Map.Entry;
 import java.util.Objects;
+import java.util.Properties;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -49,5 +53,21 @@ public final class CollectionUtils {
 		}
 		
 		return true;
+	}
+	
+	/**
+	 * Convert a {@link Properties} into a {@link HashMap}.<br />
+	 * @param properties
+	 *        the properties to convert.
+	 * @return the map with the same objects.
+	 */
+	public static Map<String, String> convertPropertiesToMap (final Properties properties) {
+		Objects.requireNonNull(properties);
+		final HashMap<String, String> map = new HashMap<>(properties.size());
+		for (final Entry<Object, Object> property : properties.entrySet()) {
+			// Properties are always Strings (left as Object in JDK for backward compatibility purposes)
+			map.put((String) property.getKey(), (String) property.getValue());
+		}
+		return map;
 	}
 }
