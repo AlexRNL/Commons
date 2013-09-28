@@ -27,8 +27,10 @@ public final class StringUtils {
 	public static final String			HTML_HTML_END		= "</" + Tag.HTML + ">";
 	/** The HTML tag for new line */
 	public static final String			HTML_NEW_LINE		= "<" + Tag.BR + " />";
-	/** The new line character */
+	/** The new line (line feed) character */
 	public static final Character		NEW_LINE			= '\n';
+	/** The new line (carriage return) character */
+	public static final Character		NEW_LINE_CR			= '\r';
 	/** The space character */
 	public static final Character		SPACE				= ' ';
 	/** The name of the MD5 algorithm */
@@ -101,6 +103,15 @@ public final class StringUtils {
 	 */
 	private StringUtils () {
 		super();
+	}
+	
+	/**
+	 * Check if the character is a new line (CR or LF).
+	 * @param c the character to test.
+	 * @return <code>true</code> if the character is a new line.
+	 */
+	public static boolean isNewLine (final char c) {
+		return c == NEW_LINE || c == NEW_LINE_CR;
 	}
 	
 	/**

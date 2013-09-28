@@ -17,6 +17,16 @@ import org.junit.Test;
 public class StringUtilsTest {
 	
 	/**
+	 * Test method for {@link StringUtils#isNewLine(char)}.
+	 */
+	@Test
+	public void testIsNewLine () {
+		assertFalse(StringUtils.isNewLine('a'));
+		assertTrue(StringUtils.isNewLine('\n'));
+		assertTrue(StringUtils.isNewLine('\r'));
+	}
+	
+	/**
 	 * Test method for {@link StringUtils#nullOrEmpty(String)}.
 	 */
 	@Test
@@ -37,7 +47,7 @@ public class StringUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link StringUtils#replaceIfNull(java.lang.String, String)}.
+	 * Test method for {@link StringUtils#replaceIfNull(String, String)}.
 	 */
 	@Test
 	public void testReplaceIfNull () {
