@@ -16,6 +16,8 @@ import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.error.ExceptionUtils;
+import com.alexrnl.commons.time.TimeConverter;
+import com.alexrnl.commons.time.TimeConverter.Unit;
 
 /**
  * This class shall be the super class of all SQL {@link DAO}.<br />
@@ -156,7 +158,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	 * @return the string to display.
 	 */
 	private static String msTimeDiff (final long reference) {
-		return  (System.nanoTime() - reference)/1000 + " µseconds";
+		return TimeConverter.convert(System.nanoTime() - reference, Unit.NANOSECONDS, Unit.MICROSECONDS) + " µseconds";
 	}
 	
 	@Override
