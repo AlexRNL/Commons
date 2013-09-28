@@ -34,5 +34,6 @@ public class TimeConverterTest {
 		assertEquals(10, TimeConverter.convert(10, Unit.SECONDS, Unit.SECONDS));
 		assertEquals(60, TimeConverter.convert(1, Unit.MINUTES, Unit.SECONDS));
 		assertEquals(86400, TimeConverter.convert(1, Unit.DAYS, Unit.SECONDS));
+		assertEquals(152, TimeConverter.convert(152000, Unit.NANOSECONDS, Unit.MICROSECONDS));
 	}
 }
