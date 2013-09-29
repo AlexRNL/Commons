@@ -5,6 +5,7 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.nio.charset.StandardCharsets;
+import java.util.Arrays;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -24,6 +25,15 @@ public class StringUtilsTest {
 		assertFalse(StringUtils.isNewLine('a'));
 		assertTrue(StringUtils.isNewLine('\n'));
 		assertTrue(StringUtils.isNewLine('\r'));
+	}
+	
+	/**
+	 * Test method for {@link StringUtils#toCharList(String)}
+	 */
+	@Test
+	public void testToCharList () {
+		assertEquals(Arrays.asList(new Character[] { }), StringUtils.toCharList(""));
+		assertEquals(Arrays.asList(new Character[] { 'l', 'd', 'r' }), StringUtils.toCharList("ldr"));
 	}
 	
 	/**

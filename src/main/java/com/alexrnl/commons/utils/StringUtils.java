@@ -3,6 +3,8 @@ package com.alexrnl.commons.utils;
 import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -295,5 +297,19 @@ public final class StringUtils {
 		final StringBuilder result = new StringBuilder(HTML_HTML_START);
 		result.append(splitInLines(input, maxLength)).append(HTML_HTML_END);
 		return result.toString().replace("" + NEW_LINE, HTML_NEW_LINE);
+	}
+
+	/**
+	 * Build a list with the characters of the string.<br />
+	 * @param s
+	 *        the string to parse.
+	 * @return the list with the characters of the string.
+	 */
+	public static List<Character> toCharList (final String s) {
+		final List<Character> charList = new ArrayList<>();
+		for (final char c : s.toCharArray()) {
+			charList.add(c);
+		}
+		return charList;
 	}
 }
