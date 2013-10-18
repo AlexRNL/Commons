@@ -3,6 +3,7 @@ package com.alexrnl.commons.utils.object;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -24,8 +25,6 @@ public final class AutoCompare {
 	
 	/** Method for equals per class */
 	private final Map<Class<?>, Set<Method>>	equalsMethods;
-	/** Comparator for the equals method */
-	private final AttributeComparator			comparator;
 	
 	/**
 	 * Constructor #1.<br />
@@ -33,8 +32,7 @@ public final class AutoCompare {
 	 */
 	private AutoCompare () {
 		super();
-		comparator = new AttributeComparator();
-		equalsMethods = new HashMap<>();
+		equalsMethods = Collections.synchronizedMap(new HashMap<Class<?>, Set<Method>>());
 	}
 	
 	/**
@@ -94,15 +92,13 @@ public final class AutoCompare {
 					+ ExceptionUtils.display(e) + ")");
 			throw new ComparisonError("Comparison failed for class " + left.getClass(), e);
 		}
-		
-		synchronized (this) {
-			comparator.clear();
-			for (int indexAttribute = 0; indexAttribute < leftAttributes.size(); ++indexAttribute) {
-				comparator.add(leftAttributes.get(indexAttribute), rightAttributes.get(indexAttribute));
-			}
-			
-			return comparator.areEquals();
+
+		final AttributeComparator comparator = new AttributeComparator();
+		for (int indexAttribute = 0; indexAttribute < leftAttributes.size(); ++indexAttribute) {
+			comparator.add(leftAttributes.get(indexAttribute), rightAttributes.get(indexAttribute));
 		}
+		
+		return comparator.areEquals();
 	}
 	
 }

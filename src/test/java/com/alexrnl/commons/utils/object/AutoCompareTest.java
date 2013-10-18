@@ -80,6 +80,13 @@ public class AutoCompareTest {
 			return doubles;
 		}
 		
+		@Override
+		public boolean equals (final Object obj) {
+			if (!(obj instanceof ComparedClass)) {
+				return false;
+			}
+			return AutoCompare.getInstance().compare(this, (ComparedClass) obj);
+		}
 	}
 	
 	/** The first compared class */
@@ -117,4 +124,58 @@ public class AutoCompareTest {
 		assertFalse(comparator.compare(new Object(), three));
 	}
 	
+	/**
+	 * Class which contains a {@link Field} composed of {@link Field}s.
+	 * @author Alex
+	 */
+	static class NestedComparedClass {
+		/** A string */
+		private final String			string;
+		/** The compared class */
+		private final ComparedClass	compared;
+		
+		
+		/**
+		 * Constructor #1.<br />
+		 * @param string
+		 *        the string to set.
+		 * @param compared
+		 *        the compared class to use.
+		 */
+		private NestedComparedClass (final String string, final ComparedClass compared) {
+			super();
+			this.string = string;
+			this.compared = compared;
+		}
+
+		/**
+		 * Return the attribute string.
+		 * @return the attribute string.
+		 */
+		@Field
+		public String getString () {
+			return string;
+		}
+		
+		/**
+		 * Return the attribute compared.
+		 * @return the attribute compared.
+		 */
+		@Field
+		public ComparedClass getCompared () {
+			return compared;
+		}
+		
+	}
+	
+	/**
+	 * Test method for nested objects comparison.
+	 */
+	@Test
+	public void testNestedCompare () {
+		final AutoCompare comparator = AutoCompare.getInstance();
+		assertTrue(comparator.compare(new NestedComparedClass("aba", one), new NestedComparedClass("aba", two)));
+		assertFalse(comparator.compare(new NestedComparedClass("aba", one), new NestedComparedClass("aba", three)));
+		assertFalse(comparator.compare(new NestedComparedClass("ldr", one), new NestedComparedClass("aba", two)));
+	}
 }
