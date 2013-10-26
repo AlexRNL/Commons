@@ -3,7 +3,7 @@ package com.alexrnl.commons.database;
 import com.alexrnl.commons.error.TopLevelError;
 
 /**
- * TODO
+ * Error when the database has been badly configured.<br />
  * @author Alex
  */
 public class DataBaseConfigurationError extends TopLevelError {
