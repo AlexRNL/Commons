@@ -13,6 +13,7 @@ import com.alexrnl.commons.database.structure.StructureTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ DAOTests.class, SQLTests.class, StructureTests.class })
+@SuiteClasses({ DAOTests.class, SQLTests.class, StructureTests.class,
+		DataBaseConfigurationErrorTest.class })
 public class DatabaseTests {
 }
