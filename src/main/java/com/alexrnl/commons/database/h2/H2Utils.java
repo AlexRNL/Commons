@@ -37,7 +37,12 @@ public final class H2Utils {
 	
 	/**
 	 * Create the path to the H2 database file using the specified dbInfos.<br />
-	 * The suffix (file extension) will be added if requested.
+	 * The suffix (file extension) will be added if requested.<br />
+	 * Example: <code>jdbc:h2:file:data/dummy</code> will return a {@link Path} leading to
+	 * <ul>
+	 * <li><code>./data/dummy</code> with suffix set to <code>false</code>.</li>
+	 * <li><code>./data/dummy.h2.db</code> with suffix set to <code>true</code>.</li>
+	 * </ul>
 	 * @param dbInfos
 	 *        the database information to use.
 	 * @param suffix
@@ -77,17 +82,17 @@ public final class H2Utils {
 	 */
 	public static void initDatabase (final DataSourceConfiguration dbInfos) {
 		if (!Files.exists(getDBFile(dbInfos, true))) {
+			if (dbInfos.getCreationFile() == null) {
+				throw new DataBaseConfigurationError("No creation script defined in the data " +
+						"source configuration, cannot initialize database.");
+			}
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Database file for connection " + dbInfos.getUrl() + " does not exists, " +
+						"initializing database with script " + dbInfos.getCreationFile());
+			}
 			try {
-				if (dbInfos.getCreationFile() == null) {
-					throw new DataBaseConfigurationError("No creation script defined in the data " +
-							"source configuration, cannot initialize database.");
-				}
-				final Path dbFile = getDBFile(dbInfos, false);
-				if (lg.isLoggable(Level.INFO)) {
-					lg.info("URL connection: " + (Constants.START_URL + dbFile));
-				}
-				RunScript.execute(Constants.START_URL + dbFile, dbInfos.getUsername(), dbInfos.getPassword(),
-						dbInfos.getCreationFile().toString(), null, true);
+				RunScript.execute(Constants.START_URL + getDBFile(dbInfos, false), dbInfos.getUsername(),
+						dbInfos.getPassword(), dbInfos.getCreationFile().toString(), null, true);
 			} catch (final SQLException e) {
 				lg.warning("Error while initilization of H2 database: " + ExceptionUtils.display(e));
 				throw new DataBaseConfigurationError("Could not create H2 database", e);
