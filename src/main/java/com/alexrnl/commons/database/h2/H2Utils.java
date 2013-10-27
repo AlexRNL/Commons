@@ -70,13 +70,18 @@ public final class H2Utils {
 	
 	/**
 	 * Initialise the database with the script specified in the dbInfos if it the targeted file does
-	 * not exists.
+	 * not exists.<br />
+	 * This will fails if the dbInfos has a <code>null</code> creation file.
 	 * @param dbInfos
 	 *        the database information to use.
 	 */
 	public static void initDatabase (final DataSourceConfiguration dbInfos) {
 		if (!Files.exists(getDBFile(dbInfos, true))) {
 			try {
+				if (dbInfos.getCreationFile() == null) {
+					throw new DataBaseConfigurationError("No creation script defined in the data " +
+							"source configuration, cannot initialize database.");
+				}
 				final Path dbFile = getDBFile(dbInfos, false);
 				if (lg.isLoggable(Level.INFO)) {
 					lg.info("URL connection: " + (Constants.START_URL + dbFile));

@@ -15,6 +15,7 @@ import java.util.Set;
 import org.h2.engine.Constants;
 import org.junit.Test;
 
+import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.database.sql.DummySQLDAO;
@@ -70,15 +71,11 @@ public class H2UtilsTest {
 	
 	/**
 	 * Test method for {@link H2Utils#initDatabase(DataSourceConfiguration)}.
-	 * @throws URISyntaxException
-	 *         if there is a problem while loading the file.
 	 * @throws IOException
 	 *         if there is an error while creating the file database.
-	 * @throws SQLException
-	 *         if an SQL error occur while parsing the database.
 	 */
 	@Test
-	public void testInitDatabaseAlreadyCreated () throws URISyntaxException, IOException, SQLException {
+	public void testInitDatabaseAlreadyCreated () throws IOException {
 		final Path tempDBFile = Files.createTempFile("testDB", ".h2.db");
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL +
 				tempDBFile.toString().substring(0, tempDBFile.toString().length() - ".h2.db".length()), "aba", "ldr", Paths.get("/dummy"));
@@ -87,5 +84,25 @@ public class H2UtilsTest {
 		assertEquals(0, Files.size(tempDBFile));
 		
 		Files.deleteIfExists(tempDBFile);
+	}
+	
+	/**
+	 * Test method for {@link H2Utils#initDatabase(DataSourceConfiguration)}.
+	 * @throws URISyntaxException
+	 *         if there is a problem while loading the file.
+	 * @throws IOException
+	 *         if there is an error while creating the file database.
+	 * @throws SQLException
+	 *         if an SQL error occur while parsing the database.
+	 */
+	@Test(expected = DataBaseConfigurationError.class)
+	public void testInitDatabaseNoCreationScript () throws URISyntaxException, IOException, SQLException {
+		final Path tempDBFolder = Files.createTempDirectory("testDB");
+		final Path tempDBFile = Paths.get(tempDBFolder.toString(), "testDummy");
+		Paths.get(tempDBFolder.toString(), "testDummy.h2.db").toFile().deleteOnExit();
+		tempDBFolder.toFile().deleteOnExit();
+		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL + tempDBFile, "aba", "ldr", null);
+		H2Utils.initDatabase(dbInfos);
+		
 	}
 }
