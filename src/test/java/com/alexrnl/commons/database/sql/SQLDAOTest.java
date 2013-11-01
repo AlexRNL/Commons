@@ -8,6 +8,7 @@ import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
 
+import java.io.IOException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -39,11 +40,11 @@ public class SQLDAOTest {
 
 	/**
 	 * Create the embedded database and set-up the dummy table.
-	 * @throws Exception
+	 * @throws SQLException
 	 *         if there was a problem while initializing the database.
 	 */
 	@BeforeClass
-	public static void setUpBeforeClass () throws Exception {
+	public static void setUpBeforeClass () throws SQLException {
 		connection = DriverManager.getConnection("jdbc:h2:mem:");
 		final PreparedStatement createTable = connection.prepareStatement("CREATE TABLE dummy ("
 				+ "id		INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,"
@@ -53,35 +54,33 @@ public class SQLDAOTest {
 	
 	/**
 	 * Close the database connection, after all tests have been carried out.
-	 * @throws Exception if there was a problem while closing the database connection.
+	 * @throws SQLException if there was a problem while closing the database connection.
 	 */
 	@AfterClass
-	public static void tearDownAfterClass () throws Exception {
+	public static void tearDownAfterClass () throws SQLException {
 		connection.close();
 	}
 	
 	/**
 	 * Set up test attributes.
-	 * @throws Exception
+	 * @throws SQLException
 	 *         if there was a problem while initializing the DAO.
 	 */
 	@Before
-	public void setUp () throws Exception {
+	public void setUp () throws SQLException {
 		Logger.getLogger(SQLDAO.class.getName()).setLevel(Level.FINER);
 		dummyDAO = new DummySQLDAO(connection);
 	}
 	
 	/**
 	 * Close the DAO after test use.<br />
-	 * @throws Exception
+	 * @throws IOException
 	 *         if there was an issue while closing the DAO.
 	 */
 	@After
-	public void tearDown () throws Exception {
+	public void tearDown () throws IOException {
 		for (final Dummy dummy : dummyDAO.retrieveAll()) {
-			if (!dummyDAO.delete(dummy)) {
-				throw new SQLException("Could not properly delete " + dummy);
-			}
+			assertTrue(dummyDAO.delete(dummy));
 		}
 		dummyDAO.close();
 		
