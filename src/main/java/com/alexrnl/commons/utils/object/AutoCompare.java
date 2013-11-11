@@ -3,7 +3,6 @@ package com.alexrnl.commons.utils.object;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -32,7 +31,7 @@ public final class AutoCompare {
 	 */
 	private AutoCompare () {
 		super();
-		equalsMethods = Collections.synchronizedMap(new HashMap<Class<?>, Set<Method>>());
+		equalsMethods = new HashMap<>();
 	}
 	
 	/**
@@ -50,10 +49,12 @@ public final class AutoCompare {
 	 * @return the set with the equals methods.
 	 */
 	private Set<Method> getEqualsMethods (final Class<?> objClass) {
-		if (!equalsMethods.containsKey(objClass)) {
-			equalsMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
+		synchronized (equalsMethods) {
+			if (!equalsMethods.containsKey(objClass)) {
+				equalsMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
+			}
+			return equalsMethods.get(objClass);
 		}
-		return equalsMethods.get(objClass);
 	}
 	
 	/**
