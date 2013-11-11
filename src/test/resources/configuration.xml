@@ -3,4 +3,8 @@
 <properties>
 	<entry key="configuration.test">value</entry>
 	<entry key="configuration.service">ace</entry>
+	<entry key="configuration.db.url">jdbc:mysql://localhost/test</entry>
+	<entry key="configuration.db.username">aba</entry>
+	<entry key="configuration.db.password">mad</entry>
+	<entry key="configuration.db.creationFile">./main/test/resources/dummy.sql</entry>
 </properties>

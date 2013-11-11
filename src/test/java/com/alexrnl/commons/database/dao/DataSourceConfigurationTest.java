@@ -10,12 +10,15 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.io.File;
+import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.LinkedList;
 import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
+
+import com.alexrnl.commons.utils.Configuration;
 
 /**
  * Test suite for the {@link DataSourceConfiguration} class.
@@ -133,5 +136,20 @@ public class DataSourceConfigurationTest {
 	public void testToString () {
 		assertEquals("DataSource connection info [url=localhost:80/db; username=aba; password=ldr; creationFile=null]", confWithCreationFile.toString());
 		assertEquals("DataSource connection info [url=192.168.8.28:8128/sql; username=barf; password=yte; creationFile=conf" + File.separator + "create.sql]", confWithoutCreationFile.toString());
+	}
+	
+	/**
+	 * Test method for loading a {@link DataSourceConfiguration} from a configuration file.
+	 * @throws URISyntaxException
+	 *         if a URI could not be build from the path specified.
+	 */
+	@Test
+	public void testFromConfiguration () throws URISyntaxException {
+		final Configuration config = new Configuration(Paths.get(getClass().getResource("/configuration.xml").toURI()));
+		final DataSourceConfiguration dataSourceConfiguration = new DataSourceConfiguration(config, "configuration.db");
+		assertEquals("jdbc:mysql://localhost/test", dataSourceConfiguration.getUrl());
+		assertEquals("aba", dataSourceConfiguration.getUsername());
+		assertEquals("mad", dataSourceConfiguration.getPassword());
+		assertEquals(Paths.get("./main/test/resources/dummy.sql").toAbsolutePath(), dataSourceConfiguration.getCreationFile().toAbsolutePath());
 	}
 }

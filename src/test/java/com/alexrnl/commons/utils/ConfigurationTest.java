@@ -68,7 +68,7 @@ public class ConfigurationTest {
 	@Test
 	public void testSize () {
 		assertEquals(0, badConf.size());
-		assertEquals(2, goodConfXML.size());
+		assertEquals(6, goodConfXML.size());
 		assertEquals(2, goodConf.size());
 	}
 	

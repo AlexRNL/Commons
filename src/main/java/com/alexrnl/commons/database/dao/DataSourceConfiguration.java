@@ -5,6 +5,7 @@ import java.net.URI;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import com.alexrnl.commons.utils.Configuration;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -17,6 +18,15 @@ import com.alexrnl.commons.utils.object.Field;
 public class DataSourceConfiguration implements Serializable {
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -3772713943627646577L;
+
+	/** The default key for the URL of the database */
+	public static final String	URL_KEY				= "url";
+	/** The default key for the user name of the database */
+	public static final String	USERNAME_KEY		= "username";
+	/** The default key for the password of the database */
+	public static final String	PASSWORD_KEY		= "password";
+	/** The default key for the creation file of the database */
+	public static final String	CREATION_FILE_KEY	= "creationFile";
 	
 	/** The URL of the connection */
 	private final String		url;
@@ -45,6 +55,21 @@ public class DataSourceConfiguration implements Serializable {
 		this.username = username;
 		this.password = password;
 		this.creationFile = creationFile == null ? null : creationFile.toUri();
+	}
+	
+	/**
+	 * Constructor #2.<br />
+	 * Uses the default keys for loading the data source configuration.
+	 * @param configuration
+	 *        the configuration object to use for loading the data source properties.
+	 * @param dataSourceRootKey
+	 *        the root key of the data source configuration.
+	 */
+	public DataSourceConfiguration (final Configuration configuration, final String dataSourceRootKey) {
+		this(configuration.get(dataSourceRootKey + "." + URL_KEY),
+				configuration.get(dataSourceRootKey + "." + USERNAME_KEY),
+				configuration.get(dataSourceRootKey + "." + PASSWORD_KEY),
+				Paths.get(configuration.get(dataSourceRootKey + "." + CREATION_FILE_KEY)));
 	}
 	
 	/**
@@ -102,5 +127,5 @@ public class DataSourceConfiguration implements Serializable {
 				+ password + "; creationFile="
 				+ (creationFile == null ? "null" : Paths.get("").toAbsolutePath().relativize(getCreationFile())) + "]";
 	}
-
+	
 }
