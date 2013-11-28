@@ -1,6 +1,7 @@
 package com.alexrnl.commons.mvc;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -86,5 +87,40 @@ public class MVCTest {
 	public void addNullModelAndView () {
 		controller.addModel(null);
 		controller.addView(null);
+	}
+	
+	/**
+	 * Test the remove operation on the controller.
+	 */
+	@Test
+	public void removeOperations () {
+		controller.removeModel(null);
+		controller.removeView(null);
+		assertEquals(1, controller.getRegisteredModels().length);
+		assertEquals(1, controller.getRegisteredViews().length);
+		
+		controller.removeModel(model);
+		controller.removeView(view);
+		assertEquals(0, controller.getRegisteredModels().length);
+		assertEquals(0, controller.getRegisteredViews().length);
+	}
+	
+
+	/**
+	 * Check that the persist method is working fine by default.
+	 */
+	@Test
+	public void persistenceTest () {
+		assertTrue(controller.persist());
+		assertTrue(model.persist());
+	}
+	
+	/**
+	 * Check that the reload method is working fine by default.
+	 */
+	@Test
+	public void reloadTest () {
+		controller.reload();
+		model.reload();
 	}
 }
