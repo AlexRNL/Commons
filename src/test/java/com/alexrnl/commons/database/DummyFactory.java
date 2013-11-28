@@ -5,6 +5,7 @@ import java.util.Set;
 
 import com.alexrnl.commons.database.dao.AbstractDAOFactory;
 import com.alexrnl.commons.database.dao.DAO;
+import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.database.structure.Column;
 
 /**
@@ -14,13 +15,11 @@ import com.alexrnl.commons.database.structure.Column;
 public class DummyFactory extends AbstractDAOFactory {
 	/**
 	 * Constructor #1.<br />
+	 * @param dataSourceConfiguration
+	 *        the data source configuration.
 	 */
-	public DummyFactory () {
-		super();
-	}
-
-	@Override
-	protected void init () {
+	public DummyFactory (final DataSourceConfiguration dataSourceConfiguration) {
+		super(dataSourceConfiguration);
 		addDAO(Dummy.class, new DAO<Dummy>() {
 			
 			@Override
@@ -56,5 +55,5 @@ public class DummyFactory extends AbstractDAOFactory {
 				return null;
 			}});
 	}
-	
+
 }

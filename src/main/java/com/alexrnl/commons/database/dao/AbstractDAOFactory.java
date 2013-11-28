@@ -2,6 +2,7 @@ package com.alexrnl.commons.database.dao;
 
 import java.io.Closeable;
 import java.io.IOException;
+import java.lang.reflect.InvocationTargetException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -15,13 +16,12 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * The abstract factory for the {@link DAO}s.<br />
  * It manages the creation of the factory through the
  * {@link #buildFactory(String, DataSourceConfiguration, Class)} method.<br />
- * Concrete classes need to have a default constructor to be instantiated dynamically.<br />
+ * Concrete classes need to have a constructor with the {@link DataSourceConfiguration} as a single parameter
+ * to be instantiated dynamically.<br />
  * The user of this class should extend it and add the required {@link DAO} methods needed for its
  * needs.
  * The {@link DAO} should be registered by using the {@link #addDAO(Class, DAO)} method. This will
- * allow to properly close the {@link DAO}s by the abstract factory.<br />
- * Finally, implementation should create their connection and DAOs in the {@link #init()} method,
- * to ensure proper access to the configuration file.
+ * allow to automatically close the {@link DAO}s by the abstract factory.<br />
  * @author Alex
  */
 public abstract class AbstractDAOFactory implements Closeable {
@@ -29,15 +29,15 @@ public abstract class AbstractDAOFactory implements Closeable {
 	private static Logger												lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
 	
 	/** The database configuration information */
-	private DataSourceConfiguration										dataSourceConfig;
+	private final DataSourceConfiguration								dataSourceConfig;
 	
 	/** Map containing all the DAOs which keys are the class they manage */
 	private final Map<Class<? extends Entity>, DAO<? extends Entity>>	daos;
 	
 	/**
 	 * Retrieve and create the appropriate factory using the name of the class.<br />
-	 * Using this method will avoid dependencies to the concerte factory type and allow changing
-	 * factories easily.
+	 * Using this method will avoid dependencies to the concrete factory type and allow changing
+	 * factories easily (via external configuration for example).
 	 * @param factoryClass
 	 *        the type of DAO required.
 	 * @param dataSourceConfig
@@ -51,13 +51,14 @@ public abstract class AbstractDAOFactory implements Closeable {
 			final DataSourceConfiguration dataSourceConfig, final Class<T> parentClass) {
 		T factory = null;
 		try {
-			factory = Class.forName(factoryClass).asSubclass(parentClass).newInstance();
-		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException | ClassCastException e) {
+			factory = Class.forName(factoryClass).asSubclass(parentClass)
+					.getConstructor(DataSourceConfiguration.class).newInstance(dataSourceConfig);
+		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
+				| ClassCastException | NoSuchMethodException | SecurityException |
+				IllegalArgumentException | InvocationTargetException e) {
 			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
 			throw new DAOInstantiationError(factoryClass, e);
 		}
-		factory.setDataSourceConfiguration(dataSourceConfig);
-		factory.init();
 		return factory;
 	}
 	
@@ -76,18 +77,15 @@ public abstract class AbstractDAOFactory implements Closeable {
 	/**
 	 * Constructor #1.<br />
 	 * Default constructor.
+	 * @param dataSourceConfig
+	 *        the configuration of the data source.
 	 */
-	public AbstractDAOFactory () {
+	public AbstractDAOFactory (final DataSourceConfiguration dataSourceConfig) {
 		super();
 		daos = new HashMap<>();
+		this.dataSourceConfig = dataSourceConfig;
 	}
 	
-	/**
-	 * Method which will initialize the connection (if any) and creates the DAOs.<br/>
-	 * Attempting to access the data source configuration file will fail if done in the constructor.
-	 */
-	protected abstract void init ();
-
 	/**
 	 * Return an {@link Collections#unmodifiableCollection(Collection) unmodifiable collection} of
 	 * the DAOs build with the factory.
@@ -124,15 +122,6 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 */
 	protected DataSourceConfiguration getDataSourceConfiguration () {
 		return dataSourceConfig;
-	}
-	
-	/**
-	 * Set the configuration of the data source to use for this factory.
-	 * @param dataSourceConfig
-	 *        the configuration to use.
-	 */
-	protected void setDataSourceConfiguration (final DataSourceConfiguration dataSourceConfig) {
-		this.dataSourceConfig = dataSourceConfig;
 	}
 	
 	@Override
