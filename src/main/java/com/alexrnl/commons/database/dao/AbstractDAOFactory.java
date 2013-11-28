@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.database.structure.Entity;
@@ -113,6 +114,19 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 *        the {@link DAO} of the class.
 	 */
 	protected <T extends Entity> void addDAO (final Class<T> entityClass, final DAO<T> dao) {
+		if (daos.containsKey(entityClass)) {
+			try {
+				if (lg.isLoggable(Level.INFO)) {
+					lg.info("Closing previously installed DAO on class " + entityClass);
+				}
+				final DAO<? extends Entity> oldDAO = daos.remove(entityClass);
+				if (oldDAO != null) {
+					oldDAO.close();
+				}
+			} catch (final IOException e) {
+				lg.warning("Error while closing DAO: " + ExceptionUtils.display(e));
+			}
+		}
 		daos.put(entityClass, dao);
 	}
 	

@@ -2,11 +2,14 @@ package com.alexrnl.commons.database.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
 
 import org.junit.Test;
 
+import com.alexrnl.commons.database.DAOAdaptater;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.DummyFactory;
 
@@ -87,11 +90,46 @@ public class AbstractDAOFactoryTest {
 	/**
 	 * Test method for {@link AbstractDAOFactory#getDataSourceConfiguration()}.
 	 */
-	@Test()
+	@Test
 	public void testGetDataSourceConfiguration() {
 		final DataSourceConfiguration dataSourceConfig = new DataSourceConfiguration("localhost:8080/db", "aba", "ldr", null);
 		final AbstractDAOFactory factory = AbstractDAOFactory.buildFactory(DummyFactory.class.getName(), dataSourceConfig);
 		assertEquals(dataSourceConfig, factory.getDataSourceConfiguration());
 	}
 	
+	/**
+	 * Test method for {@link AbstractDAOFactory#addDAO(Class, DAO)}.
+	 * When adding multiple DAO to the same class.
+	 * @throws IOException
+	 *         if the DAO could not be closed.
+	 */
+	@Test
+	public void testAddMultipleDAOs () throws IOException {
+		final AbstractDAOFactory factory = new DummyFactory(null);
+		assertEquals(1, factory.getDAOs().size());
+		final DAO<Dummy> daoMock = mock(DAO.class);
+		factory.addDAO(Dummy.class, daoMock);
+		assertEquals(1, factory.getDAOs().size());
+		factory.addDAO(Dummy.class, new DAOAdaptater<Dummy>());
+		verify(daoMock).close();
+		assertEquals(1, factory.getDAOs().size());
+		factory.close();
+	}
+	
+	/**
+	 * Test method for {@link AbstractDAOFactory#addDAO(Class, DAO)}.
+	 * When overriding a null DAO.
+	 * @throws IOException
+	 *         if the DAO could not be closed.
+	 */
+	@Test
+	public void testAddNullDAO () throws IOException {
+		final AbstractDAOFactory factory = new DummyFactory(null);
+		assertEquals(1, factory.getDAOs().size());
+		factory.addDAO(Dummy.class, null);
+		assertEquals(1, factory.getDAOs().size());
+		factory.addDAO(Dummy.class, new DAOAdaptater<Dummy>());
+		assertEquals(1, factory.getDAOs().size());
+		factory.close();
+	}
 }
