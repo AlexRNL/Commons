@@ -1,8 +1,6 @@
 package com.alexrnl.commons.database.structure;
 
 import java.io.Serializable;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
@@ -16,9 +14,6 @@ import com.alexrnl.commons.utils.object.Field;
  * @author Alex
  */
 public class Column implements Serializable {
-	/** Logger */
-	private static Logger		lg					= Logger.getLogger(Column.class.getName());
-	
 	/** Serial Version UID */
 	private static final long	serialVersionUID	= 7764202331118428284L;
 	
@@ -42,10 +37,6 @@ public class Column implements Serializable {
 		this.type = type;
 		this.name = name;
 		this.isID = isID;
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("New " + this.getClass().getCanonicalName() + ": " + this.name + ", type: "
-					+ this.type.getName() + (this.isID ? " index" : ""));
-		}
 	}
 	
 	/**
