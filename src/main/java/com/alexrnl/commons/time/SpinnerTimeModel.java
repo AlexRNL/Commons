@@ -86,7 +86,7 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 				lg.severe("Should not arrived at this point, severe class casting problem with " +
 						value + " of class " + value.getClass());
 				throw new IllegalArgumentException("Should not arrive here: value is not Time or " +
-						"String but is" + value.getClass());
+						"String but is " + value.getClass());
 			}
 			if (isValid(newValue)) {
 				this.value = newValue;
