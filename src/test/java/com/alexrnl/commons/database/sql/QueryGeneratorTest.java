@@ -2,6 +2,9 @@ package com.alexrnl.commons.database.sql;
 
 import static org.junit.Assert.assertEquals;
 
+import java.util.EnumMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import com.alexrnl.commons.database.Dummy;
@@ -9,27 +12,136 @@ import com.alexrnl.commons.database.Dummy.DummyColumn;
 import com.alexrnl.commons.database.Fake;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.database.structure.EntityColumn;
 import com.alexrnl.commons.database.structure.NoIdError;
+import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoHashCode;
+import com.alexrnl.commons.utils.object.Field;
 
 /**
  * Test suite for the {@link QueryGenerator} class.
  * @author Alex
  */
 public class QueryGeneratorTest {
+	
+	/**
+	 * Enumeration for the columns of a new entity which is not declared with the ID
+	 * as the first element.
+	 * @author Alex
+	 */
+	public enum ReverseEnum implements EntityColumn {
+		/** The name column */
+		NAME ("Name"),
+		/** The id column */
+		ID ("Id"),
+		/** The value column */
+		VALUE ("Value");
+		
+		/** The name of the attribute */
+		private final String attributeName;
+		
+		/**
+		 * Constructor #1.<br />
+		 * Unique constructor.
+		 * @param attributeName
+		 *        the name of the attribute.
+		 */
+		private ReverseEnum (final String attributeName) {
+			this.attributeName = attributeName;
+		}
+		
+		@Override
+		public String getFieldName () {
+			return attributeName;
+		}
+		
+	}
+	
+	/**
+	 * Reverse dummy entity class.
+	 * @author Alex
+	 */
+	private class ReverseDummy extends Dummy {
+		/** Serial version UID */
+		private static final long	serialVersionUID	= 2118152877617057020L;
+		
+		/** The value of the dummy */
+		private int value;
+		
+		@Override
+		public Map<? extends Enum<? extends EntityColumn>, Column> getEntityColumns () {
+			final Map<ReverseEnum, Column> map = new EnumMap<>(ReverseEnum.class);
+			map.put(ReverseEnum.ID, Dummy.getColumns().get(DummyColumn.ID));
+			map.put(ReverseEnum.NAME, Dummy.getColumns().get(DummyColumn.NAME));
+			map.put(ReverseEnum.VALUE, new Column(Integer.class, "value"));
+			return map;
+		}
+		
+		@Override
+		public String getEntityName () {
+			return "ReverseDummy";
+		}
 
+		/**
+		 * Return the attribute value.
+		 * @return the attribute value.
+		 */
+		@Field
+		public int getValue () {
+			return value;
+		}
+		
+		/**
+		 * Set the attribute value.
+		 * @param value
+		 *        the attribute value.
+		 */
+		public void setValue (final int value) {
+			this.value = value;
+		}
+
+		@Override
+		public ReverseDummy clone () throws CloneNotSupportedException {
+			final ReverseDummy clone = (ReverseDummy) super.clone();
+			clone.setValue(value);
+			return clone;
+		}
+
+		@Override
+		public String toString () {
+			return "ReverseDummy[ id=" + getId() + "; name=" + getName() + "; value=" + getValue() + "]";
+		}
+
+		@Override
+		public int hashCode () {
+			return AutoHashCode.getInstance().hashCode(this);
+		}
+
+		@Override
+		public boolean equals (final Object obj) {
+			if (!(obj instanceof ReverseDummy)) {
+				return false;
+			}
+			return AutoCompare.getInstance().compare(this, (Dummy) obj);
+		}
+		
+	}
+	
 	/**
 	 * Test method for {@link QueryGenerator#getIDColumn(Entity)}.
 	 */
 	@Test
 	public void testGetIDColumn () {
-		assertEquals(new Dummy().getEntityColumns().get(DummyColumn.ID), QueryGenerator.getIDColumn(new Dummy()));
+		final Column idColumn = Dummy.getColumns().get(DummyColumn.ID);
+		assertEquals(idColumn, QueryGenerator.getIDColumn(new Dummy()));
+		assertEquals(idColumn, QueryGenerator.getIDColumn(new ReverseDummy()));
 	}
 	
 	/**
 	 * Test method for {@link QueryGenerator#getIDColumn(Entity)}.<br />
 	 * This expect either an {@link AssertionError} or a {@link NoIdError}.
 	 */
-	@Test(expected=Error.class)
+	@Test(expected = Error.class)
 	public void testGetIDColumnNoIdError () {
 		QueryGenerator.getIDColumn(new Fake());
 	}
@@ -149,6 +261,7 @@ public class QueryGeneratorTest {
 	@Test
 	public void testInsertPrepared () {
 		assertEquals("INSERT INTO Dummy(`name`) VALUES (?)", QueryGenerator.insertPrepared(new Dummy()));
+		assertEquals("INSERT INTO ReverseDummy(`name`,`value`) VALUES (?, ?)", QueryGenerator.insertPrepared(new ReverseDummy()));
 	}
 	
 	/**
