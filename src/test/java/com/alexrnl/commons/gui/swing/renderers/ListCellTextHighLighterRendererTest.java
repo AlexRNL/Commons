@@ -66,10 +66,11 @@ public class ListCellTextHighLighterRendererTest {
 		assertEquals(UIManager.getDefaults().getColor("List.selectionBackground"), notHighlightSelected.getBackground());
 		final Component highlightNotSelected = highlighter.getListCellRendererComponent(list, "ABA", 0, false, false);
 		assertEquals(Color.CYAN, highlightNotSelected.getBackground());
+		Logger.getLogger(ListCellTextHighLighterRenderer.class.getName()).setLevel(Level.FINE);
+		Logger.getLogger(ListCellTextRenderer.class.getName()).setLevel(Level.FINE);
 		final Component highlightSelected = highlighter.getListCellRendererComponent(list, "ldr", 0, true, false);
 		assertEquals(UIManager.getDefaults().getColor("List.selectionBackground"), highlightSelected.getBackground());
 		
-		Logger.getLogger(ListCellTextHighLighterRenderer.class.getName()).setLevel(Level.FINE);
 		highlighter.getListCellRendererComponent(list, "ABA", 0, false, false);
 	}
 	
