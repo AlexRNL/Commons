@@ -35,5 +35,17 @@ public class TimeConverterTest {
 		assertEquals(60, TimeConverter.convert(1, Unit.MINUTES, Unit.SECONDS));
 		assertEquals(86400, TimeConverter.convert(1, Unit.DAYS, Unit.SECONDS));
 		assertEquals(152, TimeConverter.convert(152000, Unit.NANOSECONDS, Unit.MICROSECONDS));
+		assertEquals(24, TimeConverter.convert(2, Unit.YEARS, Unit.MONTHS));
+	}
+	
+	/**
+	 * Test method for {@link TimeConverter#getConversionFactor(Unit, Unit)}.
+	 */
+	@Test
+	public void testGetConversionFactor () {
+		assertEquals(60, TimeConverter.getConversionFactor(Unit.HOURS, Unit.MINUTES), DELTA_RESULT_COMPARISON);
+		assertEquals(0.0166, TimeConverter.getConversionFactor(Unit.MINUTES, Unit.HOURS), DELTA_RESULT_COMPARISON);
+		assertEquals(1, TimeConverter.getConversionFactor(Unit.DAYS, Unit.DAYS), DELTA_RESULT_COMPARISON);
+		assertEquals(3600, TimeConverter.getConversionFactor(Unit.HOURS, Unit.SECONDS), DELTA_RESULT_COMPARISON);
 	}
 }

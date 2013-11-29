@@ -1,15 +1,11 @@
 package com.alexrnl.commons.time;
 
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Utility class used to convert dates from a specific unit into an other one.
  * @author Alex
  */
 public final class TimeConverter {
-	/** Logger */
-	private static Logger	lg	= Logger.getLogger(TimeConverter.class.getName());
 	
 	/**
 	 * Enumeration for a time unit.
@@ -95,30 +91,7 @@ public final class TimeConverter {
 	 * @return the time in the unit required.
 	 */
 	public static double convert (final double time, final Unit from, final Unit to) {
-		if (from.equals(to)) {
-			// Avoid useless computation if unit is the same
-			return time;
-		}
-		
-		double conversionFactorFrom = 1.0;
-		Unit workingUnit = from;
-		while (workingUnit.getReference() != null) {
-			conversionFactorFrom *= workingUnit.getConversionFactor();
-			workingUnit = workingUnit.getReference();
-		}
-		double conversionFactorTo = 1.0;
-		workingUnit = to;
-		while (workingUnit.getReference() != null) {
-			conversionFactorTo *= workingUnit.getConversionFactor();
-			workingUnit = workingUnit.getReference();
-		}
-		
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Original time=" + time + "; conversionFrom=" + conversionFactorFrom
-					+ "; conversionTo=" + conversionFactorTo);
-		}
-		
-		return time * conversionFactorFrom / conversionFactorTo;
+		return time * getConversionFactor(from, to);
 	}
 	
 	/**
@@ -134,5 +107,35 @@ public final class TimeConverter {
 	 */
 	public static long convert (final long time, final Unit from, final Unit to) {
 		return Double.valueOf(convert(Long.valueOf(time).doubleValue(), from, to)).longValue();
+	}
+	
+	/**
+	 * Get the conversion factor between the unit specified.
+	 * @param from
+	 *        the unit to start from.
+	 * @param to
+	 *        the unit to reach.
+	 * @return the conversion factor.
+	 */
+	public static double getConversionFactor (final Unit from, final Unit to) {
+		if (from.equals(to)) {
+			// Avoid useless computation if unit is the same
+			return 1.0;
+		}
+		
+		double conversionFactorFrom = 1.0;
+		Unit workingUnit = from;
+		while (workingUnit.getReference() != null) {
+			conversionFactorFrom *= workingUnit.getConversionFactor();
+			workingUnit = workingUnit.getReference();
+		}
+		double conversionFactorTo = 1.0;
+		workingUnit = to;
+		while (workingUnit.getReference() != null) {
+			conversionFactorTo *= workingUnit.getConversionFactor();
+			workingUnit = workingUnit.getReference();
+		}
+		
+		return conversionFactorFrom / conversionFactorTo;
 	}
 }
