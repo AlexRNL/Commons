@@ -9,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -22,6 +23,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.alexrnl.commons.translation.AbstractDialog;
 import com.alexrnl.commons.translation.GUIElement;
 import com.alexrnl.commons.translation.Translator;
 
@@ -108,5 +110,62 @@ public class SwingUtilsTest {
 		final JMenu quit = SwingUtils.getMenu(translator, "commons.menu.file.quit");
 		assertEquals("Quit the application", quit.getText());
 		assertEquals('\0', quit.getMnemonic());
+	}
+	
+	/**
+	 * The dialog to test.
+	 * @author Alex
+	 */
+	private class TestDialog extends AbstractDialog {
+		/** The number of countries */
+		private final int	nbCountries;
+
+		/**
+		 * Constructor #1.<br />
+		 * @param nbCountries
+		 *        the number of countries.
+		 */
+		private TestDialog (final int nbCountries) {
+			super();
+			this.nbCountries = nbCountries;
+		}
+
+		@Override
+		public String toString () {
+			return "commons.dialog";
+		}
+		
+		@Override
+		public Object[] getParameters () {
+			return new Object[] { nbCountries };
+		}
+		
+	}
+	
+	/**
+	 * Test method for {@link SwingUtils#getMessage(Translator, com.alexrnl.commons.translation.AbstractDialog, int)}.
+	 */
+	@Test
+	public void testGetMessage () {
+		assertEquals("<html>This is the best dialog in the whole world. There<br />are 88 countries in the world.</html>",
+				SwingUtils.getMessage(translator, new TestDialog(88), 50));
+	}
+	
+	/**
+	 * Test method for {@link SwingUtils#askChoice(java.awt.Component, Translator, AbstractDialog, java.util.Collection, int)}.
+	 * If the list provided is null.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAskChoiceNullList () {
+		SwingUtils.askChoice(null, translator, new TestDialog(28), null, 48);
+	}
+	
+	/**
+	 * Test method for {@link SwingUtils#askChoice(java.awt.Component, Translator, AbstractDialog, java.util.Collection, int)}.
+	 * If the list provided is null.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testAskChoiceEmptyList () {
+		SwingUtils.askChoice(null, translator, new TestDialog(28), new LinkedList<>(), 48);
 	}
 }

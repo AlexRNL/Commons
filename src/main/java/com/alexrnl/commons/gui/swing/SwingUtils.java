@@ -97,7 +97,7 @@ public final class SwingUtils {
 	 *        the maximum length allowed on a line.
 	 * @return the message to display.
 	 */
-	private static String getMessage (final Translator translator, final AbstractDialog dialog, final int maxLine) {
+	static String getMessage (final Translator translator, final AbstractDialog dialog, final int maxLine) {
 		return StringUtils.splitInLinesHTML(translator.get(dialog.message(), dialog.getParameters()), maxLine);
 	}
 	

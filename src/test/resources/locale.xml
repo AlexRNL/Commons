@@ -15,4 +15,7 @@
 	<entry key="commons.menu.file.shortcut">ctrl + f</entry>
 	<entry key="commons.menu.file.tooltip">Access to basic commands</entry>
 	<entry key="commons.menu.help">Help</entry>
+	
+	<entry key="commons.dialog.title">My title</entry>
+	<entry key="commons.dialog.message">This is the best dialog in the whole world. There are %0 countries in the world.</entry>
 </properties>
