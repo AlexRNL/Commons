@@ -6,6 +6,7 @@ import java.util.Locale;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.time.TimeConverter.Unit;
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -23,7 +24,7 @@ public class TimeSec extends Time implements Cloneable {
 	private static final long	serialVersionUID	= -5220683648807102121L;
 	
 	/** Number of seconds per minutes */
-	public static final int		SECONDS_PER_MINUTES	= 60;
+	public static final int		SECONDS_PER_MINUTES	= Double.valueOf(TimeConverter.getConversionFactor(Unit.MINUTES, Unit.SECONDS)).intValue();
 	
 	/** The number of seconds */
 	private final int			seconds;
@@ -135,9 +136,6 @@ public class TimeSec extends Time implements Cloneable {
 	 * @return the time matching the string.
 	 */
 	public static TimeSec get (final String time) {
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Parsing time " + time);
-		}
 		final String[] hm = time.split(NON_DECIMAL_CHARACTER);
 		Integer hours = null;
 		Integer minutes = null;
@@ -157,8 +155,11 @@ public class TimeSec extends Time implements Cloneable {
 			seconds = Integer.parseInt(s);
 			break;
 		}
+		if (lg.isLoggable(Level.FINE)) {
+			lg.fine("Parsing time " + time + " into " + hours + "h " + minutes + "m " + seconds + "s");
+		}
 		return new TimeSec(hours == null ? 0 : hours,
-				minutes == null ? 0 : minutes,
+						minutes == null ? 0 : minutes,
 						seconds == null ? 0 : seconds);
 	}
 	
