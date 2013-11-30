@@ -141,7 +141,8 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 	}
 	
 	/**
-	 * Return the reference to the current frame.
+	 * Return the reference to the current frame.<br />
+	 * Ease access to the reference from inner classes (e.g. listeners).
 	 * @return the frame.
 	 */
 	protected AbstractFrame getFrame () {

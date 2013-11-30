@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 
 import java.awt.GraphicsEnvironment;
@@ -106,10 +107,10 @@ public class AbstractFrameTest {
 	@Test
 	public void testWaitingForBuild () throws InterruptedException {
 		if (GraphicsEnvironment.isHeadless()) {
-                        System.out.println("Cannot test " + AbstractFrame.class.getName()
-                                + " on headless environment");
-                        return;
-                }
+			System.out.println("Cannot test " + AbstractFrame.class.getName()
+					+ " on headless environment");
+			return;
+		}
 		final TestFrame frame = new TestFrame();
 		synchronized (frame) {
 			while (!frame.isReady()) {
@@ -119,5 +120,14 @@ public class AbstractFrameTest {
 		}
 		assertTrue(frame.isReady());
 		
+	}
+	
+	/**
+	 * Test method for {@link AbstractFrame#getFrame()}.
+	 */
+	@Test
+	public void testGetFrame () {
+		final TestFrame frame = new TestFrame();
+		assertSame(frame, frame.getFrame());
 	}
 }
