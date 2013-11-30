@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assume.assumeFalse;
 
 import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeEvent;
@@ -18,6 +19,7 @@ import java.util.logging.Logger;
 
 import javax.swing.WindowConstants;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 /**
@@ -25,6 +27,7 @@ import org.junit.Test;
  * @author Alex
  */
 public class AbstractFrameTest {
+	
 	/**
 	 * Private class used for test purposes.
 	 * @author Alex
@@ -64,6 +67,15 @@ public class AbstractFrameTest {
 	}
 	
 	/**
+	 * Check if test can be run on the current environment.
+	 */
+	@BeforeClass
+	public static void setUpBeforeClass () {
+		assumeFalse("Cannot test " + AbstractFrame.class.getName() + " final on headless environment",
+				GraphicsEnvironment.isHeadless());
+	}
+	
+	/**
 	 * Test method for the final state of the frame.
 	 * @throws URISyntaxException
 	 *         if there was an issue with the icon's path.
@@ -74,11 +86,6 @@ public class AbstractFrameTest {
 	 */
 	@Test
 	public void testFinalState () throws URISyntaxException, IOException, InterruptedException {
-		if (GraphicsEnvironment.isHeadless()) {
-			System.out.println("Cannot test " + AbstractFrame.class.getName()
-				+ " on headless environment");
-			return;
-		}
 		Logger.getLogger(AbstractFrame.class.getName()).setLevel(Level.WARNING);
 		final TestFrame frame = new TestFrame();
 		assertFalse(frame.isReady());
@@ -106,11 +113,6 @@ public class AbstractFrameTest {
 	 */
 	@Test
 	public void testWaitingForBuild () throws InterruptedException {
-		if (GraphicsEnvironment.isHeadless()) {
-			System.out.println("Cannot test " + AbstractFrame.class.getName()
-					+ " on headless environment");
-			return;
-		}
 		final TestFrame frame = new TestFrame();
 		synchronized (frame) {
 			while (!frame.isReady()) {
