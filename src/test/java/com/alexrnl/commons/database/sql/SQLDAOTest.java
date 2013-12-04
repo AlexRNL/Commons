@@ -187,5 +187,8 @@ public class SQLDAOTest {
 		assertEquals(3, dummyDAO.search(Dummy.getColumns().get(DummyColumn.NAME), "A%").size());
 		assertEquals(1, dummyDAO.search(Dummy.getColumns().get(DummyColumn.NAME), "ABA").size());
 		assertEquals(2, dummyDAO.search(Dummy.getColumns().get(DummyColumn.NAME), "%2%").size());
+		
+		// Test with column which is not defined
+		assertTrue(dummyDAO.search(new Column(String.class, "notHere"), "MAN").isEmpty());
 	}
 }

@@ -339,8 +339,13 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		final Set<T> entities = new HashSet<>();
+		final PreparedStatement search = searches.get(field);
+		if (search == null) {
+			lg.warning("Could not find prepared query for column " + field.getName() + " in entity "
+					+ entityName + ". Check that the column is indeed defined in the entity.");
+			return entities;
+		}
 		try {
-			final PreparedStatement search = searches.get(field);
 			search.setString(1, value);
 			try (final ResultSet result = search.executeQuery()) {
 				search.clearParameters();
