@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ IOUtilsTest.class })
+@SuiteClasses({ EditableInputStreamTest.class, IOUtilsTest.class })
 public class IOTests {
 	
 }
