@@ -158,7 +158,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	 *        the reference time, in nanoseconds.
 	 * @return the string to display.
 	 */
-	private static String µTimeDiff (final long nanoTimeReference) {
+	private static String usTimeDiff (final long nanoTimeReference) {
 		return TimeConverter.convert(System.nanoTime() - nanoTimeReference, Unit.NANOSECONDS, Unit.MICROSECONDS) + " µseconds";
 	}
 	
@@ -195,7 +195,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for creating " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for creating " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return newEntity;
@@ -229,7 +229,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for finding " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for finding " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return entity;
@@ -259,7 +259,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for updating " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for updating " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return true;
@@ -289,7 +289,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for deleting " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for deleting " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return true;
@@ -319,7 +319,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for retrieving all " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for retrieving all " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return allEntities;
@@ -360,7 +360,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 		}
 		
 		if (lg.isLoggable(Level.FINER)) {
-			lg.finer("Time for searching " + entityName + ": " + µTimeDiff(timeBefore));
+			lg.finer("Time for searching " + entityName + ": " + usTimeDiff(timeBefore));
 		}
 		
 		return entities;
