@@ -12,6 +12,7 @@ import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Scanner;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -82,4 +83,25 @@ public class IOUtilsTest {
 		IOUtils.getFilename(null);
 	}
 	
+	/**
+	 * Test method for the {@link IOUtils#toInputStream(String)}.
+	 */
+	@Test
+	public void testToInputStream () {
+		final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*€"));
+		assertEquals("lauManAba#À", stream.nextLine());
+		assertEquals("@#1289%*€", stream.nextLine());
+		stream.close();
+	}
+	
+	/**
+	 * Test method for the {@link IOUtils#toInputStream(String)}.
+	 */
+	@Test
+	public void testToInputStreamCharset () {
+		final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*$", StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1.name());
+		assertEquals("lauManAba#À", stream.nextLine());
+		assertEquals("@#1289%*$", stream.nextLine());
+		stream.close();
+	}
 }

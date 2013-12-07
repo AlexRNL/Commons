@@ -1,8 +1,11 @@
 package com.alexrnl.commons.io;
 
 import java.io.BufferedReader;
+import java.io.ByteArrayInputStream;
 import java.io.EOFException;
 import java.io.IOException;
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -67,5 +70,27 @@ public final class IOUtils {
 			return filename;
 		}
 		return filename.substring(0, extensionSeparatorIndex);
+	}
+	
+	/**
+	 * Build an input stream from the specified string in the encoding specified.
+	 * @param string
+	 *        the string to use.
+	 * @param charset
+	 *        the charset to use.
+	 * @return the input stream.
+	 */
+	public static InputStream toInputStream (final String string, final Charset charset) {
+		return new ByteArrayInputStream(string.getBytes(charset));
+	}
+	
+	/**
+	 * Build an input stream from the specified string in the default encoding of the JVM.
+	 * @param string
+	 *        the string to use.
+	 * @return the input stream.
+	 */
+	public static InputStream toInputStream (final String string) {
+		return toInputStream(string, Charset.defaultCharset());
 	}
 }
