@@ -1,15 +1,18 @@
 package com.alexrnl.commons.arguments;
 
+import static org.hamcrest.Matchers.greaterThan;
+import static org.hamcrest.Matchers.lessThan;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNotEquals;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
 
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.HashSet;
+import java.util.List;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -96,6 +99,8 @@ public class ParameterTest {
 	 */
 	@Test
 	public void testHashCode () {
+		assertEquals(parameter.hashCode(), parameter.hashCode());
+		assertEquals(reflectParam.hashCode(), reflectParam.hashCode());
 		assertNotEquals(parameter.hashCode(), reflectParam.hashCode());
 	}
 
@@ -104,7 +109,10 @@ public class ParameterTest {
 	 */
 	@Test
 	public void testEqualsObject () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(parameter, parameter);
+		assertEquals(reflectParam, reflectParam);
+		assertNotEquals(parameter, reflectParam);
+		assertNotEquals(parameter, null);
 	}
 	
 	/**
@@ -112,6 +120,17 @@ public class ParameterTest {
 	 */
 	@Test
 	public void testCompareTo () {
-		fail("Not yet implemented"); // TODO
+		final List<String> emptyStrings = Arrays.asList("man", "test");
+		// Order is enough:
+		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 1)), lessThan(0));
+		assertThat(new Parameter(null, emptyStrings, true, "", 2).compareTo(new Parameter(null, emptyStrings, true, "", 1)), greaterThan(0));
+		
+		// With required attribute:
+		//0-0 & t-t
+		assertEquals(0, new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 0)));
+		//0-0 & f-t
+		assertThat(new Parameter(null, emptyStrings , false, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 0)), greaterThan(0));
+		//0-0 & t-f
+		assertThat(new Parameter(null, emptyStrings, true, "", 0).compareTo(new Parameter(null, emptyStrings, false, "", 0)), lessThan(0));
 	}
 }

@@ -124,12 +124,7 @@ public class Parameter implements Comparable<Parameter> {
 		if (compareOrder != 0) {
 			return compareOrder;
 		}
-		// Use the required parameter to compare the parameters
-		if (isRequired() && !o.isRequired()) {
-			return -1;
-		} else if (!isRequired() && o.isRequired()) {
-			return 1;
-		}
+		// Use the required parameter to compare if the order was not enough
 		return -Boolean.valueOf(isRequired()).compareTo(o.isRequired());
 	}
 	
