@@ -46,16 +46,16 @@ public final class ReflectUtils {
 	 * @see Class#getMethods()
 	 */
 	public static Set<Method> retrieveMethods (final Class<?> objClass, final Class<? extends Annotation> annotationClass) {
-		final Set<Method> fieldMethods = new HashSet<>();
+		final Set<Method> methods = new HashSet<>();
 		for (final Method method : objClass.getMethods()) {
 			if (annotationClass == null || method.getAnnotation(annotationClass) != null) {
 				if (lg.isLoggable(Level.FINE)) {
 					lg.fine("Added method: " + method.getName());
 				}
-				fieldMethods.add(method);
+				methods.add(method);
 			}
 		}
-		return fieldMethods;
+		return methods;
 	}
 	
 	/**
