@@ -5,6 +5,7 @@ import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
 
 /**
@@ -13,7 +14,10 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public class Arguments {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(Arguments.class.getName());
+	private static Logger				lg	= Logger.getLogger(Arguments.class.getName());
+	
+	/** The tab character */
+	private static final Character		TAB	= '\t';
 	
 	/** The name of the program. */
 	private final String				programName;
@@ -21,7 +25,6 @@ public class Arguments {
 	private final Object				target;
 	/** The list of parameters in the target */
 	private final SortedSet<Parameter>	parameters;
-	
 	
 	/**
 	 * Constructor #1.<br />
@@ -80,7 +83,21 @@ public class Arguments {
 	
 	@Override
 	public String toString () {
-		// TODO
-		return "";
+		final StringBuilder usage = new StringBuilder(programName + " usage as follow:");
+		for (final Parameter param : parameters) {
+			usage.append(TAB);
+			if (!param.isRequired()) {
+				usage.append('[');
+			} else {
+				usage.append(' ');
+			}
+			usage.append("  ").append(StringUtils.separateWith(", ", param.getNames()));
+			int nbTabs = 4;
+			while (nbTabs-- > 0) {
+				usage.append(TAB);
+			}
+			usage.append(param.getDescription());
+		}
+		return usage.toString();
 	}
 }
