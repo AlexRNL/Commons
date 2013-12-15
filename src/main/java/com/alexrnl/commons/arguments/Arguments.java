@@ -83,7 +83,7 @@ public class Arguments {
 	
 	@Override
 	public String toString () {
-		final StringBuilder usage = new StringBuilder(programName + " usage as follow:");
+		final StringBuilder usage = new StringBuilder(programName).append(" usage as follow:");
 		for (final Parameter param : parameters) {
 			usage.append(TAB);
 			if (!param.isRequired()) {
