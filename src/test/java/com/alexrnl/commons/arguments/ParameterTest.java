@@ -1,6 +1,15 @@
 package com.alexrnl.commons.arguments;
 
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertNotEquals;
+import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
+
+import java.lang.reflect.Field;
+import java.util.Arrays;
+import java.util.HashSet;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -10,64 +19,88 @@ import org.junit.Test;
  * @author Alex
  */
 public class ParameterTest {
+	/** The parameter to test */
+	private Parameter parameter;
+	/** The parameter loaded reflectively */
+	private Parameter reflectParam;
+	/** The parameter to load reflectively */
+	@Param(names = {"-name"}, required = false, description = "the name", order = 1)
+	private String myParam;
 	
 	/**
 	 * Set up test attributes.
+	 * @throws SecurityException
+	 *         if the field to test cannot be retrieved.
+	 * @throws NoSuchFieldException
+	 *         if the field to test cannot be found.
 	 */
 	@Before
-	public void setUp () {
+	public void setUp () throws NoSuchFieldException, SecurityException {
+		parameter = new Parameter(null, Arrays.asList(new String[] {"-n", "--number"}), true, "my description", 0);
+		final Field field = ParameterTest.class.getDeclaredField("myParam");
+		reflectParam = new Parameter(field, field.getAnnotation(Param.class));
+		
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#getField()}.
+	 * Test method for {@link Parameter#getField()}.
+	 * @throws SecurityException
+	 *         if the field to test cannot be retrieved.
+	 * @throws NoSuchFieldException
+	 *         if the field to test cannot be found.
 	 */
 	@Test
-	public void testGetField () {
-		fail("Not yet implemented"); // TODO
+	public void testGetField () throws NoSuchFieldException, SecurityException {
+		assertNull(parameter.getField());
+		assertEquals(ParameterTest.class.getDeclaredField("myParam"), reflectParam.getField());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#getNames()}.
+	 * Test method for {@link Parameter#getNames()}.
 	 */
 	@Test
 	public void testGetNames () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(new HashSet<>(Arrays.asList("-n", "--number")), parameter.getNames());
+		assertEquals(new HashSet<>(Arrays.asList("-name")), reflectParam.getNames());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#isRequired()}.
+	 * Test method for {@link Parameter#isRequired()}.
 	 */
 	@Test
 	public void testIsRequired () {
-		fail("Not yet implemented"); // TODO
+		assertTrue(parameter.isRequired());
+		assertFalse(reflectParam.isRequired());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#getDescription()}.
+	 * Test method for {@link Parameter#getDescription()}.
 	 */
 	@Test
 	public void testGetDescription () {
-		fail("Not yet implemented"); // TODO
+		assertEquals("my description", parameter.getDescription());
+		assertEquals("the name", reflectParam.getDescription());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#getOrder()}.
+	 * Test method for {@link Parameter#getOrder()}.
 	 */
 	@Test
 	public void testGetOrder () {
-		fail("Not yet implemented"); // TODO
+		assertEquals(0, parameter.getOrder());
+		assertEquals(1, reflectParam.getOrder());
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#hashCode()}.
+	 * Test method for {@link Parameter#hashCode()}.
 	 */
 	@Test
 	public void testHashCode () {
-		fail("Not yet implemented"); // TODO
+		assertNotEquals(parameter.hashCode(), reflectParam.hashCode());
 	}
 
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#equals(java.lang.Object)}.
+	 * Test method for {@link Parameter#equals(Object)}.
 	 */
 	@Test
 	public void testEqualsObject () {
@@ -75,7 +108,7 @@ public class ParameterTest {
 	}
 	
 	/**
-	 * Test method for {@link com.alexrnl.commons.arguments.Parameter#compareTo(com.alexrnl.commons.arguments.Parameter)}.
+	 * Test method for {@link Parameter#compareTo(Parameter)}.
 	 */
 	@Test
 	public void testCompareTo () {

@@ -12,6 +12,9 @@ import com.alexrnl.commons.utils.object.AutoHashCode;
 
 /**
  * A class which describe a parameter.<br />
+ * Parameter are comparable, they will be sorted by their order field, then by their required field
+ * (field required first).
+ * The parameter equality is only based on the field represented by the parameter.
  * @author Alex
  */
 public class Parameter implements Comparable<Parameter> {
