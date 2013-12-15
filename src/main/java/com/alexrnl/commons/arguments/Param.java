@@ -29,4 +29,9 @@ public @interface Param {
 	 */
 	boolean required () default false;
 	
+	/**
+	 * This field is used to order parameters (e.g. in usage).<br />
+	 * If blank, then the
+	 */
+	int order () default 0;
 }

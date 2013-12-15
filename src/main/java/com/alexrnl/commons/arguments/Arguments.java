@@ -1,8 +1,8 @@
 package com.alexrnl.commons.arguments;
 
 import java.lang.reflect.Field;
-import java.util.LinkedList;
-import java.util.List;
+import java.util.SortedSet;
+import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -16,11 +16,11 @@ public class Arguments {
 	private static Logger			lg	= Logger.getLogger(Arguments.class.getName());
 	
 	/** The name of the program. */
-	private final String			programName;
+	private final String				programName;
 	/** The object which holds the target */
-	private final Object			target;
+	private final Object				target;
 	/** The list of parameters in the target */
-	private final List<Parameter>	parameters;
+	private final SortedSet<Parameter>	parameters;
 	
 	
 	/**
@@ -44,8 +44,8 @@ public class Arguments {
 	 *        the object to parse for parameters.
 	 * @return the list of parameters associated to this object.
 	 */
-	private static List<Parameter> retrieveParameters (final Object obj) {
-		final List<Parameter> params = new LinkedList<>();
+	private static SortedSet<Parameter> retrieveParameters (final Object obj) {
+		final SortedSet<Parameter> params = new TreeSet<>();
 		for (final Field field : ReflectUtils.retrieveFields(obj.getClass(), Param.class)) {
 			field.setAccessible(true);
 			params.add(new Parameter(field, field.getAnnotation(Param.class)));
