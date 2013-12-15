@@ -5,6 +5,10 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 import java.io.Serializable;
+import java.lang.annotation.ElementType;
+import java.lang.annotation.Retention;
+import java.lang.annotation.RetentionPolicy;
+import java.lang.annotation.Target;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
@@ -36,6 +40,27 @@ public class ReflectUtilsTest {
 	private ComparedClass two;
 	
 	/**
+	 * Annotation for test purposes.
+	 * @author Alex
+	 */
+	@Target({ ElementType.FIELD })
+	@Retention(RetentionPolicy.RUNTIME)
+	private @interface Dumb {
+	}
+	
+	/**
+	 * Class for field annotation tests.
+	 * @author Alex
+	 */
+	private static class DummyFields {
+		/** A test string */
+		@Dumb
+		private String test;
+		/** A dumb flag */
+		private Boolean isFalse;
+	}
+	
+	/**
 	 * Set up attributes.
 	 */
 	@Before
@@ -49,9 +74,22 @@ public class ReflectUtilsTest {
 	 */
 	@Test
 	public void testRetrieveMethods () {
+		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.INFO);
 		assertEquals(3, ReflectUtils.retrieveMethods(ComparedClass.class, Field.class).size());
 		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.FINE);
 		assertEquals(4 + Object.class.getMethods().length, ReflectUtils.retrieveMethods(ComparedClass.class, null).size());
+	}
+	
+	/**
+	 * Test method for {@lin ReflectUtils#retrieveFields(Class, Class)}.
+	 */
+	@Test
+	public void testRetrieveFields () {
+		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.INFO);
+		assertEquals(2, ReflectUtils.retrieveFields(DummyFields.class, null).size());
+		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.FINE);
+		assertEquals(1, ReflectUtils.retrieveFields(DummyFields.class, Dumb.class).size());
+		
 	}
 	
 	/**

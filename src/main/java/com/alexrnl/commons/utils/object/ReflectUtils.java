@@ -1,6 +1,7 @@
 package com.alexrnl.commons.utils.object;
 
 import java.lang.annotation.Annotation;
+import java.lang.reflect.Field;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.ArrayList;
@@ -55,6 +56,29 @@ public final class ReflectUtils {
 			}
 		}
 		return fieldMethods;
+	}
+	
+	/**
+	 * Retrieve the fields of the class which are annotated with the specified class.<br />
+	 * <em>Note that this method will return private fields as well.</em>
+	 * @param objClass
+	 *        the class to parse.
+	 * @param annotationClass
+	 *        the annotation to find.
+	 * @return a {@link Set} with the {@link Field}s annotated with the <code>annotationClass</code>.
+	 * @see Class#getDeclaredFields()
+	 */
+	public static Set<Field> retrieveFields (final Class<?> objClass, final Class<? extends Annotation> annotationClass) {
+		final Set<Field> fields = new HashSet<>();
+		for (final Field field : objClass.getDeclaredFields()) {
+			if (annotationClass == null || field.getAnnotation(annotationClass) != null) {
+				if (lg.isLoggable(Level.FINE)) {
+					lg.fine("Added field: " + field.getName());
+				}
+				fields.add(field);
+			}
+		}
+		return fields;
 	}
 	
 	/**
