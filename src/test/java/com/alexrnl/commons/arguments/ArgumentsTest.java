@@ -26,12 +26,12 @@ public class ArgumentsTest {
 	 */
 	private static class Target {
 		/** If the feature is used */
-		@Param(names = {"-u","--used"}, description = "if the feature should be used", required = false)
-		private boolean used;
+		@Param(names = { "-u", "--used" }, description = "if the feature should be used", required = false)
+		private boolean	used;
 		/** The name to use */
-		@Param(names = {"-n"}, description = "the name of the object", required = true)
+		@Param(names = { "-n" }, description = "the name of the object", required = true)
 		private String	name;
-		
+
 		/**
 		 * Constructor #1.<br />
 		 * Default constructor.
