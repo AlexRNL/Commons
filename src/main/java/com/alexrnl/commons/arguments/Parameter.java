@@ -125,7 +125,7 @@ public class Parameter implements Comparable<Parameter> {
 			return compareOrder;
 		}
 		// Use the required parameter to compare if the order was not enough
-		return -Boolean.valueOf(isRequired()).compareTo(o.isRequired());
+		return Boolean.valueOf(o.isRequired()).compareTo(isRequired());
 	}
 	
 }
