@@ -1,8 +1,7 @@
 package com.alexrnl.commons.arguments;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-import static org.mockito.Matchers.anyObject;
+import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
@@ -28,7 +27,7 @@ public class ArgumentsTest {
 	private static class Target {
 		/** If the feature is used */
 		@Param(names = {"-u","--used"}, description = "if the feature should be used", required = false)
-		private boolean isUsed;
+		private boolean used;
 		/** The name to use */
 		@Param(names = {"-n"}, description = "the name of the object", required = true)
 		private String	name;
@@ -42,19 +41,19 @@ public class ArgumentsTest {
 		}
 		
 		/**
-		 * Return the attribute isUsed.
-		 * @return the attribute isUsed.
+		 * Return the attribute used.
+		 * @return the attribute used.
 		 */
 		public boolean isUsed () {
-			return isUsed;
+			return used;
 		}
 		
 		/**
-		 * Set the attribute isUsed.
-		 * @param isUsed the attribute isUsed.
+		 * Set the attribute used.
+		 * @param used the attribute used.
 		 */
-		public void setUsed (final boolean isUsed) {
-			this.isUsed = isUsed;
+		public void setUsed (final boolean used) {
+			this.used = used;
 		}
 
 		/**
@@ -88,7 +87,9 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testParseStringArray () {
-		fail("Not yet implemented"); // TODO
+		arguments.parse("-u", "-n", "alex");
+		assertTrue(target.isUsed());
+		assertEquals("alex", target.getName());
 	}
 	
 	/**
@@ -96,8 +97,12 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testParseIterableOfString () {
-		fail("Not yet implemented"); // TODO
+		arguments.parse("--used", "-n", "alex");
+		assertTrue(target.isUsed());
+		assertEquals("alex", target.getName());
 	}
+	
+	// TODO add tests for error cases
 	
 	/**
 	 * Test method for {@link Arguments#usage(PrintStream)}.
@@ -106,7 +111,7 @@ public class ArgumentsTest {
 	public void testUsagePrintStream () {
 		final PrintStream out = mock(PrintStream.class);
 		arguments.usage(out);
-		verify(out).println(anyObject());
+		verify(out).println(arguments);
 	}
 	
 	/**
@@ -114,6 +119,7 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testUsage () {
+		// Nothing can really be done to check that the usage has been printed on stdout
 		arguments.usage();
 	}
 	
