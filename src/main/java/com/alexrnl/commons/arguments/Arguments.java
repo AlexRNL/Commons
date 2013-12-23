@@ -1,5 +1,6 @@
 package com.alexrnl.commons.arguments;
 
+import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.SortedSet;
@@ -78,10 +79,19 @@ public class Arguments {
 	}
 	
 	/**
+	 * Display the parameter's usage on specified output.
+	 * @param out
+	 *        the stream to use to display the parameters.
+	 */
+	public void usage (final PrintStream out) {
+		out.println(this);
+	}
+	
+	/**
 	 * Display the parameter's usage on the standard output.
 	 */
 	public void usage () {
-		System.out.println(this);
+		usage(System.out);
 	}
 	
 	@Override
