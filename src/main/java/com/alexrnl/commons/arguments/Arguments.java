@@ -1,6 +1,7 @@
 package com.alexrnl.commons.arguments;
 
 import java.lang.reflect.Field;
+import java.util.Arrays;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Logger;
@@ -62,7 +63,7 @@ public class Arguments {
 	 *        the arguments to parse.
 	 */
 	public void parse (final String... arguments) {
-		parse(arguments);
+		parse(Arrays.asList(arguments));
 	}
 	
 	/**
