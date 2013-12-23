@@ -34,10 +34,16 @@ import com.alexrnl.commons.utils.object.AutoCompareTest.ComparedClass;
  * @author Alex
  */
 public class ReflectUtilsTest {
+	/** Logger */
+	private static Logger		lg					= Logger.getLogger(ReflectUtilsTest.class.getName());
+	
+	/** The name of the field added by Jacoco at execution time. */
+	private static final String	JACOCO_FIELD_NAME	= "$jacocoData";
+	
 	/** The first compared class */
-	private ComparedClass one;
+	private ComparedClass		one;
 	/** The second compared class. */
-	private ComparedClass two;
+	private ComparedClass		two;
 	
 	/**
 	 * Annotation for test purposes.
@@ -70,7 +76,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link ReflectUtils#retrieveMethods(java.lang.Class, Class)}.
+	 * Test method for {@link ReflectUtils#retrieveMethods(Class, Class)}.
 	 */
 	@Test
 	public void testRetrieveMethods () {
@@ -86,14 +92,23 @@ public class ReflectUtilsTest {
 	@Test
 	public void testRetrieveFields () {
 		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.INFO);
-		assertEquals(2, ReflectUtils.retrieveFields(DummyFields.class, null).size());
+		final Set<java.lang.reflect.Field> dummyFields = ReflectUtils.retrieveFields(DummyFields.class, null);
+		boolean jacoco = false;
+		for (final java.lang.reflect.Field field : dummyFields) {
+			if (field.getName().equals(JACOCO_FIELD_NAME)) {
+				lg.info("Jacoco field has been detected, test will be adjusted.");
+				jacoco = true;
+				break;
+			}
+		}
+		assertEquals(jacoco ? 3 : 2, dummyFields.size());
 		Logger.getLogger(ReflectUtils.class.getName()).setLevel(Level.FINE);
 		assertEquals(1, ReflectUtils.retrieveFields(DummyFields.class, Dumb.class).size());
 		
 	}
 	
 	/**
-	 * Test method for {@link ReflectUtils#invokeMethods(java.lang.Object, List)}.
+	 * Test method for {@link ReflectUtils#invokeMethods(Object, List)}.
 	 */
 	@Test
 	public void testInvokeMethods () {
