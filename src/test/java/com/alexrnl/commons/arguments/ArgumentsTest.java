@@ -26,9 +26,12 @@ public class ArgumentsTest {
 	 * @author Alex
 	 */
 	private static class Target {
-		/** If the feature is used. */
+		/** If the feature is used */
 		@Param(names = {"-u","--used"}, description = "if the feature should be used", required = false)
 		private boolean isUsed;
+		/** The name to use */
+		@Param(names = {"-n"}, description = "the name of the object", required = true)
+		private String	name;
 		
 		/**
 		 * Constructor #1.<br />
@@ -52,6 +55,22 @@ public class ArgumentsTest {
 		 */
 		public void setUsed (final boolean isUsed) {
 			this.isUsed = isUsed;
+		}
+
+		/**
+		 * Return the attribute name.
+		 * @return the attribute name.
+		 */
+		public String getName () {
+			return name;
+		}
+
+		/**
+		 * Set the attribute name.
+		 * @param name the attribute name.
+		 */
+		public void setName (final String name) {
+			this.name = name;
 		}
 	}
 	
@@ -104,6 +123,7 @@ public class ArgumentsTest {
 	@Test
 	public void testToString () {
 		assertEquals("manLau usage as follow:\n" +
+				"\t   -n\t\t\t\tthe name of the object\n" +
 				"\t[  -u, --used\t\t\t\tif the feature should be used  ]",
 				arguments.toString());
 	}
