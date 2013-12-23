@@ -98,7 +98,7 @@ public class Arguments {
 	public String toString () {
 		final StringBuilder usage = new StringBuilder(programName).append(" usage as follow:");
 		for (final Parameter param : parameters) {
-			usage.append(TAB);
+			usage.append(StringUtils.NEW_LINE).append(TAB);
 			if (!param.isRequired()) {
 				usage.append('[');
 			} else {
@@ -110,6 +110,9 @@ public class Arguments {
 				usage.append(TAB);
 			}
 			usage.append(param.getDescription());
+			if (!param.isRequired()) {
+				usage.append("  ]");
+			}
 		}
 		return usage.toString();
 	}
