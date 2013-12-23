@@ -49,27 +49,11 @@ public class ArgumentsTest {
 		}
 		
 		/**
-		 * Set the attribute used.
-		 * @param used the attribute used.
-		 */
-		public void setUsed (final boolean used) {
-			this.used = used;
-		}
-
-		/**
 		 * Return the attribute name.
 		 * @return the attribute name.
 		 */
 		public String getName () {
 			return name;
-		}
-
-		/**
-		 * Set the attribute name.
-		 * @param name the attribute name.
-		 */
-		public void setName (final String name) {
-			this.name = name;
 		}
 	}
 	
