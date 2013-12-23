@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ParameterTest.class })
+@SuiteClasses({ ArgumentsTest.class, ParameterTest.class })
 public class ArgumentsTests {
 	
 }
