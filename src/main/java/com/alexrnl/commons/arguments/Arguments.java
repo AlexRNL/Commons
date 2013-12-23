@@ -15,10 +15,12 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public class Arguments {
 	/** Logger */
-	private static Logger				lg	= Logger.getLogger(Arguments.class.getName());
+	private static Logger				lg							= Logger.getLogger(Arguments.class.getName());
 	
 	/** The tab character */
-	private static final Character		TAB	= '\t';
+	private static final Character		TAB							= '\t';
+	/** The number of tabs between the name of the argument and their description */
+	private static final int			NB_TABS_BEFORE_DESCRIPTION	= 4;
 	
 	/** The name of the program. */
 	private final String				programName;
@@ -93,7 +95,7 @@ public class Arguments {
 				usage.append(' ');
 			}
 			usage.append("  ").append(StringUtils.separateWith(", ", param.getNames()));
-			int nbTabs = 4;
+			int nbTabs = NB_TABS_BEFORE_DESCRIPTION;
 			while (nbTabs-- > 0) {
 				usage.append(TAB);
 			}
