@@ -4,6 +4,7 @@ import java.nio.charset.Charset;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -114,7 +115,7 @@ public final class StringUtils {
 	}
 	
 	/**
-	 * Separate a list of object with a given separator.<br />
+	 * Separate a list of objects with a given separator.<br />
 	 * @param separator
 	 *        the separator.
 	 * @param s
@@ -122,6 +123,18 @@ public final class StringUtils {
 	 * @return the objects separated by the separator specified.
 	 */
 	public static String separateWith (final String separator, final Object... s) {
+		return separateWith(separator, Arrays.asList(s));
+	}
+	
+	/**
+	 * Separate a collection of objects with a given separator.<br />
+	 * @param separator
+	 *        the separator.
+	 * @param s
+	 *        the objects to display.
+	 * @return the objects separated by the separator specified.
+	 */
+	public static String separateWith (final String separator, final Iterable<?> s) {
 		final StringBuilder builder = new StringBuilder();
 		
 		for (final Object object : s) {

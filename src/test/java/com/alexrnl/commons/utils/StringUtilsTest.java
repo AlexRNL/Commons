@@ -84,6 +84,15 @@ public class StringUtilsTest {
 	}
 	
 	/**
+	 * Test method for {@link StringUtils#separateWith(String, Iterable)}.
+	 */
+	@Test
+	public void testSeparateWithIterable () {
+		assertEquals("1,2,3", StringUtils.separateWith(",", Arrays.asList(1, 2, 3)));
+		assertEquals("1", StringUtils.separateWith(",", Arrays.asList(1)));
+	}
+	
+	/**
 	 * Test method for {@link StringUtils#getMD5(String)}.
 	 */
 	@Test
