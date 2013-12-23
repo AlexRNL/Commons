@@ -4,8 +4,9 @@ import java.lang.reflect.Field;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.HashSet;
+import java.util.Comparator;
 import java.util.Set;
+import java.util.TreeSet;
 
 import com.alexrnl.commons.utils.object.AutoCompare;
 import com.alexrnl.commons.utils.object.AutoHashCode;
@@ -46,7 +47,13 @@ public class Parameter implements Comparable<Parameter> {
 			final String description, final int order) {
 		super();
 		this.field = field;
-		this.names = new HashSet<>(names);
+		this.names = new TreeSet<>(new Comparator<String>() {
+			@Override
+			public int compare (final String o1, final String o2) {
+				return Integer.valueOf(o1.length()).compareTo(o2.length());
+			}
+		});
+		this.names.addAll(names);
 		this.required = required;
 		this.description = description;
 		this.order = order;
