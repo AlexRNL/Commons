@@ -43,6 +43,7 @@ public class WordTest {
 	/**
 	 * Test method for {@link Word#Word(String, int, int)}.
 	 */
+	@SuppressWarnings("unused")
 	@Test(expected = NullPointerException.class)
 	public void testWordNullPointerException () {
 		new Word(null, 1, 2);
@@ -51,6 +52,7 @@ public class WordTest {
 	/**
 	 * Test method for {@link Word#Word(String, int, int)}.
 	 */
+	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testWordIllegalArgumentException () {
 		new Word("nh", 4, 2);
