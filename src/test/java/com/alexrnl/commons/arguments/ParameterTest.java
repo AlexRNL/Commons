@@ -74,6 +74,7 @@ public class ParameterTest {
 	@Test
 	public void testGetNames () {
 		assertEquals(new HashSet<>(Arrays.asList("-n", "--number")), parameter.getNames());
+		assertEquals("-n", parameter.getNames().iterator().next());
 		assertEquals(new HashSet<>(Arrays.asList("-name")), reflectParam.getNames());
 	}
 	

@@ -54,7 +54,7 @@ public class Parameter implements Comparable<Parameter> {
 			@Override
 			public int compare (final String o1, final String o2) {
 				final int comparedLength = Integer.valueOf(o1.length()).compareTo(o2.length());
-				if (comparedLength == 0) {
+				if (comparedLength != 0) {
 					return comparedLength;
 				}
 				return o1.compareTo(o2);
