@@ -16,7 +16,7 @@ public @interface Param {
 	 * The name(s) of the parameter.<br />
 	 * More than one name can be specified for an easier use.
 	 */
-	String[] names() default {};
+	String[] names();
 	
 	/**
 	 * The description of the field.<br />
