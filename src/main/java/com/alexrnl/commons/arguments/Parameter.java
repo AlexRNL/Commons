@@ -14,8 +14,7 @@ import com.alexrnl.commons.utils.object.AutoHashCode;
 /**
  * A class which describe a parameter.<br />
  * Parameter are comparable, they will be sorted by their order field, then by their required field
- * (field required first).
- * The parameter equality is only based on the field represented by the parameter.
+ * (field required first) and finally by the shortest name of the parameter available.
  * @author Alex
  */
 public class Parameter implements Comparable<Parameter> {
@@ -46,11 +45,19 @@ public class Parameter implements Comparable<Parameter> {
 	public Parameter (final Field field, final Collection<String> names, final boolean required,
 			final String description, final int order) {
 		super();
+		if (names.isEmpty()) {
+			throw new IllegalArgumentException("Cannot create parameter with no names");
+		}
+		
 		this.field = field;
 		this.names = new TreeSet<>(new Comparator<String>() {
 			@Override
 			public int compare (final String o1, final String o2) {
-				return Integer.valueOf(o1.length()).compareTo(o2.length());
+				final int comparedLength = Integer.valueOf(o1.length()).compareTo(o2.length());
+				if (comparedLength == 0) {
+					return comparedLength;
+				}
+				return o1.compareTo(o2);
 			}
 		});
 		this.names.addAll(names);
@@ -74,7 +81,6 @@ public class Parameter implements Comparable<Parameter> {
 	 * Return the attribute field.
 	 * @return the attribute field.
 	 */
-	@com.alexrnl.commons.utils.object.Field
 	public Field getField () {
 		return field;
 	}
@@ -83,6 +89,7 @@ public class Parameter implements Comparable<Parameter> {
 	 * Return the attribute names.
 	 * @return the attribute names.
 	 */
+	@com.alexrnl.commons.utils.object.Field
 	public Set<String> getNames () {
 		return Collections.unmodifiableSet(names);
 	}
@@ -91,6 +98,7 @@ public class Parameter implements Comparable<Parameter> {
 	 * Return the attribute required.
 	 * @return the attribute required.
 	 */
+	@com.alexrnl.commons.utils.object.Field
 	public boolean isRequired () {
 		return required;
 	}
@@ -107,6 +115,7 @@ public class Parameter implements Comparable<Parameter> {
 	 * Return the attribute order.
 	 * @return the attribute order.
 	 */
+	@com.alexrnl.commons.utils.object.Field
 	public int getOrder () {
 		return order;
 	}
@@ -132,7 +141,12 @@ public class Parameter implements Comparable<Parameter> {
 			return compareOrder;
 		}
 		// Use the required parameter to compare if the order was not enough
-		return Boolean.valueOf(o.isRequired()).compareTo(isRequired());
+		final int compareRequired = Boolean.valueOf(o.isRequired()).compareTo(isRequired());
+		if (compareRequired != 0) {
+			return compareRequired;
+		}
+		// Compare their first names in the sets
+		return getNames().iterator().next().compareTo(o.getNames().iterator().next());
 	}
 	
 }

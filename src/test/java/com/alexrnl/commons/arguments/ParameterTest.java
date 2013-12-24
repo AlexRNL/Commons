@@ -10,6 +10,7 @@ import static org.junit.Assert.assertThat;
 import static org.junit.Assert.assertTrue;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashSet;
 import java.util.List;
@@ -43,6 +44,15 @@ public class ParameterTest {
 		final Field field = ParameterTest.class.getDeclaredField("myParam");
 		reflectParam = new Parameter(field, field.getAnnotation(Param.class));
 		
+	}
+	
+	/**
+	 * Test that a parameter cannot be created with no name.
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void testParamWithNoName () {
+		new Parameter(null, new ArrayList<String>(), false, "does not matter", 0);
 	}
 	
 	/**
@@ -126,11 +136,15 @@ public class ParameterTest {
 		assertThat(new Parameter(null, emptyStrings, true, "", 2).compareTo(new Parameter(null, emptyStrings, true, "", 1)), greaterThan(0));
 		
 		// With required attribute:
-		//0-0 & t-t
-		assertEquals(0, new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 0)));
 		//0-0 & f-t
 		assertThat(new Parameter(null, emptyStrings , false, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 0)), greaterThan(0));
 		//0-0 & t-f
 		assertThat(new Parameter(null, emptyStrings, true, "", 0).compareTo(new Parameter(null, emptyStrings, false, "", 0)), lessThan(0));
+
+		// With names:
+		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("a"), true, "", 0)), greaterThan(0));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("xal"), true, "", 0)), lessThan(0));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("xal", "a"), true, "", 0)), greaterThan(0));
+		assertEquals(0, new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("man"), true, "", 0)));
 	}
 }
