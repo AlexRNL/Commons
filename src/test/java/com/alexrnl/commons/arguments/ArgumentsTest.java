@@ -81,9 +81,9 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testParseIterableOfString () {
-		arguments.parse("--used", "-n", "alex");
+		arguments.parse("--used", "-n", "manLau");
 		assertTrue(target.isUsed());
-		assertEquals("alex", target.getName());
+		assertEquals("manLau", target.getName());
 	}
 	
 	// TODO add tests for error cases

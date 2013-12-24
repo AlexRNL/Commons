@@ -2,9 +2,16 @@ package com.alexrnl.commons.arguments;
 
 import java.io.PrintStream;
 import java.lang.reflect.Field;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.utils.StringUtils;
@@ -41,7 +48,7 @@ public class Arguments {
 		super();
 		this.programName = programName;
 		this.target = target;
-		this.parameters = retrieveParameters(target);
+		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
 	}
 	
 	/**
@@ -55,7 +62,13 @@ public class Arguments {
 		final SortedSet<Parameter> params = new TreeSet<>();
 		for (final Field field : ReflectUtils.retrieveFields(obj.getClass(), Param.class)) {
 			field.setAccessible(true);
-			params.add(new Parameter(field, field.getAnnotation(Param.class)));
+			final Parameter param = new Parameter(field, field.getAnnotation(Param.class));
+			if (params.contains(param)) {
+				lg.warning("Could not add the parameter " + param.getNames() + ". The probable " +
+						"cause is that the first name has already been used by another parameter");
+				continue;
+			}
+			params.add(param);
 		}
 		return params;
 	}
@@ -75,7 +88,36 @@ public class Arguments {
 	 *        the arguments to parse.
 	 */
 	public void parse (final Iterable<String> arguments) {
-		// TODO
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Parsing arguments " + arguments.toString());
+		}
+		
+		// Building a set with the reference of required parameters
+		final Set<Parameter> requiredParameters = new HashSet<>(parameters.size(), 1.0f);
+		for (final Parameter parameter : parameters) {
+			if (parameter.isRequired()) {
+				requiredParameters.add(parameter);
+			}
+		}
+		
+		// Parse arguments provided
+		final Iterator<String> iterator = arguments.iterator();
+		while (iterator.hasNext()) {
+			final String argument = iterator.next();
+			if (lg.isLoggable(Level.INFO)) {
+				lg.info("Processing argument " + argument);
+			}
+			
+		}
+		
+		// Check that all required arguments were set
+		if (!requiredParameters.isEmpty()) {
+			final List<Set<String>> listParamNames = new ArrayList<>(requiredParameters.size());
+			for (final Parameter parameter : requiredParameters) {
+				listParamNames.add(parameter.getNames());
+			}
+			throw new IllegalArgumentException("The following parameters were not set: " + StringUtils.separateWith(", ", listParamNames));
+		}
 	}
 	
 	/**
