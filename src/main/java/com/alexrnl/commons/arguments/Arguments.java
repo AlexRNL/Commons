@@ -148,7 +148,7 @@ public class Arguments {
 				throw new IllegalArgumentException("No value found for parameter " + argument);
 			}
 			final String value = iterator.next();
-			// Check type (TODO allow factories ?)
+			// Check type (TODO allow factories to set dynamically fields?)
 			if (parameterType.equals(String.class)) {
 				try {
 					currentParameter.getField().set(target, value);

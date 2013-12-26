@@ -109,11 +109,19 @@ public class ArgumentsTest {
 	}
 	
 	/**
-	 * Test for missing a required argument.
+	 * Test for missing a required parameter.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testMissingArgument () {
 		arguments.parse("-u");
+	}
+	
+	/**
+	 * Test for missing a value for a parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testMissingValue () {
+		arguments.parse("-n");
 	}
 	
 	// TODO add tests for error cases
