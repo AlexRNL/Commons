@@ -101,6 +101,18 @@ public class Arguments {
 			}
 		}
 		
+		// Initialize all Booleans parameters to false
+		for (final Parameter parameter : parameters) {
+			if (parameter.getField().getType().equals(Boolean.class)) {
+				try {
+					parameter.getField().set(target, Boolean.FALSE);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					lg.warning("Parameter " + parameter.getNames() + " value could not be " +
+							"initialize to false: " + ExceptionUtils.display(e));
+				}
+			}
+		}
+		
 		// Parse arguments provided
 		final Iterator<String> iterator = arguments.iterator();
 		while (iterator.hasNext()) {
@@ -118,7 +130,11 @@ public class Arguments {
 			final Class<?> parameterType = currentParameter.getField().getType();
 			if (parameterType.equals(Boolean.class) || parameterType.equals(boolean.class)) {
 				try {
-					currentParameter.getField().setBoolean(target, true);
+					if (parameterType.equals(boolean.class)) {
+						currentParameter.getField().setBoolean(target, true);
+					} else {
+						currentParameter.getField().set(target, Boolean.TRUE);
+					}
 					requiredParameters.remove(currentParameter);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
 					lg.warning("Parameter " + argument + " boolean value could not be set: "
@@ -141,6 +157,9 @@ public class Arguments {
 					lg.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
 				}
+			} else {
+				lg.warning("Could not set type " + parameterType.getName() + " for parameter "
+						+ argument);
 			}
 		}
 		

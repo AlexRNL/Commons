@@ -1,6 +1,7 @@
 package com.alexrnl.commons.arguments;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
@@ -26,11 +27,14 @@ public class ArgumentsTest {
 	 */
 	private static class Target {
 		/** If the feature is used */
-		@Param(names = { "-u", "--used" }, description = "if the feature should be used", required = false)
+		@Param(names = { "-u", "--used" }, description = "if the feature should be used")
 		private boolean	used;
 		/** The name to use */
 		@Param(names = { "-n" }, description = "the name of the object", required = true)
 		private String	name;
+		/** A boolean wrapper */
+		@Param(names = { "-b" }, description = "boolean wrapping")
+		private Boolean b;
 
 		/**
 		 * Constructor #1.<br />
@@ -55,6 +59,14 @@ public class ArgumentsTest {
 		public String getName () {
 			return name;
 		}
+		
+		/**
+		 * Return the attribute b.
+		 * @return the attribute b.
+		 */
+		public Boolean isB () {
+			return b;
+		}
 	}
 	
 	/**
@@ -74,6 +86,7 @@ public class ArgumentsTest {
 		arguments.parse("-u", "-n", "alex");
 		assertTrue(target.isUsed());
 		assertEquals("alex", target.getName());
+		assertFalse(target.isB());
 	}
 	
 	/**
@@ -81,9 +94,26 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testParseIterableOfString () {
-		arguments.parse("--used", "-n", "manLau");
+		arguments.parse("--used", "-n", "manLau", "-b");
 		assertTrue(target.isUsed());
 		assertEquals("manLau", target.getName());
+		assertTrue(target.isB());
+	}
+	
+	/**
+	 * Test for an unknown parameter.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testUnknownParameter () {
+		arguments.parse("--unknown");
+	}
+	
+	/**
+	 * Test for missing a required argument.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testMissingArgument () {
+		arguments.parse("-u");
 	}
 	
 	// TODO add tests for error cases
@@ -114,6 +144,7 @@ public class ArgumentsTest {
 	public void testToString () {
 		assertEquals("manLau usage as follow:\n" +
 				"\t   -n\t\t\t\tthe name of the object\n" +
+				"\t[  -b\t\t\t\tboolean wrapping  ]\n" +
 				"\t[  -u, --used\t\t\t\tif the feature should be used  ]",
 				arguments.toString());
 	}
