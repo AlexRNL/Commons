@@ -14,6 +14,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
 
@@ -108,6 +109,39 @@ public class Arguments {
 				lg.info("Processing argument " + argument);
 			}
 			
+			final Parameter currentParameter = getParameterByName(argument);
+			if (currentParameter == null) {
+				throw new IllegalArgumentException("No parameter with name " + argument + " found");
+			}
+			
+			// If the parameter is a boolean, then its presence is enough
+			final Class<?> parameterType = currentParameter.getField().getType();
+			if (parameterType.equals(Boolean.class) || parameterType.equals(boolean.class)) {
+				try {
+					currentParameter.getField().setBoolean(target, true);
+					requiredParameters.remove(currentParameter);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					lg.warning("Parameter " + argument + " boolean value could not be set: "
+							+ ExceptionUtils.display(e));
+				}
+				continue;
+			}
+			
+			// The parameter will take the next argument as value
+			if (!iterator.hasNext()) {
+				throw new IllegalArgumentException("No value found for parameter " + argument);
+			}
+			final String value = iterator.next();
+			// Check type (TODO allow factories ?)
+			if (parameterType.equals(String.class)) {
+				try {
+					currentParameter.getField().set(target, value);
+					requiredParameters.remove(currentParameter);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					lg.warning("Parameter " + argument + " value could not be set: "
+							+ ExceptionUtils.display(e));
+				}
+			}
 		}
 		
 		// Check that all required arguments were set
@@ -116,10 +150,26 @@ public class Arguments {
 			for (final Parameter parameter : requiredParameters) {
 				listParamNames.add(parameter.getNames());
 			}
-			throw new IllegalArgumentException("The following parameters were not set: " + StringUtils.separateWith(", ", listParamNames));
+			throw new IllegalArgumentException("The following parameters were not set: "
+					+ StringUtils.separateWith(", ", listParamNames));
 		}
 	}
 	
+	/**
+	 * Find a parameter according to its name.
+	 * @param name
+	 *        the name of the parameter to find.
+	 * @return the parameter which has the specified name.
+	 */
+	private Parameter getParameterByName (final String name) {
+		for (final Parameter parameter : parameters) {
+			if (parameter.getNames().contains(name)) {
+				return parameter;
+			}
+		}
+		return null;
+	}
+
 	/**
 	 * Display the parameter's usage on specified output.
 	 * @param out
