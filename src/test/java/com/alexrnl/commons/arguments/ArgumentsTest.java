@@ -3,13 +3,14 @@ package com.alexrnl.commons.arguments;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
-import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
+import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.PrintStream;
 
 import org.junit.Before;
 import org.junit.Test;
+import org.mockito.Mock;
 
 /**
  * Test suite for the {@link Arguments} class.
@@ -20,6 +21,9 @@ public class ArgumentsTest {
 	private Arguments	arguments;
 	/** The target for the parameters */
 	private Target		target;
+	/** The mocked output stream */
+	@Mock
+	private PrintStream	out;
 	
 	/**
 	 * A class representing the target for the argument parsing.
@@ -74,8 +78,9 @@ public class ArgumentsTest {
 	 */
 	@Before
 	public void setUp () {
+		initMocks(this);
 		target = new Target();
-		arguments = new Arguments("manLau", target);
+		arguments = new Arguments("manLau", target, out);
 	}
 	
 	/**
@@ -127,22 +132,14 @@ public class ArgumentsTest {
 	// TODO add tests for error cases
 	
 	/**
-	 * Test method for {@link Arguments#usage(PrintStream)}.
-	 */
-	@Test
-	public void testUsagePrintStream () {
-		final PrintStream out = mock(PrintStream.class);
-		arguments.usage(out);
-		verify(out).println(arguments);
-	}
-	
-	/**
 	 * Test method for {@link Arguments#usage()}.
 	 */
 	@Test
-	public void testUsage () {
-		// Nothing can really be done to check that the usage has been printed on stdout
+	public void testUsagePrintStream () {
 		arguments.usage();
+		verify(out).println(arguments);
+		// Check output on stdout
+		new Arguments("stdout", target).usage();
 	}
 	
 	/**

@@ -30,6 +30,10 @@ public class Arguments {
 	private static final Character		TAB							= '\t';
 	/** The number of tabs between the name of the argument and their description */
 	private static final int			NB_TABS_BEFORE_DESCRIPTION	= 4;
+	/** The short name for the help command */
+	public static final String			HELP_SHORT_NAME				= "-h";
+	/** The long name for the help command */
+	public static final String			HELP_LONG_NAME				= "--help";
 	
 	/** The name of the program. */
 	private final String				programName;
@@ -37,6 +41,8 @@ public class Arguments {
 	private final Object				target;
 	/** The list of parameters in the target */
 	private final SortedSet<Parameter>	parameters;
+	/** The output to use to display the usage of the arguments */
+	private final PrintStream			out;
 	
 	/**
 	 * Constructor #1.<br />
@@ -46,10 +52,24 @@ public class Arguments {
 	 *        the object which holds the target.
 	 */
 	public Arguments (final String programName, final Object target) {
+		this(programName, target, System.out);
+	}
+
+	/**
+	 * Constructor #1.<br />
+	 * @param programName
+	 *        the name of the program.
+	 * @param target
+	 *        the object which holds the target.
+	 * @param out
+	 *        the output stream to use for displaying argument's usage.
+	 */
+	public Arguments (final String programName, final Object target, final PrintStream out) {
 		super();
 		this.programName = programName;
 		this.target = target;
 		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
+		this.out = out;
 	}
 	
 	/**
@@ -98,10 +118,16 @@ public class Arguments {
 		
 		// Parse arguments provided
 		final Iterator<String> iterator = arguments.iterator();
+		boolean helpRequested = false;
 		while (iterator.hasNext()) {
 			final String argument = iterator.next();
 			if (lg.isLoggable(Level.INFO)) {
 				lg.info("Processing argument " + argument);
+			}
+			
+			if (isHelp(argument)) {
+				helpRequested = true;
+				continue;
 			}
 			
 			final Parameter currentParameter = getParameterByName(argument);
@@ -155,8 +181,21 @@ public class Arguments {
 			throw new IllegalArgumentException("The following parameters were not set: "
 					+ StringUtils.separateWith(", ", listParamNames));
 		}
+		
+		if (helpRequested) {
+			usage();
+		}
 	}
-
+	
+	/**
+	 * Check if the name of the argument is an alias of the help command.
+	 * @param name
+	 *        the name to check.
+	 * @return <code>true</code> if the argument is the help command.
+	 */
+	private static boolean isHelp (final String name) {
+		return HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name);
+	}
 	/**
 	 * Build a set with the reference of required parameters.
 	 * @return the required parameters of the target.
@@ -201,21 +240,12 @@ public class Arguments {
 		}
 		return null;
 	}
-
-	/**
-	 * Display the parameter's usage on specified output.
-	 * @param out
-	 *        the stream to use to display the parameters.
-	 */
-	public void usage (final PrintStream out) {
-		out.println(this);
-	}
 	
 	/**
-	 * Display the parameter's usage on the standard output.
+	 * Display the parameter's usage on the output specified in the constructor.
 	 */
 	public void usage () {
-		usage(System.out);
+		out.println(this);
 	}
 	
 	@Override
