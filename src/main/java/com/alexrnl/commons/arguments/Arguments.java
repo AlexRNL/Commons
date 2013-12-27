@@ -93,25 +93,8 @@ public class Arguments {
 			lg.info("Parsing arguments " + arguments.toString());
 		}
 		
-		// Building a set with the reference of required parameters
-		final Set<Parameter> requiredParameters = new HashSet<>(parameters.size(), 1.0f);
-		for (final Parameter parameter : parameters) {
-			if (parameter.isRequired()) {
-				requiredParameters.add(parameter);
-			}
-		}
-		
-		// Initialize all Booleans parameters to false
-		for (final Parameter parameter : parameters) {
-			if (parameter.getField().getType().equals(Boolean.class)) {
-				try {
-					parameter.getField().set(target, Boolean.FALSE);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
-					lg.warning("Parameter " + parameter.getNames() + " value could not be " +
-							"initialize to false: " + ExceptionUtils.display(e));
-				}
-			}
-		}
+		final Set<Parameter> requiredParameters = getRequiredParameters();
+		initializeBooleansParameters();
 		
 		// Parse arguments provided
 		final Iterator<String> iterator = arguments.iterator();
@@ -171,6 +154,36 @@ public class Arguments {
 			}
 			throw new IllegalArgumentException("The following parameters were not set: "
 					+ StringUtils.separateWith(", ", listParamNames));
+		}
+	}
+
+	/**
+	 * Build a set with the reference of required parameters.
+	 * @return the required parameters of the target.
+	 */
+	private Set<Parameter> getRequiredParameters () {
+		final Set<Parameter> requiredParameters = new HashSet<>(parameters.size(), 1.0f);
+		for (final Parameter parameter : parameters) {
+			if (parameter.isRequired()) {
+				requiredParameters.add(parameter);
+			}
+		}
+		return requiredParameters;
+	}
+
+	/**
+	 * Initialize all Booleans parameters to false.
+	 */
+	private void initializeBooleansParameters () {
+		for (final Parameter parameter : parameters) {
+			if (parameter.getField().getType().equals(Boolean.class)) {
+				try {
+					parameter.getField().set(target, Boolean.FALSE);
+				} catch (IllegalArgumentException | IllegalAccessException e) {
+					lg.warning("Parameter " + parameter.getNames() + " value could not be " +
+							"initialize to false: " + ExceptionUtils.display(e));
+				}
+			}
 		}
 	}
 	
