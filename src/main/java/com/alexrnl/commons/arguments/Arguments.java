@@ -7,6 +7,7 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashSet;
 import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 import java.util.SortedSet;
@@ -107,14 +108,17 @@ public class Arguments {
 	 * Parse the arguments and set the target in the target object.
 	 * @param arguments
 	 *        the arguments to parse.
+	 * @throws IllegalArgumentException
+	 *         if there is an error (or several) during parsing the arguments.
 	 */
-	public void parse (final Iterable<String> arguments) {
+	public void parse (final Iterable<String> arguments) throws IllegalArgumentException {
 		if (lg.isLoggable(Level.INFO)) {
 			lg.info("Parsing arguments " + arguments.toString());
 		}
 		
 		final Set<Parameter> requiredParameters = getRequiredParameters();
 		initializeBooleansParameters();
+		final List<String> errors = new LinkedList<>();
 		
 		// Parse arguments provided
 		final Iterator<String> iterator = arguments.iterator();
@@ -132,7 +136,8 @@ public class Arguments {
 			
 			final Parameter currentParameter = getParameterByName(argument);
 			if (currentParameter == null) {
-				throw new IllegalArgumentException("No parameter with name " + argument + " found");
+				errors.add("No parameter with name " + argument + " found.");
+				continue;
 			}
 			
 			// If the parameter is a boolean, then its presence is enough
@@ -154,7 +159,8 @@ public class Arguments {
 			
 			// The parameter will take the next argument as value
 			if (!iterator.hasNext()) {
-				throw new IllegalArgumentException("No value found for parameter " + argument);
+				errors.add("No value found for parameter " + argument + ".");
+				continue;
 			}
 			final String value = iterator.next();
 			// Check type (TODO allow factories to set dynamically fields?)
@@ -178,12 +184,19 @@ public class Arguments {
 			for (final Parameter parameter : requiredParameters) {
 				listParamNames.add(parameter.getNames());
 			}
-			throw new IllegalArgumentException("The following parameters were not set: "
-					+ StringUtils.separateWith(", ", listParamNames));
+			errors.add("The following parameters were not set: "
+					+ StringUtils.separateWith(", ", listParamNames) + ".");
 		}
 		
 		if (helpRequested) {
 			usage();
+		}
+		
+		if (!errors.isEmpty()) {
+			final String errorsMessage = StringUtils.separateWith("\n", errors);
+			out.println(errorsMessage);
+			usage();
+			throw new IllegalArgumentException(errorsMessage);
 		}
 	}
 	
