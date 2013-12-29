@@ -21,10 +21,10 @@ public class IntParserTest {
 	
 	/**
 	 * Set up test attributes.
-	 * @throws SecurityException
-	 *         if the field is not accessible.
 	 * @throws NoSuchFieldException
 	 *         if the field does not exists.
+	 * @throws SecurityException
+	 *         if the field is not accessible.
 	 */
 	@Before
 	public void setUp () throws NoSuchFieldException, SecurityException {
