@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author Alex
  */
 public class ByteParserTest {
-	/** The float parser */
+	/** The byte parser */
 	private ByteParser			parser;
 	/** The field to set */
 	private byte				field;
