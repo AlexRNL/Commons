@@ -11,6 +11,11 @@ import com.alexrnl.commons.arguments.ParameterParser;
 public class DoubleParser implements ParameterParser {
 	
 	@Override
+	public Class<?> getFieldType () {
+		return double.class;
+	}
+	
+	@Override
 	public void parse (final Object target, final Field field, final String parameter) {
 		try {
 			field.setDouble(target, Double.parseDouble(parameter));

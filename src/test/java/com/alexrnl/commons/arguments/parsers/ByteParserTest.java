@@ -34,6 +34,14 @@ public class ByteParserTest {
 	}
 	
 	/**
+	 * Test method for {@link ByteParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(byte.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link ByteParser#parse(Object, Field, String)}.
 	 */
 	@Test

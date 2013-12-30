@@ -11,6 +11,11 @@ import com.alexrnl.commons.arguments.ParameterParser;
 public class LongParser implements ParameterParser {
 	
 	@Override
+	public Class<?> getFieldType () {
+		return long.class;
+	}
+	
+	@Override
 	public void parse (final Object target, final Field field, final String parameter) {
 		try {
 			field.setLong(target, Long.parseLong(parameter));

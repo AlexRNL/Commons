@@ -34,6 +34,14 @@ public class ShortParserTest {
 	}
 	
 	/**
+	 * Test method for {@link ShortParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(short.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link ShortParser#parse(Object, Field, String)}.
 	 */
 	@Test

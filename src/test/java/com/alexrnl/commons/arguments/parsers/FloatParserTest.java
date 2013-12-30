@@ -37,6 +37,14 @@ public class FloatParserTest {
 	}
 	
 	/**
+	 * Test method for {@link FloatParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(float.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link FloatParser#parse(Object, Field, String)}.
 	 */
 	@Test

@@ -34,6 +34,14 @@ public class CharParserTest {
 	}
 	
 	/**
+	 * Test method for {@link CharParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(char.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link CharParser#parse(Object, Field, String)}.
 	 */
 	@Test

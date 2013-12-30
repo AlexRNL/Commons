@@ -11,6 +11,11 @@ import com.alexrnl.commons.arguments.ParameterParser;
 public class FloatParser implements ParameterParser {
 	
 	@Override
+	public Class<?> getFieldType () {
+		return float.class;
+	}
+	
+	@Override
 	public void parse (final Object target, final Field field, final String parameter) {
 		try {
 			field.setFloat(target, Float.parseFloat(parameter));

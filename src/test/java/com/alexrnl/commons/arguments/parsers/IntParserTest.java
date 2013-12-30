@@ -34,6 +34,14 @@ public class IntParserTest {
 	}
 	
 	/**
+	 * Test method for {@link IntParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(int.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link IntParser#parse(Object, Field, String)}.
 	 */
 	@Test

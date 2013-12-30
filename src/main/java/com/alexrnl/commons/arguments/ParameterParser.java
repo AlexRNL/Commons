@@ -10,6 +10,12 @@ import java.lang.reflect.Field;
 public interface ParameterParser {
 	
 	/**
+	 * Get the field type supported by this parser.
+	 * @return the class supported.
+	 */
+	Class<?> getFieldType ();
+	
+	/**
 	 * Parse the parameter retrieved into the specified field.
 	 * @param target
 	 *        the target object to modify.

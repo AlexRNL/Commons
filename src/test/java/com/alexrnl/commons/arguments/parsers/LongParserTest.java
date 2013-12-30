@@ -34,6 +34,14 @@ public class LongParserTest {
 	}
 	
 	/**
+	 * Test method for {@link LongParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(long.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link LongParser#parse(Object, Field, String)}.
 	 */
 	@Test

@@ -11,6 +11,11 @@ import com.alexrnl.commons.arguments.ParameterParser;
 public class CharParser implements ParameterParser {
 	
 	@Override
+	public Class<?> getFieldType () {
+		return char.class;
+	}
+	
+	@Override
 	public void parse (final Object target, final Field field, final String parameter) {
 		try {
 			field.setChar(target, parameter.charAt(0));

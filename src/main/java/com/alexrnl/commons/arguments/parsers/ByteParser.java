@@ -11,6 +11,11 @@ import com.alexrnl.commons.arguments.ParameterParser;
 public class ByteParser implements ParameterParser {
 	
 	@Override
+	public Class<?> getFieldType () {
+		return byte.class;
+	}
+	
+	@Override
 	public void parse (final Object target, final Field field, final String parameter) {
 		try {
 			field.setByte(target, Byte.parseByte(parameter));

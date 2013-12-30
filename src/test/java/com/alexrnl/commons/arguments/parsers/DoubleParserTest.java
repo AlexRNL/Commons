@@ -37,6 +37,14 @@ public class DoubleParserTest {
 	}
 	
 	/**
+	 * Test method for {@link DoubleParser#getFieldType()}.
+	 */
+	@Test
+	public void testGetFieldType () {
+		assertEquals(double.class, parser.getFieldType());
+	}
+	
+	/**
 	 * Test method for {@link DoubleParser#parse(Object, Field, String)}.
 	 */
 	@Test
