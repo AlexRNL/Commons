@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ByteParserTest.class, FloatParserTest.class, IntParserTest.class })
+@SuiteClasses({ ByteParserTest.class, FloatParserTest.class, IntParserTest.class,
+		ShortParserTest.class })
 public class ParsersTests {
 	
 }
