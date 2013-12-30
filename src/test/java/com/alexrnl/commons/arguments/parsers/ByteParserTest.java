@@ -13,11 +13,11 @@ import org.junit.Test;
  */
 public class ByteParserTest {
 	/** The byte parser */
-	private ByteParser			parser;
+	private ByteParser	parser;
 	/** The field to set */
-	private byte				field;
+	private byte		field;
 	/** The reference to the field to set */
-	private Field				fieldReference;
+	private Field		fieldReference;
 	
 	/**
 	 * Set up test attributes.
