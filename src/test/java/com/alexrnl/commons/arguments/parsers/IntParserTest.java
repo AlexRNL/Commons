@@ -17,7 +17,7 @@ public class IntParserTest {
 	/** The field to set */
 	private int			field;
 	/** The reference to the field to set */
-	private Field	fieldReference;
+	private Field		fieldReference;
 	
 	/**
 	 * Set up test attributes.

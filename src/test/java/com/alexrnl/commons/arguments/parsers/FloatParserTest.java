@@ -14,12 +14,13 @@ import org.junit.Test;
 public class FloatParserTest {
 	/** The delta for comparing floating numbers */
 	private static final float	DELTA_FLOAT_COMPARISON	= 0.001f;
+	
 	/** The float parser */
-	private FloatParser	parser;
+	private FloatParser			parser;
 	/** The field to set */
-	private float		field;
+	private float				field;
 	/** The reference to the field to set */
-	private Field	fieldReference;
+	private Field				fieldReference;
 	
 	/**
 	 * Set up test attributes.
