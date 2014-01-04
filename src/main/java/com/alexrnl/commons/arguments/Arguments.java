@@ -5,16 +5,25 @@ import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.arguments.parsers.ByteParser;
+import com.alexrnl.commons.arguments.parsers.CharParser;
+import com.alexrnl.commons.arguments.parsers.DoubleParser;
+import com.alexrnl.commons.arguments.parsers.FloatParser;
+import com.alexrnl.commons.arguments.parsers.IntParser;
+import com.alexrnl.commons.arguments.parsers.LongParser;
+import com.alexrnl.commons.arguments.parsers.ShortParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -25,25 +34,45 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public class Arguments {
 	/** Logger */
-	private static Logger				lg							= Logger.getLogger(Arguments.class.getName());
+	private static Logger							lg							= Logger.getLogger(Arguments.class.getName());
 	
 	/** The tab character */
-	private static final Character		TAB							= '\t';
+	private static final Character					TAB							= '\t';
 	/** The number of tabs between the name of the argument and their description */
-	private static final int			NB_TABS_BEFORE_DESCRIPTION	= 4;
+	private static final int						NB_TABS_BEFORE_DESCRIPTION	= 4;
 	/** The short name for the help command */
-	public static final String			HELP_SHORT_NAME				= "-h";
+	public static final String						HELP_SHORT_NAME				= "-h";
 	/** The long name for the help command */
-	public static final String			HELP_LONG_NAME				= "--help";
+	public static final String						HELP_LONG_NAME				= "--help";
+	/** The default parameter parsers */
+	private static final List<ParameterParser>		DEFAULT_PARSERS;
+	static {
+		DEFAULT_PARSERS = Collections.unmodifiableList(Arrays.asList(new ParameterParser[] {
+				// primitive types
+				new ByteParser(),
+				new CharParser(),
+				new DoubleParser(),
+				new FloatParser(),
+				new IntParser(),
+				new LongParser(),
+				new ShortParser()
+				// wrappers
+				
+				// others
+		}));
+		
+	}
 	
 	/** The name of the program */
-	private final String				programName;
+	private final String							programName;
 	/** The object which holds the target */
-	private final Object				target;
+	private final Object							target;
 	/** The list of parameters in the target */
-	private final SortedSet<Parameter>	parameters;
+	private final SortedSet<Parameter>				parameters;
 	/** The output to use to display the usage of the arguments TODO replace with custom interface? */
-	private final PrintStream			out;
+	private final PrintStream						out;
+	/** Map with the parameter parsers to use */
+	private final Map<Class<?>, ParameterParser>	parsers;
 	
 	/**
 	 * Constructor #1.<br />
@@ -71,6 +100,12 @@ public class Arguments {
 		this.target = target;
 		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
 		this.out = out;
+		this.parsers = new HashMap<>();
+		for (final ParameterParser parser : DEFAULT_PARSERS) {
+			if (addParameterParser(parser)) {
+				lg.warning("Default parsers override each other for class " + parser.getFieldType());
+			}
+		}
 	}
 	
 	/**
@@ -93,6 +128,19 @@ public class Arguments {
 			params.add(param);
 		}
 		return params;
+	}
+	
+	/**
+	 * Add a parameter parser to the current arguments.
+	 * @param parser
+	 *        the parser to add.
+	 * @return <code>true</code> if a previous parser was already set for this field type.
+	 * @see ParameterParser
+	 */
+	public boolean addParameterParser (final ParameterParser parser) {
+		final boolean override = parsers.containsKey(parser.getFieldType());
+		parsers.put(parser.getFieldType(), parser);
+		return override;
 	}
 	
 	/**
