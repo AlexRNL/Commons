@@ -19,7 +19,7 @@ public abstract class AbstractParser<T> implements ParameterParser {
 	 * @param fieldType
 	 *        the type of the field which will be parsed by this parser.
 	 */
-	protected AbstractParser (final Class<T> fieldType) {
+	public AbstractParser (final Class<T> fieldType) {
 		super();
 		this.fieldType = fieldType;
 	}
