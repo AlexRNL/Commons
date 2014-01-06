@@ -11,7 +11,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @RunWith(Suite.class)
 @SuiteClasses({ ByteParserTest.class, ClassParserTest.class, CharParserTest.class,
 		DoubleParserTest.class, FloatParserTest.class, IntParserTest.class, LongParserTest.class,
-		ShortParserTest.class, WByteParserTest.class })
+		ShortParserTest.class, StringParserTest.class, WByteParserTest.class })
 public class ParsersTests {
 	
 }
