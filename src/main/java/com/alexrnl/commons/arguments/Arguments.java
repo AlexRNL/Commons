@@ -26,6 +26,7 @@ import com.alexrnl.commons.arguments.parsers.IntParser;
 import com.alexrnl.commons.arguments.parsers.LongParser;
 import com.alexrnl.commons.arguments.parsers.ParameterParser;
 import com.alexrnl.commons.arguments.parsers.ShortParser;
+import com.alexrnl.commons.arguments.parsers.WByteParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -59,6 +60,7 @@ public class Arguments {
 				new LongParser(),
 				new ShortParser(),
 				// wrappers
+				new WByteParser(),
 				
 				// others
 				new ClassParser()
