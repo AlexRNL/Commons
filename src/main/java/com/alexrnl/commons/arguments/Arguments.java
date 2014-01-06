@@ -26,6 +26,7 @@ import com.alexrnl.commons.arguments.parsers.IntParser;
 import com.alexrnl.commons.arguments.parsers.LongParser;
 import com.alexrnl.commons.arguments.parsers.ParameterParser;
 import com.alexrnl.commons.arguments.parsers.ShortParser;
+import com.alexrnl.commons.arguments.parsers.StringParser;
 import com.alexrnl.commons.arguments.parsers.WByteParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
@@ -63,6 +64,7 @@ public class Arguments {
 				new WByteParser(),
 				
 				// others
+				new StringParser(),
 				new ClassParser()
 		}));
 		
@@ -205,18 +207,17 @@ public class Arguments {
 				continue;
 			}
 			final String value = iterator.next();
-			// Check type (TODO allow factories to set dynamically fields?)
-			if (parameterType.equals(String.class)) {
+			if (parsers.containsKey(parameterType)) {
 				try {
-					currentParameter.getField().set(target, value);
+					parsers.get(parameterType).parse(target, currentParameter.getField(), value);
 					requiredParameters.remove(currentParameter);
-				} catch (IllegalArgumentException | IllegalAccessException e) {
+				} catch (final IllegalArgumentException e) {
 					lg.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
 				}
 			} else {
 				lg.warning("Could not set type " + parameterType.getName() + " for parameter "
-						+ argument);
+						+ argument + ", no suitable parser were found.");
 			}
 		}
 		
