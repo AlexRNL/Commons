@@ -19,6 +19,7 @@ import java.util.logging.Logger;
 
 import com.alexrnl.commons.arguments.parsers.ByteParser;
 import com.alexrnl.commons.arguments.parsers.CharParser;
+import com.alexrnl.commons.arguments.parsers.ClassParser;
 import com.alexrnl.commons.arguments.parsers.DoubleParser;
 import com.alexrnl.commons.arguments.parsers.FloatParser;
 import com.alexrnl.commons.arguments.parsers.IntParser;
@@ -56,10 +57,11 @@ public class Arguments {
 				new FloatParser(),
 				new IntParser(),
 				new LongParser(),
-				new ShortParser()
+				new ShortParser(),
 				// wrappers
 				
 				// others
+				new ClassParser()
 		}));
 		
 	}
