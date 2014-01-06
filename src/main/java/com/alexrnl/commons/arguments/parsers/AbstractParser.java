@@ -2,8 +2,6 @@ package com.alexrnl.commons.arguments.parsers;
 
 import java.lang.reflect.Field;
 
-import com.alexrnl.commons.arguments.ParameterParser;
-
 /**
  * Abstract class to ease implementation of parsers.<br />
  * @author Alex
