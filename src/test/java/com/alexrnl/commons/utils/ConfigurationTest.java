@@ -81,4 +81,18 @@ public class ConfigurationTest {
 		assertTrue(goodConfXML.isLoaded());
 		assertTrue(goodConf.isLoaded());
 	}
+	
+	/**
+	 * Test method for the format detection in the constructor.
+	 * @throws URISyntaxException
+	 *         if the path to the configuration is badly formatted.
+	 */
+	@Test
+	public void testAutoDetectFormat () throws URISyntaxException {
+		final Configuration xmlConf = new Configuration(Paths.get(getClass().getResource("/configuration.xml").toURI()));
+		final Configuration propConf = new Configuration(Paths.get(getClass().getResource("/configuration.properties").toURI()));
+		
+		assertEquals(6, xmlConf.size());
+		assertEquals(2, propConf.size());
+	}
 }

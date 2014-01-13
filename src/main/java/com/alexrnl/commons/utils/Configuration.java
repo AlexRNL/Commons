@@ -11,6 +11,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.error.ExceptionUtils;
+import com.alexrnl.commons.io.IOUtils;
 
 /**
  * Class access the application configuration.<br />
@@ -25,9 +26,11 @@ import com.alexrnl.commons.error.ExceptionUtils;
 public class Configuration {
 	/** Logger */
 	private static Logger		lg							= Logger.getLogger(Configuration.class.getName());
-	
+
+	/** The file extension for XML files. */
+	private static final String	XML_EXTENSION				= "xml";
 	/** The default configuration file to load. */
-	private static final Path	DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration.xml");
+	private static final Path	DEFAULT_CONFIGURATION_FILE	= Paths.get("conf/configuration." + XML_EXTENSION);
 	
 	/** The configuration file to load */
 	private final Path			configurationFile;
@@ -48,11 +51,13 @@ public class Configuration {
 	
 	/**
 	 * Constructor #2.<br />
+	 * Automatically detect the format of the configuration to load: if it ends with XML, then the
+	 * XML property format is used. In any other case, the regular property format is used.
 	 * @param configurationFile
 	 *        the configuration file to load.
 	 */
 	public Configuration (final Path configurationFile) {
-		this(configurationFile, true);
+		this(configurationFile, XML_EXTENSION.equalsIgnoreCase(IOUtils.getFileExtension(configurationFile)));
 	}
 	
 	/**
