@@ -66,12 +66,30 @@ public final class IOUtils {
 		Objects.requireNonNull(path);
 		final String filename = path.getFileName().toString();
 		final int extensionSeparatorIndex = filename.lastIndexOf(FILE_EXTENSION_SEPARATOR);
-		if (extensionSeparatorIndex <= 0) {
+		if (extensionSeparatorIndex <= 0 || extensionSeparatorIndex == filename.length() - 1) {
 			return filename;
 		}
 		return filename.substring(0, extensionSeparatorIndex);
 	}
 	
+	/**
+	 * Return the extension of the file.<br />
+	 * Strip all the parent folders and the name of the file to return just the file extension.
+	 * <strong>Note that for Unix hidden files (starting with '.'), this method return an empty string.</strong>
+	 * @param path
+	 *        the file.
+	 * @return the file extension.
+	 */
+	public static String getFileExtension (final Path path) {
+		Objects.requireNonNull(path);
+		final String filename = path.getFileName().toString();
+		final int extensionSeparatorIndex = filename.lastIndexOf(FILE_EXTENSION_SEPARATOR);
+		if (extensionSeparatorIndex <= 0) {
+			return "";
+		}
+		return filename.substring(extensionSeparatorIndex + 1);
+	}
+
 	/**
 	 * Build an input stream from the specified string in the encoding specified.
 	 * @param string

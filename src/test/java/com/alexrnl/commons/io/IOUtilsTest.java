@@ -71,6 +71,7 @@ public class IOUtilsTest {
 	public void testGetFilename () {
 		assertEquals("hello", IOUtils.getFilename(Paths.get("serv", "io", "hello.txt")));
 		assertEquals("hello", IOUtils.getFilename(Paths.get("io", "hello")));
+		assertEquals("hello.", IOUtils.getFilename(Paths.get("io", "hello.")));
 		assertEquals("hel.lo", IOUtils.getFilename(Paths.get("serv", "hel.lo.txt")));
 		assertEquals(".classpath", IOUtils.getFilename(Paths.get(".classpath")));
 	}
@@ -81,6 +82,26 @@ public class IOUtilsTest {
 	@Test(expected = NullPointerException.class)
 	public void testGetFilenameNullPointerException () {
 		IOUtils.getFilename(null);
+	}
+	
+	/**
+	 * Test method for {@link IOUtils#getFileExtension(Path)}.
+	 */
+	@Test
+	public void testGetFileExtension () {
+		assertEquals("txt", IOUtils.getFileExtension(Paths.get("src", "main", "hello.txt")));
+		assertEquals("", IOUtils.getFileExtension(Paths.get("io", "hello")));
+		assertEquals("", IOUtils.getFileExtension(Paths.get("etc", "hello.")));
+		assertEquals("txt", IOUtils.getFileExtension(Paths.get("serv", "hel.lo.txt")));
+		assertEquals("", IOUtils.getFileExtension(Paths.get(".classpath")));
+	}
+	
+	/**
+	 * Test method for {@link IOUtils#getFileExtension(Path)}.
+	 */
+	@Test(expected = NullPointerException.class)
+	public void testGetFileExtensionNullPointerException () {
+		IOUtils.getFileExtension(null);
 	}
 	
 	/**
