@@ -8,14 +8,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test suite for the {@link WByteParser} class.
+ * Test suite for the {@link WCharParser} class.
  * @author Alex
  */
-public class WByteParserTest {
+public class WCharParserTest {
 	/** The class parser to test */
-	private WByteParser	wByteParser;
+	private WCharParser	wCharParser;
 	/** The field to set */
-	private Byte		field;
+	private Character	field;
 	/** The reference to the field */
 	private Field		fieldReference;
 	
@@ -28,8 +28,8 @@ public class WByteParserTest {
 	 */
 	@Before
 	public void setUp () throws NoSuchFieldException, SecurityException {
-		wByteParser = new WByteParser();
-		fieldReference = WByteParserTest.class.getDeclaredField("field");
+		wCharParser = new WCharParser();
+		fieldReference = WCharParserTest.class.getDeclaredField("field");
 		fieldReference.setAccessible(true);
 	}
 	
@@ -38,7 +38,7 @@ public class WByteParserTest {
 	 */
 	@Test
 	public void testGetFieldType () {
-		assertEquals(Byte.class, wByteParser.getFieldType());
+		assertEquals(Character.class, wCharParser.getFieldType());
 	}
 	
 	/**
@@ -46,15 +46,8 @@ public class WByteParserTest {
 	 */
 	@Test
 	public void testParse () {
-		wByteParser.parse(this, fieldReference, "28");
-		assertEquals(Integer.valueOf(28).byteValue(), field.byteValue());
+		wCharParser.parse(this, fieldReference, "28");
+		assertEquals('2', field.charValue());
 	}
 	
-	/**
-	 * Test method for not a byte in {@link AbstractParser#parse(Object, Field, String)}.
-	 */
-	@Test(expected = IllegalArgumentException.class)
-	public void testParseClassNotFound () {
-		wByteParser.parse(this, fieldReference, "4a");
-	}
 }
