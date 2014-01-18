@@ -30,6 +30,7 @@ import com.alexrnl.commons.arguments.parsers.StringParser;
 import com.alexrnl.commons.arguments.parsers.WByteParser;
 import com.alexrnl.commons.arguments.parsers.WCharParser;
 import com.alexrnl.commons.arguments.parsers.WDoubleParser;
+import com.alexrnl.commons.arguments.parsers.WFloatParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -66,6 +67,7 @@ public class Arguments {
 				new WByteParser(),
 				new WCharParser(),
 				new WDoubleParser(),
+				new WFloatParser(),
 				// others
 				new StringParser(),
 				new ClassParser()
