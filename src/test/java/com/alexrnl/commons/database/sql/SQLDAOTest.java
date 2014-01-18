@@ -59,6 +59,7 @@ public class SQLDAOTest {
 	@AfterClass
 	public static void tearDownAfterClass () throws SQLException {
 		connection.close();
+		Logger.getLogger(SQLDAO.class.getName()).setLevel(Level.INFO);
 	}
 	
 	/**
@@ -68,7 +69,7 @@ public class SQLDAOTest {
 	 */
 	@Before
 	public void setUp () throws SQLException {
-		Logger.getLogger(SQLDAO.class.getName()).setLevel(Level.FINER);
+		Logger.getLogger(SQLDAO.class.getName()).setLevel(Level.ALL);
 		dummyDAO = new DummySQLDAO(connection);
 	}
 	
@@ -190,5 +191,21 @@ public class SQLDAOTest {
 		
 		// Test with column which is not defined
 		assertTrue(dummyDAO.search(new Column(String.class, "notHere"), "MAN").isEmpty());
+	}
+	
+	/**
+	 * Test case when logs are disabled on the class.
+	 */
+	@Test
+	public void testNoLog () {
+		Logger.getLogger(SQLDAO.class.getName()).setLevel(Level.OFF);
+		
+		final Dummy lau = dummyDAO.create(new Dummy("LAU"));
+		lau.setName("LAu");
+		dummyDAO.update(lau);
+		dummyDAO.find(lau.getId());
+		dummyDAO.delete(lau);
+		dummyDAO.retrieveAll();
+		dummyDAO.search(Dummy.getColumns().get(DummyColumn.NAME), "x");
 	}
 }
