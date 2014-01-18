@@ -12,7 +12,7 @@ import org.junit.runners.Suite.SuiteClasses;
 @SuiteClasses({ ByteParserTest.class, ClassParserTest.class, CharParserTest.class,
 		DoubleParserTest.class, FloatParserTest.class, IntParserTest.class, LongParserTest.class,
 		ShortParserTest.class, StringParserTest.class, WByteParserTest.class, WCharParserTest.class,
-		WDoubleParserTest.class, WFloatParserTest.class })
+		WDoubleParserTest.class, WFloatParserTest.class, WIntegerParserTest.class })
 public class ParsersTests {
 	
 }
