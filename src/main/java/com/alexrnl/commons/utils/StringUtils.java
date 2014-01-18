@@ -40,14 +40,19 @@ public final class StringUtils {
 	private static final String			MD5_ALGORITHM_NAME	= "MD5";
 	/** The MD5 message digest algorithm */
 	private static final MessageDigest	MD5_MESSAGE_DIGEST;
+	/** The name of the SHA-1 algorithm */
+	private static final String			SHA1_ALGORITHM_NAME	= "SHA-1";
+	/** The SHA-1 message digest algorithm */
+	private static final MessageDigest	SHA1_MESSAGE_DIGEST;
 	/**
-	 * Load the MD5 algorithm
+	 * Load the message digest algorithms
 	 */
 	static {
 		try {
 			MD5_MESSAGE_DIGEST = MessageDigest.getInstance(MD5_ALGORITHM_NAME);
+			SHA1_MESSAGE_DIGEST = MessageDigest.getInstance(SHA1_ALGORITHM_NAME);
 		} catch (final NoSuchAlgorithmException e) {
-			lg.severe("Error while computing MD5, no MD5 algorithm found: "
+			lg.severe("Message digest algorithm not found: "
 					+ ExceptionUtils.display(e));
 			throw new TopLevelError(e) {
 				/** The serial version UID */
@@ -163,11 +168,48 @@ public final class StringUtils {
 	 * @return the hash of the text.
 	 */
 	public static String getMD5 (final String text, final Charset charset) {
+		return getHash(text, charset, MD5_MESSAGE_DIGEST);
+	}
+	
+	/**
+	 * Computes the SHA-1 of a string.<br />
+	 * Uses the JVM's default charset.
+	 * @param text
+	 *        the text to hash.
+	 * @return the hash of the text.
+	 */
+	public static String getSHA1 (final String text) {
+		return getSHA1(text, Charset.defaultCharset());
+	}
+	
+	/**
+	 * Computes the SHA-1 of a string.
+	 * @param text
+	 *        the text to hash.
+	 * @param charset
+	 *        the charset of the text.
+	 * @return the hash of the text.
+	 */
+	public static String getSHA1 (final String text, final Charset charset) {
+		return getHash(text, charset, SHA1_MESSAGE_DIGEST);
+	}
+	
+	/**
+	 * Computes the hash of a given text.<br />
+	 * @param text
+	 *        the text to hash.
+	 * @param charset
+	 *        the charset of the text.
+	 * @param algorithm
+	 *        the algorithm to use for the hash.
+	 * @return the hash of the text.
+	 */
+	public static String getHash (final String text, final Charset charset, final MessageDigest algorithm) {
 		final StringBuilder buffer = new StringBuilder();
-		MD5_MESSAGE_DIGEST.reset();
-		MD5_MESSAGE_DIGEST.update(text.getBytes(charset));
+		algorithm.reset();
+		algorithm.update(text.getBytes(charset));
 		
-		final byte[] digest = MD5_MESSAGE_DIGEST.digest();
+		final byte[] digest = algorithm.digest();
 		for (final byte element : digest) {
 			int value = element;
 			if (value < 0) {
@@ -181,7 +223,7 @@ public final class StringUtils {
 			buffer.append(hex);
 		}
 		return buffer.toString();
-    }
+	}
 	
 	/**
 	 * Remove the multiple spaces which compose a String.<br />

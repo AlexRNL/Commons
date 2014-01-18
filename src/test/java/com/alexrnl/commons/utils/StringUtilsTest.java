@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
 import java.util.logging.Level;
@@ -108,6 +109,24 @@ public class StringUtilsTest {
 	public void testgetMD5StringCharset () {
 		assertEquals("0b687c31ee552ea09607eb2c2685f6eb", StringUtils.getMD5("abc123È^$ñ@!§", StandardCharsets.ISO_8859_1));
 		assertEquals("65fd8f6818ff5304e5add7cf28ed3815", StringUtils.getMD5("abc123È^$ñ@!§", StandardCharsets.UTF_8));
+	}
+	
+	/**
+	 * Test method for {@link StringUtils#getSHA1(String)}.
+	 */
+	@Test
+	public void testgetSHA1String () {
+		assertEquals("86f7e437faa5a7fce15d1ddcb9eaeaea377667b8", StringUtils.getSHA1("a"));
+		assertEquals("32d10c7b8cf96570ca04ce37f2a19d84240d3a89", StringUtils.getSHA1("abcdefghijklmnopqrstuvwxyz"));
+	}
+	
+	/**
+	 * Test method for {@link StringUtils#getSHA1(String, Charset)}.
+	 */
+	@Test
+	public void testgetSHA1StringCharset () {
+		assertEquals("b275b47a14018766fb686bd97f8d08fef314c202", StringUtils.getSHA1("abc123È^$ñ@!§", StandardCharsets.ISO_8859_1));
+		assertEquals("cec848c370ae2c7adb4944cf7044e0c1e7b71ea7", StringUtils.getSHA1("abc123È^$ñ@!§", StandardCharsets.UTF_8));
 	}
 
 	/**
