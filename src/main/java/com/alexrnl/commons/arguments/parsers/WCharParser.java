@@ -14,7 +14,6 @@ public class WCharParser extends AbstractParser<Character> {
 		super(Character.class);
 	}
 
-
 	@Override
 	protected Character getValue (final String parameter) throws IllegalArgumentException {
 		return parameter.charAt(0);
