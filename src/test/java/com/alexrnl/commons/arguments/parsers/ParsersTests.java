@@ -10,7 +10,7 @@ import org.junit.runners.Suite.SuiteClasses;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ByteParserTest.class, ClassParserTest.class, CharParserTest.class,
-		DoubleParserTest.class, FloatParserTest.class, IntParserTest.class, LongParserTest.class,
+		DoubleParserTest.class, FloatParserTest.class, IntParserTest.class, LongParserTest.class, PathParserTest.class,
 		ShortParserTest.class, StringParserTest.class, WByteParserTest.class,
 		WCharParserTest.class, WDoubleParserTest.class, WFloatParserTest.class,
 		WIntegerParserTest.class, WLongParserTest.class, WShortParserTest.class })

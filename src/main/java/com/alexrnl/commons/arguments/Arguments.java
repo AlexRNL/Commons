@@ -25,6 +25,7 @@ import com.alexrnl.commons.arguments.parsers.FloatParser;
 import com.alexrnl.commons.arguments.parsers.IntParser;
 import com.alexrnl.commons.arguments.parsers.LongParser;
 import com.alexrnl.commons.arguments.parsers.ParameterParser;
+import com.alexrnl.commons.arguments.parsers.PathParser;
 import com.alexrnl.commons.arguments.parsers.ShortParser;
 import com.alexrnl.commons.arguments.parsers.StringParser;
 import com.alexrnl.commons.arguments.parsers.WByteParser;
@@ -76,7 +77,8 @@ public class Arguments {
 				new WShortParser(),
 				// others
 				new StringParser(),
-				new ClassParser()
+				new ClassParser(),
+				new PathParser()
 		}));
 		
 	}
