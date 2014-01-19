@@ -81,6 +81,11 @@ public class AutoCompareTest {
 		}
 		
 		@Override
+		public int hashCode () {
+			return AutoHashCode.getInstance().hashCode(this);
+		}
+
+		@Override
 		public boolean equals (final Object obj) {
 			if (!(obj instanceof ComparedClass)) {
 				return false;

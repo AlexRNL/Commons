@@ -8,6 +8,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * Parser for the {@link Class} field type.
  * @author Alex
  */
+@SuppressWarnings("rawtypes")
 public class ClassParser extends AbstractParser<Class> {
 	/** Logger */
 	private static Logger	lg	= Logger.getLogger(ClassParser.class.getName());

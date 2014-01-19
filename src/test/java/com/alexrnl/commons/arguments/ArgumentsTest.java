@@ -10,6 +10,7 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.PrintStream;
+import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -80,15 +81,7 @@ public class ArgumentsTest {
 		public Boolean isB () {
 			return b;
 		}
-
-		/**
-		 * Return the attribute o.
-		 * @return the attribute o.
-		 */
-		public Object getO () {
-			return o;
-		}
-
+		
 		/**
 		 * Return the attribute x.
 		 * @return the attribute x.
@@ -124,10 +117,11 @@ public class ArgumentsTest {
 	 */
 	@Test
 	public void testParseIterableOfString () {
-		arguments.parse("--used", "-n", "manLau", "-b");
+		arguments.parse(Arrays.asList("--used", "-n", "manLau", "-b", "-x", "28"));
 		assertTrue(target.isUsed());
 		assertEquals("manLau", target.getName());
 		assertTrue(target.isB());
+		assertEquals(28, target.getX());
 	}
 	
 	/**
