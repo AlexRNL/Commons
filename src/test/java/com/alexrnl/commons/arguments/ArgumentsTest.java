@@ -41,7 +41,13 @@ public class ArgumentsTest {
 		private String	name;
 		/** A boolean wrapper */
 		@Param(names = { "-b" }, description = "boolean wrapping")
-		private Boolean b;
+		private Boolean	b;
+		/** An object */
+		@Param(names = { "-o" }, description = "object")
+		private Object	o;
+		/** An integer */
+		@Param(names = { "-x" }, description = "the value for x")
+		private int		x;
 
 		/**
 		 * Constructor #1.<br />
@@ -73,6 +79,22 @@ public class ArgumentsTest {
 		 */
 		public Boolean isB () {
 			return b;
+		}
+
+		/**
+		 * Return the attribute o.
+		 * @return the attribute o.
+		 */
+		public Object getO () {
+			return o;
+		}
+
+		/**
+		 * Return the attribute x.
+		 * @return the attribute x.
+		 */
+		public int getX () {
+			return x;
 		}
 	}
 	
@@ -151,7 +173,21 @@ public class ArgumentsTest {
 		arguments.parse("-n");
 	}
 	
-	// TODO add tests for error cases
+	/**
+	 * Test for no parser matching type found.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNoParser () {
+		arguments.parse("-o", "-n", "test");
+	}
+	
+	/**
+	 * Test with unparsable argument.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testBadValue () {
+		arguments.parse("-n", "test", "-x", "0.28");
+	}
 	
 	/**
 	 * Test method for {@link Arguments#usage()}.
@@ -172,7 +208,9 @@ public class ArgumentsTest {
 		assertEquals("manLau usage as follow:\n" +
 				"\t   -n\t\t\t\tthe name of the object\n" +
 				"\t[  -b\t\t\t\tboolean wrapping  ]\n" +
-				"\t[  -u, --used\t\t\t\tif the feature should be used  ]",
+				"\t[  -o\t\t\t\tobject  ]\n" +
+				"\t[  -u, --used\t\t\t\tif the feature should be used  ]\n" +
+				"\t[  -x\t\t\t\tthe value for x  ]",
 				arguments.toString());
 	}
 }
