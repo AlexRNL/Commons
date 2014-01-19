@@ -225,12 +225,13 @@ public class Arguments {
 					parsers.get(parameterType).parse(target, currentParameter.getField(), value);
 					requiredParameters.remove(currentParameter);
 				} catch (final IllegalArgumentException e) {
+					errors.add("Value " + value + " could not be assigned to parameter " + argument);
 					lg.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
 				}
 			} else {
-				lg.warning("Could not set type " + parameterType.getName() + " for parameter "
-						+ argument + ", no suitable parser were found.");
+				errors.add("No parser found for type " + parameterType.getName() + " (parameter "
+						+ argument + ").");
 			}
 		}
 		
