@@ -19,15 +19,17 @@ import java.util.logging.Logger;
  */
 public final class ReflectUtils {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(ReflectUtils.class.getName());
+	private static Logger			lg					= Logger.getLogger(ReflectUtils.class.getName());
 	
 	/** The common prefix for attribute setters in classes */
-	public static final String	SETTER_PREFIX		= "set";
+	public static final String		SETTER_PREFIX		= "set";
 	/** The common prefix for attribute getters in classes */
-	public static final String	GETTER_PREFIX		= "get";
+	public static final String		GETTER_PREFIX		= "get";
 	/** The common prefix for boolean attribute getters in classes */
-	public static final String	GETTER_BOOL_PREFIX	= "is";
-	
+	public static final String		GETTER_BOOL_PREFIX	= "is";
+	/** The package separator */
+	public static final Character	PACKAGE_SEPARATOR	= '.';
+
 	/**
 	 * Constructor #1.<br />
 	 * Private default constructor.

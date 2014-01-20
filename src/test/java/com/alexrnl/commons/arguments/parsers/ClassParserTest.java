@@ -14,6 +14,8 @@ import org.junit.Test;
 public class ClassParserTest {
 	/** The class parser to test */
 	private ClassParser	classParser;
+	/** The class parser with a root package defined */
+	private ClassParser packageClassParser;
 	/** The field to set */
 	private Class<?>	field;
 	/** The reference to the field */
@@ -29,6 +31,7 @@ public class ClassParserTest {
 	@Before
 	public void setUp () throws NoSuchFieldException, SecurityException {
 		classParser = new ClassParser();
+		packageClassParser = new ClassParser(ParsersTests.class.getPackage());
 		fieldReference = ClassParserTest.class.getDeclaredField("field");
 		fieldReference.setAccessible(true);
 	}
@@ -48,6 +51,15 @@ public class ClassParserTest {
 	public void testParse () {
 		classParser.parse(this, fieldReference, "com.alexrnl.commons.arguments.parsers.ParsersTests");
 		assertEquals(ParsersTests.class, field);
+	}
+	
+	/**
+	 * Test method for the package parser in {@link AbstractParser#parse(Object, Field, String)}.
+	 */
+	@Test
+	public void testParseWithPackage () {
+		packageClassParser.parse(this, fieldReference, "ClassParserTest");
+		assertEquals(ClassParserTest.class, field);
 	}
 	
 	/**
