@@ -51,7 +51,7 @@ public final class SwingUtils {
 	public static boolean setLookAndFeel (final String lookAndFeelName) {
 		if (UIManager.getLookAndFeel().getName().equals(lookAndFeelName)) {
 			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Look and Feel " + lookAndFeelName + " is alredy set, nothing to do");
+				lg.info("Look and Feel " + lookAndFeelName + " is already set, nothing to do");
 			}
 			return true;
 		}
