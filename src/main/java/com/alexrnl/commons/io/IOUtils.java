@@ -6,6 +6,7 @@ import java.io.EOFException;
 import java.io.IOException;
 import java.io.InputStream;
 import java.nio.charset.Charset;
+import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Objects;
 import java.util.logging.Level;
@@ -57,13 +58,17 @@ public final class IOUtils {
 	/**
 	 * Return the raw filename of the specified path.<br />
 	 * Strip all the parent folders and the extension of the file to just return the filename.
-	 * <strong>Note that for Unix hidden files (starting with '.'), this method return the full filename.</strong>
+	 * <strong>Note that for Unix hidden files (starting with '.'), this method return the full
+	 * filename.</strong>
 	 * @param path
-	 *        the file.
+	 *        the file, it must not be a directory.
 	 * @return the filename, without the folders and the extension.
 	 */
 	public static String getFilename (final Path path) {
 		Objects.requireNonNull(path);
+		if (Files.isDirectory(path)) {
+			throw new IllegalArgumentException("Cannot get name of a directory");
+		}
 		final String filename = path.getFileName().toString();
 		final int extensionSeparatorIndex = filename.lastIndexOf(FILE_EXTENSION_SEPARATOR);
 		if (extensionSeparatorIndex <= 0 || extensionSeparatorIndex == filename.length() - 1) {
@@ -77,11 +82,14 @@ public final class IOUtils {
 	 * Strip all the parent folders and the name of the file to return just the file extension.
 	 * <strong>Note that for Unix hidden files (starting with '.'), this method return an empty string.</strong>
 	 * @param path
-	 *        the file.
+	 *        the file, it must not be a directory.
 	 * @return the file extension.
 	 */
 	public static String getFileExtension (final Path path) {
 		Objects.requireNonNull(path);
+		if (Files.isDirectory(path)) {
+			throw new IllegalArgumentException("Cannot get extension of a directory");
+		}
 		final String filename = path.getFileName().toString();
 		final int extensionSeparatorIndex = filename.lastIndexOf(FILE_EXTENSION_SEPARATOR);
 		if (extensionSeparatorIndex <= 0) {

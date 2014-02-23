@@ -14,7 +14,6 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Scanner;
 
-import org.junit.Before;
 import org.junit.Test;
 
 /**
@@ -22,13 +21,6 @@ import org.junit.Test;
  * @author Alex
  */
 public class IOUtilsTest {
-	
-	/**
-	 * Set up test attributes.
-	 */
-	@Before
-	public void setUp () {
-	}
 	
 	/**
 	 * Test method for {@link IOUtils#readLine(BufferedReader)}.
@@ -85,6 +77,18 @@ public class IOUtilsTest {
 	}
 	
 	/**
+	 * Test method for {@link IOUtils#getFilename(Path)}.
+	 * @throws IOException
+	 *         if a temporary directory cannot be created.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFilenameDirectory () throws IOException {
+		final Path dir = Files.createTempDirectory("forFilename");
+		dir.toFile().deleteOnExit();
+		IOUtils.getFilename(dir);
+	}
+	
+	/**
 	 * Test method for {@link IOUtils#getFileExtension(Path)}.
 	 */
 	@Test
@@ -102,6 +106,18 @@ public class IOUtilsTest {
 	@Test(expected = NullPointerException.class)
 	public void testGetFileExtensionNullPointerException () {
 		IOUtils.getFileExtension(null);
+	}
+	
+	/**
+	 * Test method for {@link IOUtils#getFileExtension(Path)}.
+	 * @throws IOException
+	 *         if a temporary directory cannot be created.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetFileExtensionDirectory () throws IOException {
+		final Path dir = Files.createTempDirectory("forFileExtension");
+		dir.toFile().deleteOnExit();
+		IOUtils.getFileExtension(dir);
 	}
 	
 	/**
