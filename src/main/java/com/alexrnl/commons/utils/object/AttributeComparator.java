@@ -22,12 +22,10 @@ public class AttributeComparator {
 	 * @param <T>
 	 *        the type of the attributes compared.
 	 */
-	static class Attributes<T> {
-		/** The 'left' attribute */
-		private final T	left;
-		/** The 'right' attribute */
-		private final T	right;
-		
+	static class Attributes<T> extends ImmutablePair<T, T> {
+		/** Serial version UID */
+		private static final long	serialVersionUID	= -9129336735053507542L;
+
 		/**
 		 * Constructor #.<br />
 		 * @param left
@@ -36,9 +34,7 @@ public class AttributeComparator {
 		 *        the right attribute.
 		 */
 		public Attributes (final T left, final T right) {
-			super();
-			this.left = left;
-			this.right = right;
+			super(left, right);
 		}
 		
 		/**
@@ -47,7 +43,7 @@ public class AttributeComparator {
 		 * @return <code>true</code> if both objects are equals.
 		 */
 		public boolean areEquals () {
-			return AttributeComparator.areEquals(left, right);
+			return AttributeComparator.areEquals(getLeft(), getRight());
 		}
 	}
 	
