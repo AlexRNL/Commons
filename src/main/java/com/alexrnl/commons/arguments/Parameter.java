@@ -8,7 +8,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 
 /**
@@ -130,7 +130,7 @@ public class Parameter implements Comparable<Parameter> {
 		if (!(obj instanceof Parameter)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Parameter) obj);
+		return AutoEquals.getInstance().compare(this, (Parameter) obj);
 	}
 	
 	@Override

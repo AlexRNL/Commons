@@ -7,7 +7,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.time.TimeConverter.Unit;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -274,7 +274,7 @@ public class TimeSec extends Time implements Cloneable {
 		if (!(obj instanceof Time)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Time) obj);
+		return AutoEquals.getInstance().compare(this, (Time) obj);
 	}
 	
 	@Override

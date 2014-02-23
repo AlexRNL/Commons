@@ -6,7 +6,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import com.alexrnl.commons.time.TimeConverter.Unit;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -233,7 +233,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 		if (!(obj instanceof Time)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Time) obj);
+		return AutoEquals.getInstance().compare(this, (Time) obj);
 	}
 	
 	@Override

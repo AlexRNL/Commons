@@ -51,7 +51,7 @@ public abstract class Pair<L, R> implements Entry<L, R>, Serializable {
 		if (!(obj instanceof Pair)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Pair<?, ?>) obj);
+		return AutoEquals.getInstance().compare(this, (Pair<?, ?>) obj);
 	}
 	
 	@Override

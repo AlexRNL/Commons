@@ -14,7 +14,7 @@ import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.EntityColumn;
 import com.alexrnl.commons.database.structure.NoIdError;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -122,7 +122,7 @@ public class QueryGeneratorTest {
 			if (!(obj instanceof ReverseDummy)) {
 				return false;
 			}
-			return AutoCompare.getInstance().compare(this, (Dummy) obj);
+			return AutoEquals.getInstance().compare(this, (Dummy) obj);
 		}
 		
 	}

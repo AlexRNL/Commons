@@ -2,7 +2,7 @@ package com.alexrnl.commons.database.structure;
 
 import java.io.Serializable;
 
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -93,7 +93,7 @@ public class Column implements Serializable {
 		if (!(obj instanceof Column)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Column) obj);
+		return AutoEquals.getInstance().compare(this, (Column) obj);
 	}
 	
 }

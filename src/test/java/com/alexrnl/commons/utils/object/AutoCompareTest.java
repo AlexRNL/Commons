@@ -7,7 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 /**
- * Test suite for the {@link AutoCompare} class.
+ * Test suite for the {@link AutoEquals} class.
  * @author Alex
  */
 public class AutoCompareTest {
@@ -90,7 +90,7 @@ public class AutoCompareTest {
 			if (!(obj instanceof ComparedClass)) {
 				return false;
 			}
-			return AutoCompare.getInstance().compare(this, (ComparedClass) obj);
+			return AutoEquals.getInstance().compare(this, (ComparedClass) obj);
 		}
 	}
 	
@@ -115,11 +115,11 @@ public class AutoCompareTest {
 	}
 	
 	/**
-	 * Test method for {@link AutoCompare#compare(java.lang.Object, Object)}.
+	 * Test method for {@link AutoEquals#compare(java.lang.Object, Object)}.
 	 */
 	@Test
 	public void testCompare () {
-		final AutoCompare comparator = AutoCompare.getInstance();
+		final AutoEquals comparator = AutoEquals.getInstance();
 		assertTrue(comparator.compare(one, two));
 		assertTrue(comparator.compare(three, four));
 		assertTrue(comparator.compare(two, two));
@@ -178,7 +178,7 @@ public class AutoCompareTest {
 	 */
 	@Test
 	public void testNestedCompare () {
-		final AutoCompare comparator = AutoCompare.getInstance();
+		final AutoEquals comparator = AutoEquals.getInstance();
 		assertTrue(comparator.compare(new NestedComparedClass("aba", one), new NestedComparedClass("aba", two)));
 		assertFalse(comparator.compare(new NestedComparedClass("aba", one), new NestedComparedClass("aba", three)));
 		assertFalse(comparator.compare(new NestedComparedClass("ldr", one), new NestedComparedClass("aba", two)));

@@ -6,7 +6,7 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 
 import com.alexrnl.commons.utils.Configuration;
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -118,7 +118,7 @@ public class DataSourceConfiguration implements Serializable {
 		if (!(obj instanceof DataSourceConfiguration)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (DataSourceConfiguration) obj);
+		return AutoEquals.getInstance().compare(this, (DataSourceConfiguration) obj);
 	}
 
 	@Override

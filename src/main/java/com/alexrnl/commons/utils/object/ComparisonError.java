@@ -3,7 +3,7 @@ package com.alexrnl.commons.utils.object;
 import com.alexrnl.commons.error.TopLevelError;
 
 /**
- * An error occurred while comparing objects with {@link AutoCompare}.
+ * An error occurred while comparing objects with {@link AutoEquals}.
  * @author Alex
  */
 public class ComparisonError extends TopLevelError {

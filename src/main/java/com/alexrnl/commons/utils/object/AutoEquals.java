@@ -15,12 +15,12 @@ import com.alexrnl.commons.error.ExceptionUtils;
  * Class which automate hash code and comparison method on objects.
  * @author Alex
  */
-public final class AutoCompare {
+public final class AutoEquals {
 	/** Logger */
-	private static Logger						lg			= Logger.getLogger(AutoCompare.class.getName());
+	private static Logger						lg			= Logger.getLogger(AutoEquals.class.getName());
 	
 	/** Unique instance of the class */
-	private static AutoCompare					singleton	= new AutoCompare();
+	private static AutoEquals					singleton	= new AutoEquals();
 	
 	/** Method for equals per class */
 	private final Map<Class<?>, Set<Method>>	equalsMethods;
@@ -29,7 +29,7 @@ public final class AutoCompare {
 	 * Constructor #1.<br />
 	 * Default private constructor.
 	 */
-	private AutoCompare () {
+	private AutoEquals () {
 		super();
 		equalsMethods = new HashMap<>();
 	}
@@ -38,7 +38,7 @@ public final class AutoCompare {
 	 * Return the unique instance of the class.
 	 * @return the singleton.
 	 */
-	public static AutoCompare getInstance () {
+	public static AutoEquals getInstance () {
 		return singleton;
 	}
 	

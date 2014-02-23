@@ -5,7 +5,7 @@ import java.util.Objects;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alexrnl.commons.utils.object.AutoCompare;
+import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
 
@@ -110,7 +110,7 @@ public final class Word implements Serializable, Comparable<String>, CharSequenc
 		if (!(obj instanceof Word)) {
 			return false;
 		}
-		return AutoCompare.getInstance().compare(this, (Word) obj);
+		return AutoEquals.getInstance().compare(this, (Word) obj);
 	}
 
 	/**
