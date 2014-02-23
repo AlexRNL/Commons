@@ -22,7 +22,7 @@ public class AttributeComparator {
 	 * @param <T>
 	 *        the type of the attributes compared.
 	 */
-	public static class Attributes<T> {
+	static class Attributes<T> {
 		/** The 'left' attribute */
 		private final T	left;
 		/** The 'right' attribute */
