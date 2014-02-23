@@ -9,7 +9,7 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ AttributeComparatorTest.class, AutoCompareTest.class, AutoHashCodeTest.class,
+@SuiteClasses({ AttributeComparatorTest.class, AutoEqualsTest.class, AutoHashCodeTest.class,
 		ComparisonErrorTest.class, HashCodeUtilsTest.class, ImmutablePairTest.class,
 		MutablePairTest.class, ReflectUtilsTest.class })
 public class ObjectTests {

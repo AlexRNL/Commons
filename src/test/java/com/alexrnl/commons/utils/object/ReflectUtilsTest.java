@@ -27,7 +27,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alexrnl.commons.error.ExceptionUtils;
-import com.alexrnl.commons.utils.object.AutoCompareTest.ComparedClass;
+import com.alexrnl.commons.utils.object.AutoEqualsTest.ComparedClass;
 
 /**
  * Test suite for the {@link ReflectUtils} class.

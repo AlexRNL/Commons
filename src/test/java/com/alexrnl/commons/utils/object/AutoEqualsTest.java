@@ -10,7 +10,7 @@ import org.junit.Test;
  * Test suite for the {@link AutoEquals} class.
  * @author Alex
  */
-public class AutoCompareTest {
+public class AutoEqualsTest {
 	/**
 	 * Simple class to test the auto comparator.
 	 * @author Alex
