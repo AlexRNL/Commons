@@ -180,8 +180,9 @@ public class Arguments {
 	 *         if there is an error (or several) during parsing the arguments.
 	 */
 	public void parse (final Iterable<String> arguments) throws IllegalArgumentException {
+		final Iterable<String> args = joinArguments(arguments);
 		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Parsing arguments " + arguments.toString());
+			lg.info("Parsing arguments " + args.toString());
 		}
 		
 		final Set<Parameter> requiredParameters = getRequiredParameters();
@@ -189,7 +190,7 @@ public class Arguments {
 		final List<String> errors = new LinkedList<>();
 		
 		// Parse arguments provided
-		final Iterator<String> iterator = arguments.iterator();
+		final Iterator<String> iterator = args.iterator();
 		boolean helpRequested = false;
 		while (iterator.hasNext()) {
 			final String argument = iterator.next();
@@ -247,6 +248,56 @@ public class Arguments {
 	private static boolean isHelp (final String name) {
 		return HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name);
 	}
+	
+	/**
+	 * Join arguments which are separated.<br />
+	 * TODO
+	 * @param arguments the arguments to join.
+	 * @return the joined arguments.
+	 */
+	static List<String> joinArguments (final Iterable<String> arguments) {
+		final List<String> joined = new LinkedList<>();
+		
+		final String SEPARATOR = "\"";
+		final String ESCAPER = "\\";
+		
+		StringBuilder currentArgument = null;
+		for (String argument : arguments) {
+			// Start with separator
+			if (argument.startsWith(SEPARATOR)
+					&& currentArgument == null) {
+				argument = argument.substring(SEPARATOR.length());
+				currentArgument = new StringBuilder();
+			}
+			
+			// Regular case (clean character escaping)
+			while (argument.contains(ESCAPER + SEPARATOR)) {
+				argument = argument.replace(ESCAPER + SEPARATOR, SEPARATOR);
+			}
+			if (currentArgument != null) {
+				if (currentArgument.length() > 0) {
+					currentArgument.append(' ');
+				}
+				currentArgument.append(argument);
+			} else {
+				joined.add(argument);
+			}
+			
+			// End with separator
+			if (argument.endsWith(SEPARATOR)
+					&& !argument.endsWith(ESCAPER + SEPARATOR)
+					&& currentArgument != null) {
+				joined.add(currentArgument.substring(0, currentArgument.length() - 1));
+				currentArgument = null;
+			}
+		}
+		if (currentArgument != null) {
+			joined.add(currentArgument.toString());
+		}
+		
+		return joined;
+	}
+	
 	/**
 	 * Build a set with the reference of required parameters.
 	 * @return the required parameters of the target.
@@ -260,7 +311,7 @@ public class Arguments {
 		}
 		return requiredParameters;
 	}
-
+	
 	/**
 	 * Initialize all Booleans parameters to false.
 	 */

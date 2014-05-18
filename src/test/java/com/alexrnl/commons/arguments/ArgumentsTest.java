@@ -184,6 +184,21 @@ public class ArgumentsTest {
 	}
 	
 	/**
+	 * Test method for {@link Arguments#joinArguments(Iterable)}
+	 */
+	@Test
+	public void testJoinArguments () {
+		assertEquals(Arrays.asList(""), Arguments.joinArguments(Arrays.asList("")));
+		assertEquals(Arrays.asList("hello", "world"), Arguments.joinArguments(Arrays.asList("hello", "world")));
+		assertEquals(Arrays.asList("-s", "Aba Ldr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr\"")));
+		assertEquals(Arrays.asList("-s", " \"Aba", "Ldr\""), Arguments.joinArguments(Arrays.asList("-s", " \"Aba", "Ldr\"")));
+		assertEquals(Arrays.asList("-s", "\"Aba", "Ldr\""), Arguments.joinArguments(Arrays.asList("-s", "\\\"Aba", "Ldr\"")));
+		assertEquals(Arrays.asList("-s", "Aba Ldr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr")));
+		// assertEquals(Arrays.asList("-s", "Aba Ldr\" Xdr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr\\\"", "Xdr")));
+		assertEquals(Arrays.asList("-s", "Aba \"Ldr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "\"Ldr\"")));
+	}
+	
+	/**
 	 * Test method for {@link Arguments#usage()}.
 	 */
 	@Test
