@@ -81,7 +81,7 @@
 			</plugin>
 			<plugin>
 				<groupId>org.eluder.coveralls</groupId>
-				<artifactId></artifactId>
+				<artifactId>coveralls-maven-plugin</artifactId>
 				<version>${coveralls-maven-plugin.version}</version>
 			</plugin>
 			<plugin>
