@@ -58,7 +58,7 @@ public class Arguments {
 	/** The default parameter parsers */
 	private static final List<ParameterParser>		DEFAULT_PARSERS;
 	static {
-		DEFAULT_PARSERS = Collections.unmodifiableList(Arrays.asList(new ParameterParser[] {
+		DEFAULT_PARSERS = Collections.unmodifiableList(Arrays.asList(
 				// primitive types
 				new ByteParser(),
 				new CharParser(),
@@ -79,7 +79,7 @@ public class Arguments {
 				new StringParser(),
 				new ClassParser(),
 				new PathParser()
-		}));
+			));
 		
 	}
 	
