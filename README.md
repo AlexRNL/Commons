@@ -15,3 +15,4 @@ It contains many useful classes which may be reused easily across projects.
 Build status
 ------
 [![Build Status](https://travis-ci.org/AlexRNL/Commons.png?branch=master)](https://travis-ci.org/AlexRNL/Commons)
+[![Coverage Status](https://coveralls.io/repos/AlexRNL/Commons/badge.png)](https://coveralls.io/r/AlexRNL/Commons)
