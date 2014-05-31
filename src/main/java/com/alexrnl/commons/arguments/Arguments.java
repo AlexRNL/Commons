@@ -51,37 +51,37 @@ public class Arguments {
 	private static final Character					TAB							= '\t';
 	/** The number of tabs between the name of the argument and their description */
 	private static final int						NB_TABS_BEFORE_DESCRIPTION	= 4;
+	/** The character to use to indicate that strings will be joined. */
+	private static final String						JOIN_MARK					= "\"";
+	/** The character to escape the join mark in strings */
+	private static final String						ESCAPER						= "\\";
 	/** The short name for the help command */
 	public static final String						HELP_SHORT_NAME				= "-h";
 	/** The long name for the help command */
 	public static final String						HELP_LONG_NAME				= "--help";
 	/** The default parameter parsers */
-	private static final List<ParameterParser>		DEFAULT_PARSERS;
-	static {
-		DEFAULT_PARSERS = Collections.unmodifiableList(Arrays.asList(
-				// primitive types
-				new ByteParser(),
-				new CharParser(),
-				new DoubleParser(),
-				new FloatParser(),
-				new IntParser(),
-				new LongParser(),
-				new ShortParser(),
-				// wrappers
-				new WByteParser(),
-				new WCharParser(),
-				new WDoubleParser(),
-				new WFloatParser(),
-				new WIntegerParser(),
-				new WLongParser(),
-				new WShortParser(),
-				// others
-				new StringParser(),
-				new ClassParser(),
-				new PathParser()
-			));
-		
-	}
+	private static final List<ParameterParser>		DEFAULT_PARSERS				= Collections.unmodifiableList(Arrays.asList(
+																						// primitive types
+																						new ByteParser(),
+																						new CharParser(),
+																						new DoubleParser(),
+																						new FloatParser(),
+																						new IntParser(),
+																						new LongParser(),
+																						new ShortParser(),
+																						// wrappers
+																						new WByteParser(),
+																						new WCharParser(),
+																						new WDoubleParser(),
+																						new WFloatParser(),
+																						new WIntegerParser(),
+																						new WLongParser(),
+																						new WShortParser(),
+																						// others
+																						new StringParser(),
+																						new ClassParser(),
+																						new PathParser()
+																					));
 	
 	/** The name of the program */
 	private final String							programName;
@@ -250,23 +250,20 @@ public class Arguments {
 	}
 	
 	/**
-	 * Join arguments which are separated.<br />
-	 * TODO
-	 * @param arguments the arguments to join.
+	 * Join arguments which are between the {@link #JOIN_MARK}.<br />
+	 * @param arguments
+	 *        the arguments to join.
 	 * @return the joined arguments.
 	 */
 	static List<String> joinArguments (final Iterable<String> arguments) {
 		final List<String> joined = new LinkedList<>();
 		
-		final String SEPARATOR = "\"";
-		final String ESCAPER = "\\";
-		
 		StringBuilder currentArgument = null;
 		for (String argument : arguments) {
 			// Start with separator
-			if (argument.startsWith(SEPARATOR)
+			if (argument.startsWith(JOIN_MARK)
 					&& currentArgument == null) {
-				argument = argument.substring(SEPARATOR.length());
+				argument = argument.substring(JOIN_MARK.length());
 				currentArgument = new StringBuilder();
 			}
 			
@@ -276,34 +273,38 @@ public class Arguments {
 				}
 				currentArgument.append(argument);
 			} else {
-				// Clean character escaping
-				while (argument.contains(ESCAPER + SEPARATOR)) {
-					argument = argument.replace(ESCAPER + SEPARATOR, SEPARATOR);
-				}
-				joined.add(argument);
+				replaceAllAndAppend(joined, argument);
 			}
 			
 			// End with separator
-			if (argument.endsWith(SEPARATOR)
-					&& !argument.endsWith(ESCAPER + SEPARATOR)
+			if (argument.endsWith(JOIN_MARK)
+					&& !argument.endsWith(ESCAPER + JOIN_MARK)
 					&& currentArgument != null) {
-				String arg = currentArgument.substring(0, currentArgument.length() - 1);
-				while (arg.contains(ESCAPER + SEPARATOR)) {
-					arg = arg.replace(ESCAPER + SEPARATOR, SEPARATOR);
-				}
-				joined.add(arg);
+				replaceAllAndAppend(joined, currentArgument.substring(0, currentArgument.length() - 1));
 				currentArgument = null;
 			}
 		}
 		if (currentArgument != null) {
-			String arg = currentArgument.toString();
-			while (arg.contains(ESCAPER + SEPARATOR)) {
-				arg = arg.replace(ESCAPER + SEPARATOR, SEPARATOR);
-			}
-			joined.add(arg);
+			replaceAllAndAppend(joined, currentArgument.toString());
 		}
 		
 		return joined;
+	}
+	
+	/**
+	 * Replace the sequence {@link #ESCAPER} + {@link #JOIN_MARK} by the {@link #JOIN_MARK} value,
+	 * then the result is appended to the provided list.
+	 * @param list
+	 *        the list to append the computed result to.
+	 * @param value
+	 *        the value to add to the list, after cleaning it.
+	 */
+	private static void replaceAllAndAppend (final List<String> list, final String value) {
+		String result = value;
+		while (result.contains(ESCAPER + JOIN_MARK)) {
+			result = result.replace(ESCAPER + JOIN_MARK, JOIN_MARK);
+		}
+		list.add(result);
 	}
 	
 	/**
