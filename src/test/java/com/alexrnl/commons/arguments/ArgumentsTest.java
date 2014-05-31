@@ -194,7 +194,8 @@ public class ArgumentsTest {
 		assertEquals(Arrays.asList("-s", " \"Aba", "Ldr\""), Arguments.joinArguments(Arrays.asList("-s", " \"Aba", "Ldr\"")));
 		assertEquals(Arrays.asList("-s", "\"Aba", "Ldr\""), Arguments.joinArguments(Arrays.asList("-s", "\\\"Aba", "Ldr\"")));
 		assertEquals(Arrays.asList("-s", "Aba Ldr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr")));
-		// assertEquals(Arrays.asList("-s", "Aba Ldr\" Xdr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr\\\"", "Xdr")));
+		assertEquals(Arrays.asList("-s", "Aba Ldr\" Xdr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr\\\"", "Xdr")));
+		assertEquals(Arrays.asList("-s", "Aba Ldr\" Xdr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "Ldr\\\"", "Xdr\"")));
 		assertEquals(Arrays.asList("-s", "Aba \"Ldr"), Arguments.joinArguments(Arrays.asList("-s", "\"Aba", "\"Ldr\"")));
 	}
 	

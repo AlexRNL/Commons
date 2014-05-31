@@ -270,16 +270,16 @@ public class Arguments {
 				currentArgument = new StringBuilder();
 			}
 			
-			// Regular case (clean character escaping)
-			while (argument.contains(ESCAPER + SEPARATOR)) {
-				argument = argument.replace(ESCAPER + SEPARATOR, SEPARATOR);
-			}
 			if (currentArgument != null) {
 				if (currentArgument.length() > 0) {
 					currentArgument.append(' ');
 				}
 				currentArgument.append(argument);
 			} else {
+				// Clean character escaping
+				while (argument.contains(ESCAPER + SEPARATOR)) {
+					argument = argument.replace(ESCAPER + SEPARATOR, SEPARATOR);
+				}
 				joined.add(argument);
 			}
 			
@@ -287,12 +287,20 @@ public class Arguments {
 			if (argument.endsWith(SEPARATOR)
 					&& !argument.endsWith(ESCAPER + SEPARATOR)
 					&& currentArgument != null) {
-				joined.add(currentArgument.substring(0, currentArgument.length() - 1));
+				String arg = currentArgument.substring(0, currentArgument.length() - 1);
+				while (arg.contains(ESCAPER + SEPARATOR)) {
+					arg = arg.replace(ESCAPER + SEPARATOR, SEPARATOR);
+				}
+				joined.add(arg);
 				currentArgument = null;
 			}
 		}
 		if (currentArgument != null) {
-			joined.add(currentArgument.toString());
+			String arg = currentArgument.toString();
+			while (arg.contains(ESCAPER + SEPARATOR)) {
+				arg = arg.replace(ESCAPER + SEPARATOR, SEPARATOR);
+			}
+			joined.add(arg);
 		}
 		
 		return joined;
