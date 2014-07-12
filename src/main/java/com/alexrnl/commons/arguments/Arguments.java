@@ -141,9 +141,8 @@ public class Arguments {
 			field.setAccessible(true);
 			final Parameter param = new Parameter(field, field.getAnnotation(Param.class));
 			if (params.contains(param)) {
-				lg.warning("Could not add the parameter " + param.getNames() + ". The probable " +
-						"cause is that the first name has already been used by another parameter");
-				continue;
+				throw new IllegalArgumentException("Parameter " + param.getNames() + " could not " +
+						"be added, there is an other parameter with the same short name and order");
 			}
 			params.add(param);
 		}
@@ -322,7 +321,8 @@ public class Arguments {
 	}
 	
 	/**
-	 * Initialize all Booleans parameters to false.
+	 * Initialize all Booleans parameters to false.<br />
+	 * No need to initialize booleans because they are set to false by default.
 	 */
 	private void initializeBooleansParameters () {
 		for (final Parameter parameter : parameters) {

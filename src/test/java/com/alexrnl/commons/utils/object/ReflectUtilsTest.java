@@ -9,6 +9,7 @@ import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
+import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 import java.util.AbstractMap;
@@ -73,6 +74,18 @@ public class ReflectUtilsTest {
 	public void setUp () {
 		one = new ComparedClass("test", new Integer[] { 1, 2 }, false, new double[] { 2.8 });
 		two = new ComparedClass("track", new Integer[] { 4, 8 }, true, new double[] { -8.8 });
+	}
+	
+	/**
+	 * Check that no instance can be created.
+	 * @throws Exception
+	 *         if there is a reflection exception thrown.
+	 */
+	@Test(expected = InvocationTargetException.class)
+	public void testForbiddenInstance () throws Exception {
+		final Constructor<?> defaultConstructor = ReflectUtils.class.getDeclaredConstructors()[0];
+		defaultConstructor.setAccessible(true);
+		defaultConstructor.newInstance();
 	}
 	
 	/**

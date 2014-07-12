@@ -4,6 +4,8 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.nio.charset.Charset;
 import java.nio.charset.StandardCharsets;
 import java.util.Arrays;
@@ -17,6 +19,18 @@ import org.junit.Test;
  * @author Alex
  */
 public class StringUtilsTest {
+	
+	/**
+	 * Check that no instance can be created.
+	 * @throws Exception
+	 *         if there is a reflection exception thrown.
+	 */
+	@Test(expected = InvocationTargetException.class)
+	public void testForbiddenInstance () throws Exception {
+		final Constructor<?> defaultConstructor = StringUtils.class.getDeclaredConstructors()[0];
+		defaultConstructor.setAccessible(true);
+		defaultConstructor.newInstance();
+	}
 	
 	/**
 	 * Test method for {@link StringUtils#isNewLine(char)}.

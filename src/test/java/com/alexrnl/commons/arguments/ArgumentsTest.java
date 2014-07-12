@@ -11,6 +11,8 @@ import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.PrintStream;
 import java.util.Arrays;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -92,6 +94,19 @@ public class ArgumentsTest {
 	}
 	
 	/**
+	 * Class which holds duplicate parameter name.
+	 * @author Alex
+	 */
+	private static class DuplicateParam {
+		/** A string */
+		@Param(names = { "-x" }, description = "string")
+		private String	s;
+		/** An integer */
+		@Param(names = { "-x" }, description = "the value for x")
+		private int		x;
+	}
+	
+	/**
 	 * Set up test attributes.
 	 */
 	@Before
@@ -102,14 +117,25 @@ public class ArgumentsTest {
 	}
 	
 	/**
+	 * Test that an {@link IllegalArgumentException} is thrown when a name is used twice.
+	 */
+	@SuppressWarnings("unused")
+	@Test(expected = IllegalArgumentException.class)
+	public void testDoubleDefinitionOfParameter () {
+		new Arguments("test", new DuplicateParam());
+	}
+	
+	/**
 	 * Test method for {@link Arguments#parse(String[])}.
 	 */
 	@Test
 	public void testParseStringArray () {
+		Logger.getLogger(Arguments.class.getName()).setLevel(Level.WARNING);
 		arguments.parse("-u", "-n", "alex");
 		assertTrue(target.isUsed());
 		assertEquals("alex", target.getName());
 		assertFalse(target.isB());
+		Logger.getLogger(Arguments.class.getName()).setLevel(Level.INFO);
 	}
 	
 	/**

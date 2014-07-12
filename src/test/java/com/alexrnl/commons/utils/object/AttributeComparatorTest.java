@@ -6,6 +6,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -97,6 +99,7 @@ public class AttributeComparatorTest {
 	 */
 	@Test
 	public void testAreEqualsTT () {
+		Logger.getLogger(AttributeComparator.class.getName()).setLevel(Level.FINE);
 		for (int leftIndex = 0; leftIndex < left.size(); ++leftIndex) {
 			assertTrue(AttributeComparator.areEquals(left.get(leftIndex), right.get(leftIndex)));
 			for (int rightIndex = 0; rightIndex < right.size(); ++rightIndex) {
@@ -105,5 +108,6 @@ public class AttributeComparatorTest {
 				}
 			}
 		}
+		Logger.getLogger(AttributeComparator.class.getName()).setLevel(Level.INFO);
 	}
 }

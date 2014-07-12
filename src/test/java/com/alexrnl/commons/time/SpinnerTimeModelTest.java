@@ -6,6 +6,7 @@ import static org.junit.Assert.assertNull;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
@@ -29,6 +30,14 @@ public class SpinnerTimeModelTest {
 		spinnerMorning = new SpinnerTimeModel(new Time(9), Time.get("8:00"), Time.get("12:00"));
 		spinnerAfternoon = new SpinnerTimeModel(new Time(16), Time.get("14:00"), Time.get("18:00"), Time.get("0:5"));
 		spinnerNullBounds = new SpinnerTimeModel(new Time(), null, null);
+	}
+	
+	/**
+	 * Restore default logging level.
+	 */
+	@After
+	public void tearDown () {
+		Logger.getLogger(SpinnerTimeModel.class.getName()).setLevel(Level.INFO);
 	}
 	
 	/**
@@ -64,6 +73,9 @@ public class SpinnerTimeModelTest {
 	@Test
 	public void testSetValue () {
 		spinnerMorning.setValue(Time.get("14:00"));
+		Logger.getLogger(SpinnerTimeModel.class.getName()).setLevel(Level.WARNING);
+		spinnerMorning.setValue(Time.get("14:00"));
+		Logger.getLogger(SpinnerTimeModel.class.getName()).setLevel(Level.INFO);
 		spinnerAfternoon.setValue("14:00");
 		spinnerNullBounds.setValue(new Time());
 	}

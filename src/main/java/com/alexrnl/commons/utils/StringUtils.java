@@ -66,6 +66,7 @@ public final class StringUtils {
 	 */
 	private StringUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + StringUtils.class + " is forbidden");
 	}
 	
 	/**

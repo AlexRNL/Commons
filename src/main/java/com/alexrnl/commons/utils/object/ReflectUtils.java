@@ -36,6 +36,7 @@ public final class ReflectUtils {
 	 */
 	private ReflectUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + ReflectUtils.class + " is forbidden");
 	}
 	
 	/**

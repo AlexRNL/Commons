@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.util.LinkedList;
 import java.util.List;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -172,7 +174,9 @@ public class WordTest {
 	 */
 	@Test
 	public void testGetNextWord () {
+		Logger.getLogger(Word.class.getName()).setLevel(Level.FINE);
 		assertEquals("ldr", Word.getNextWord("  ldr! de,dpo").getWord());
+		Logger.getLogger(Word.class.getName()).setLevel(Level.INFO);
 		assertEquals("jean-jacques", Word.getNextWord("jean-jacques xxx").getWord());
 		assertEquals("", Word.getNextWord(".").getWord());
 	}

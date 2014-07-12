@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
+import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import org.junit.Before;
@@ -175,6 +176,7 @@ public class TimeSecTest {
 		assertEquals(timeNoon, TimeSec.get("12:04"));
 		assertEquals(timeAfterNoon, TimeSec.get("14h27m28s"));
 		assertEquals(timeEvening, TimeSec.get("19 21 48"));
+		Logger.getLogger(TimeSec.class.getName()).setLevel(Level.FINE);
 		assertEquals(timeNight, TimeSec.get("23.18.00"));
 	}
 	

@@ -135,13 +135,13 @@ public class Parameter implements Comparable<Parameter> {
 	
 	@Override
 	public int compareTo (final Parameter o) {
-		final int compareOrder = Integer.valueOf(getOrder()).compareTo(o.getOrder());
+		final int compareOrder = Integer.compare(getOrder(), o.getOrder());
 		// If order is enough to compare both parameters
 		if (compareOrder != 0) {
 			return compareOrder;
 		}
 		// Use the required parameter to compare if the order was not enough
-		final int compareRequired = Boolean.valueOf(o.isRequired()).compareTo(isRequired());
+		final int compareRequired = Boolean.compare(o.isRequired(), isRequired());
 		if (compareRequired != 0) {
 			return compareRequired;
 		}

@@ -80,11 +80,8 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 			final Time newValue;
 			if (value instanceof Time) {
 				newValue = (Time) value;
-			} else if (value instanceof String) {
-				newValue = Time.get((String) value);
 			} else {
-				throw new IllegalArgumentException("Should not arrive here: value is not Time or " +
-						"String but is " + value.getClass());
+				newValue = Time.get((String) value);
 			}
 			if (isValid(newValue)) {
 				this.value = newValue;
@@ -101,12 +98,12 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	
 	@Override
 	public Object getNextValue () {
-		return incrTime(1);
+		return incrTime(true);
 	}
 	
 	@Override
 	public Object getPreviousValue () {
-		return incrTime(-1);
+		return incrTime(false);
 	}
 	
 	/**
@@ -127,23 +124,22 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	
 	/**
 	 * Increment the current Time by one step in the direction specified.
-	 * @param direction
-	 *        direction of the step.
+	 * @param forward
+	 *        direction of the step, <code>true</code> to move forward, <code>false</code> to move
+	 *        backward.
 	 * @return the new time to be set.
 	 */
-	private Time incrTime (final int direction) {
+	private Time incrTime (final boolean forward) {
 		Time newValue = null;
 		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("incrTime in dir " + direction + " (value: " + value + ")");
+			lg.fine("incrTime forward? " + forward);
 		}
 		
 		// Changing value
-		if (direction > 0) {
+		if (forward) {
 			newValue = value.add(step);
-		} else if (direction < 0) {
-			newValue = value.sub(step);
 		} else {
-			throw new IllegalArgumentException("Direction value " + direction + " is not valid.");
+			newValue = value.sub(step);
 		}
 		if (lg.isLoggable(Level.FINE)) {
 			lg.fine("newValue: " + newValue);
