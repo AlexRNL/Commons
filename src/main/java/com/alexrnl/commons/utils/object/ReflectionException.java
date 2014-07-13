@@ -1,12 +1,11 @@
 package com.alexrnl.commons.utils.object;
 
-import com.alexrnl.commons.error.TopLevelError;
 
 /**
- * An error occurred while comparing objects with {@link AutoEquals}.
+ * An exception occurred while getting value from objects with reflection.
  * @author Alex
  */
-public class ComparisonError extends TopLevelError {
+public class ReflectionException extends RuntimeException {
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -2461613595268720759L;
 	
@@ -17,14 +16,15 @@ public class ComparisonError extends TopLevelError {
 	 * @param cause
 	 *        the exception which caused the error.
 	 */
-	public ComparisonError (final String message, final Throwable cause) {
+	public ReflectionException (final String message, final Throwable cause) {
 		super(message, cause);
 	}
 	
 	/**
 	 * Constructor #2.<br />
+	 * Default constructor.
 	 */
-	public ComparisonError () {
+	public ReflectionException () {
 		super();
 	}
 	
@@ -33,7 +33,7 @@ public class ComparisonError extends TopLevelError {
 	 * @param message
 	 *        the message of the exception.
 	 */
-	public ComparisonError (final String message) {
+	public ReflectionException (final String message) {
 		super(message);
 	}
 	
@@ -42,7 +42,7 @@ public class ComparisonError extends TopLevelError {
 	 * @param cause
 	 *        the exception which caused the error.
 	 */
-	public ComparisonError (final Throwable cause) {
+	public ReflectionException (final Throwable cause) {
 		super(cause);
 	}
 }

@@ -94,6 +94,30 @@ public class AutoEqualsTest {
 		}
 	}
 	
+	/**
+	 * Class which throws an exception when a {@link Field} method is called.
+	 * @author Alex
+	 */
+	static class ExceptionComparedClass {
+		
+		/**
+		 * Constructor #1.<br />
+		 * Default constructor.
+		 */
+		public ExceptionComparedClass () {
+			super();
+		}
+
+		/**
+		 * A method which throws an NPE when called.
+		 * @return nothing.
+		 */
+		@Field
+		public String getValue () {
+			throw new NullPointerException();
+		}
+	}
+	
 	/** The first compared class */
 	private ComparedClass one;
 	/** The second compared class. */
@@ -127,6 +151,14 @@ public class AutoEqualsTest {
 		assertFalse(comparator.compare(null, four));
 		assertFalse(comparator.compare(one, three));
 		assertFalse(comparator.compare(new Object(), three));
+	}
+	
+	/**
+	 * Test that an exception is thrown when the comparison failed.
+	 */
+	@Test(expected = ReflectionException.class)
+	public void testCompareWithException () {
+		AutoEquals.getInstance().compare(new ExceptionComparedClass(), new ExceptionComparedClass());
 	}
 	
 	/**

@@ -66,10 +66,10 @@ public final class AutoEquals {
 	 * @param <T>
 	 *        the type of the objects to be compared
 	 * @return <code>true</code> if all the attributes marked {@link Field} are equals.
-	 * @throws ComparisonError
+	 * @throws ReflectionException
 	 *         if there was an issue while comparing the objects.
 	 */
-	public <T> boolean compare (final T left, final T right) throws ComparisonError {
+	public <T> boolean compare (final T left, final T right) throws ReflectionException {
 		// Basic cases
 		if (left == right) {
 			return true;
@@ -89,9 +89,9 @@ public final class AutoEquals {
 			leftAttributes = ReflectUtils.invokeMethods(left, methods);
 			rightAttributes = ReflectUtils.invokeMethods(right, methods);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			lg.warning("Could not compute list of attribute, exception while invoking methods ("
-					+ ExceptionUtils.display(e) + ")");
-			throw new ComparisonError("Comparison failed for class " + left.getClass(), e);
+			lg.warning("Could not compute list of attribute, exception while invoking methods: "
+					+ ExceptionUtils.display(e));
+			throw new ReflectionException("AutoEquals failed for class " + left.getClass(), e);
 		}
 
 		final AttributeComparator comparator = new AttributeComparator();

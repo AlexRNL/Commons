@@ -6,18 +6,18 @@ import static org.junit.Assert.assertNull;
 import org.junit.Test;
 
 /**
- * Test suite for the {@link ComparisonError} class.
+ * Test suite for the {@link ReflectionException} class.
  * @author Alex
  */
 public class ComparisonErrorTest {
 	/** A blank error */
-	private final ComparisonError	blank			= new ComparisonError();
+	private final ReflectionException	blank			= new ReflectionException();
 	/** An error with a message */
-	private final ComparisonError	message			= new ComparisonError("Error while comparing Integer");
+	private final ReflectionException	message			= new ReflectionException("Error while comparing Integer");
 	/** An error with a code */
-	private final ComparisonError	cause			= new ComparisonError(new RuntimeException());
+	private final ReflectionException	cause			= new ReflectionException(new RuntimeException());
 	/** An error with a message and a code */
-	private final ComparisonError	messageAndCause	= new ComparisonError("Error while comparing Dummy", new NullPointerException());
+	private final ReflectionException	messageAndCause	= new ReflectionException("Error while comparing Dummy", new NullPointerException());
 	
 	/**
 	 * Test method for {@link Throwable#getMessage()}.

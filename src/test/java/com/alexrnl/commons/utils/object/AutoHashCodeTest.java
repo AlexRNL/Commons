@@ -7,6 +7,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.alexrnl.commons.utils.object.AutoEqualsTest.ComparedClass;
+import com.alexrnl.commons.utils.object.AutoEqualsTest.ExceptionComparedClass;
 
 /**
  * Test suite for the {@link AutoHashCode} class.
@@ -31,5 +32,13 @@ public class AutoHashCodeTest {
 	public void testHashCodeObject () {
 		Logger.getLogger(AutoHashCode.class.getName()).setLevel(Level.FINE);
 		AutoHashCode.getInstance().hashCode(testObject);
+	}
+	
+	/**
+	 * Test that the {@link ReflectionException} is thrown when a method is throwing an exception.
+	 */
+	@Test(expected = ReflectionException.class)
+	public void testHashCodeWithException () {
+		AutoHashCode.getInstance().hashCode(new ExceptionComparedClass());
 	}
 }

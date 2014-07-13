@@ -74,8 +74,9 @@ public final class AutoHashCode {
 				}
 				attributes.add(method.invoke(obj, (Object[]) null));
 			} catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				lg.warning("Could not add the value of the method " + method.getName() + " because "
+				lg.warning("Could not add the value of the method " + method.getName() + ": "
 						+ ExceptionUtils.display(e));
+				throw new ReflectionException("AutoHashCode failed for class " + obj.getClass(), e);
 			}
 		}
 		return HashCodeUtils.hashCode(attributes);
