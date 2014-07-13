@@ -2,16 +2,12 @@ package com.alexrnl.commons.database.structure;
 
 import java.io.Serializable;
 import java.util.Map;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  * Represent an abstract entity of a database.<br />
  * @author Alex
  */
 public abstract class Entity implements Cloneable, Serializable {
-	/** Logger */
-	private static Logger		lg					= Logger.getLogger(Entity.class.getName());
 	
 	/** Serial Version UID */
 	private static final long	serialVersionUID	= 1337771320210441402L;
@@ -22,9 +18,6 @@ public abstract class Entity implements Cloneable, Serializable {
 	 */
 	protected Entity () {
 		if (getEntityColumns() == null) {
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Calling the #setColumn() method.");
-			}
 			setEntityColumns();
 			int nbIdColumns = 0;
 			for (final Column column : getEntityColumns().values()) {
