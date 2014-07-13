@@ -50,10 +50,12 @@ public final class AutoHashCode {
 	 * @return the set with the equals methods.
 	 */
 	private Set<Method> getHashCodeMethods (final Class<?> objClass) {
-		if (!hashCodeMethods.containsKey(objClass)) {
-			hashCodeMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
+		synchronized (hashCodeMethods) {
+			if (!hashCodeMethods.containsKey(objClass)) {
+				hashCodeMethods.put(objClass, ReflectUtils.retrieveMethods(objClass, Field.class));
+			}
+			return hashCodeMethods.get(objClass);
 		}
-		return hashCodeMethods.get(objClass);
 	}
 	
 	/**
