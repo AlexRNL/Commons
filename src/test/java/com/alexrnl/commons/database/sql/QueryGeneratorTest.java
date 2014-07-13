@@ -6,6 +6,8 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.Map;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Test;
 
@@ -146,9 +148,11 @@ public class QueryGeneratorTest {
 	 */
 	@Test
 	public void testGetIDColumn () {
+		Logger.getLogger(QueryGenerator.class.getName()).setLevel(Level.FINE);
 		final Column idColumn = Dummy.getColumns().get(DummyColumn.ID);
 		assertEquals(idColumn, QueryGenerator.getIDColumn(new Dummy()));
 		assertEquals(idColumn, QueryGenerator.getIDColumn(new ReverseDummy()));
+		Logger.getLogger(QueryGenerator.class.getName()).setLevel(Level.INFO);
 	}
 	
 	/**
@@ -276,6 +280,7 @@ public class QueryGeneratorTest {
 	public void testInsertPrepared () {
 		assertEquals("INSERT INTO Dummy(`name`) VALUES (?)", QueryGenerator.insertPrepared(new Dummy()));
 		assertEquals("INSERT INTO ReverseDummy(`name`,`value`) VALUES (?, ?)", QueryGenerator.insertPrepared(new ReverseDummy()));
+		assertEquals("", QueryGenerator.insertPrepared(new Fake()));
 	}
 	
 	/**
