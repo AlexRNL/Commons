@@ -1,15 +1,21 @@
 package com.alexrnl.commons.database.h2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.net.URISyntaxException;
+import java.nio.file.DirectoryNotEmptyException;
+import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.nio.file.SimpleFileVisitor;
+import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
+import java.util.HashSet;
 import java.util.Set;
 
 import org.h2.engine.Constants;
@@ -19,6 +25,7 @@ import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.database.sql.DummySQLDAO;
+import com.alexrnl.commons.utils.StringUtils;
 
 /**
  * Test suite for the {@link H2Utils} class.
@@ -66,7 +73,20 @@ public class H2UtilsTest {
 		connection.close();
 		
 		Files.delete(Paths.get(tempDBFolder.toString(), "testDummy.h2.db"));
-		Files.delete(tempDBFolder);
+		try {
+			Files.delete(tempDBFolder);
+		} catch (final DirectoryNotEmptyException e) {
+			final Set<Path> files = new HashSet<>();
+			Files.walkFileTree(tempDBFolder, new SimpleFileVisitor<Path>() {
+				@Override
+				public FileVisitResult visitFile (final Path file, final BasicFileAttributes attrs)
+						throws IOException {
+					files.add(file.toAbsolutePath());
+					return FileVisitResult.CONTINUE;
+				}
+			});
+			fail("Directory is not empty: " + StringUtils.separateWith(", ", files));
+		}
 	}
 	
 	/**
