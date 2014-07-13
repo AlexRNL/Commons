@@ -2,10 +2,13 @@ package com.alexrnl.commons.database.dao;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.mockito.Mockito.doThrow;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.verify;
 
 import java.io.IOException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 import org.junit.Test;
 
@@ -131,5 +134,24 @@ public class AbstractDAOFactoryTest {
 		factory.addDAO(Dummy.class, new DAOAdaptater<Dummy>());
 		assertEquals(1, factory.getDAOs().size());
 		factory.close();
+	}
+	
+	/**
+	 * Test that an exception on closing a dao does not break anything.
+	 * @throws IOException
+	 *         if the DAO could not be closed.
+	 */
+	@Test
+	public void testExceptionWhenClosingDAO () throws IOException {
+		Logger.getLogger(AbstractDAOFactory.class.getName()).setLevel(Level.WARNING);
+		final AbstractDAOFactory factory = new DummyFactory(null);
+		assertEquals(1, factory.getDAOs().size());
+		final DAO<Dummy> daoMock = mock(DAO.class);
+		factory.addDAO(Dummy.class, daoMock);
+		doThrow(IOException.class).when(daoMock).close();
+		factory.addDAO(Dummy.class, new DAOAdaptater<Dummy>());
+		verify(daoMock).close();
+		factory.close();
+		Logger.getLogger(AbstractDAOFactory.class.getName()).setLevel(Level.INFO);
 	}
 }
