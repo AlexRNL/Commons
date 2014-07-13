@@ -5,7 +5,7 @@ package com.alexrnl.commons.error;
  * Will be caught at the higher level of the application.
  * @author Alex
  */
-public abstract class TopLevelError extends Error {
+public class TopLevelError extends Error {
 	/** Serial Version UID */
 	private static final long	serialVersionUID	= -551856567230335889L;
 	

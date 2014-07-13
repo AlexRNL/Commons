@@ -54,9 +54,7 @@ public final class StringUtils {
 		} catch (final NoSuchAlgorithmException e) {
 			lg.severe("Message digest algorithm not found: "
 					+ ExceptionUtils.display(e));
-			throw new TopLevelError(e) {
-				/** The serial version UID */
-				private static final long	serialVersionUID	= 7373353736343009842L;};
+			throw new TopLevelError(e);
 		}
 	}
 

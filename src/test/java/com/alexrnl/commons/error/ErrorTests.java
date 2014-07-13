@@ -9,6 +9,6 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ExceptionUtilsTest.class })
+@SuiteClasses({ ExceptionUtilsTest.class, TopLevelErrorTest.class })
 public class ErrorTests {
 }
