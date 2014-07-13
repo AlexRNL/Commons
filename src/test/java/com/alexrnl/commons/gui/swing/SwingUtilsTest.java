@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
 import java.util.LinkedList;
@@ -43,6 +45,18 @@ public class SwingUtilsTest {
 	@Before
 	public void setUp () throws URISyntaxException {
 		translator = new Translator(Paths.get(getClass().getResource("/locale.xml").toURI()));
+	}
+	
+	/**
+	 * Check that no instance can be created.
+	 * @throws Exception
+	 *         if there is a reflection exception thrown.
+	 */
+	@Test(expected = InvocationTargetException.class)
+	public void testForbiddenInstance () throws Exception {
+		final Constructor<?> defaultConstructor = SwingUtils.class.getDeclaredConstructors()[0];
+		defaultConstructor.setAccessible(true);
+		defaultConstructor.newInstance();
 	}
 	
 	/**

@@ -7,6 +7,8 @@ import static org.junit.Assert.assertTrue;
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
@@ -21,6 +23,18 @@ import org.junit.Test;
  * @author Alex
  */
 public class IOUtilsTest {
+	
+	/**
+	 * Check that no instance can be created.
+	 * @throws Exception
+	 *         if there is a reflection exception thrown.
+	 */
+	@Test(expected = InvocationTargetException.class)
+	public void testForbiddenInstance () throws Exception {
+		final Constructor<?> defaultConstructor = IOUtils.class.getDeclaredConstructors()[0];
+		defaultConstructor.setAccessible(true);
+		defaultConstructor.newInstance();
+	}
 	
 	/**
 	 * Test method for {@link IOUtils#readLine(BufferedReader)}.

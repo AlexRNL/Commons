@@ -1,6 +1,7 @@
 package com.alexrnl.commons.time;
 
 
+
 /**
  * Utility class used to convert dates from a specific unit into an other one.
  * @author Alex
@@ -78,6 +79,7 @@ public final class TimeConverter {
 	 */
 	private TimeConverter () {
 		super();
+		throw new InstantiationError("Instantiation of class " + TimeConverter.class + " is forbidden");
 	}
 	
 	/**

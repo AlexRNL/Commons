@@ -2,6 +2,8 @@ package com.alexrnl.commons.database.sql;
 
 import static org.junit.Assert.assertEquals;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
 import java.util.Map;
 
@@ -125,6 +127,18 @@ public class QueryGeneratorTest {
 			return AutoEquals.getInstance().compare(this, (Dummy) obj);
 		}
 		
+	}
+	
+	/**
+	 * Check that no instance can be created.
+	 * @throws Exception
+	 *         if there is a reflection exception thrown.
+	 */
+	@Test(expected = InvocationTargetException.class)
+	public void testForbiddenInstance () throws Exception {
+		final Constructor<?> defaultConstructor = QueryGenerator.class.getDeclaredConstructors()[0];
+		defaultConstructor.setAccessible(true);
+		defaultConstructor.newInstance();
 	}
 	
 	/**

@@ -19,6 +19,7 @@ public final class ExceptionUtils {
 	 */
 	private ExceptionUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + ExceptionUtils.class + " is forbidden");
 	}
 	
 	/**

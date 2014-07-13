@@ -25,6 +25,7 @@ public final class QueryGenerator {
 	 */
 	private QueryGenerator () {
 		super();
+		throw new InstantiationError("Instantiation of class " + QueryGenerator.class + " is forbidden");
 	}
 	
 	/**

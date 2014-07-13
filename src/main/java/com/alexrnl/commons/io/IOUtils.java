@@ -31,6 +31,7 @@ public final class IOUtils {
 	 */
 	private IOUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + IOUtils.class + " is forbidden");
 	}
 	
 	/**

@@ -23,6 +23,7 @@ public final class CollectionUtils {
 	 */
 	private CollectionUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + CollectionUtils.class + " is forbidden");
 	}
 	
 	/**

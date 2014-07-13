@@ -18,6 +18,7 @@ public final class HashCodeUtils {
 	 */
 	private HashCodeUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + HashCodeUtils.class + " is forbidden");
 	}
 	
 	/**

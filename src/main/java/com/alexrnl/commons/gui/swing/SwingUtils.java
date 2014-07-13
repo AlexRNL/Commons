@@ -39,6 +39,7 @@ public final class SwingUtils {
 	 */
 	private SwingUtils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + SwingUtils.class + " is forbidden");
 	}
 	
 	/**

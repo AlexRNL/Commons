@@ -33,6 +33,7 @@ public final class H2Utils {
 	 */
 	private H2Utils () {
 		super();
+		throw new InstantiationError("Instantiation of class " + H2Utils.class + " is forbidden");
 	}
 	
 	/**
