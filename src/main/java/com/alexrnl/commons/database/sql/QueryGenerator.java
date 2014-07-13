@@ -37,18 +37,21 @@ public final class QueryGenerator {
 	 *         object.
 	 */
 	public static Column getIDColumn (final Entity object) {
-		// If the id column has previously been found
-		if (idColumns.containsKey(object.getClass())) {
-			return idColumns.get(object.getClass());
-		}
-		// Searching the id column
-		for (final Column column : object.getEntityColumns().values()) {
-			if (column.isID()) {
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("ID column found for entity " + object.getEntityName() + ": " + column.getName());
-				}
-				idColumns.put(object.getClass(), column);
+		synchronized (idColumns) {
+			// If the id column has previously been found
+			if (idColumns.containsKey(object.getClass())) {
 				return idColumns.get(object.getClass());
+			}
+			// Searching the id column
+			for (final Column column : object.getEntityColumns().values()) {
+				if (column.isID()) {
+					if (lg.isLoggable(Level.FINE)) {
+						lg.fine("ID column found for entity " + object.getEntityName() + ": "
+								+ column.getName());
+					}
+					idColumns.put(object.getClass(), column);
+					return idColumns.get(object.getClass());
+				}
 			}
 		}
 		// If none, throw error
