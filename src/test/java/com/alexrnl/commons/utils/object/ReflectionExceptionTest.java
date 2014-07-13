@@ -9,7 +9,7 @@ import org.junit.Test;
  * Test suite for the {@link ReflectionException} class.
  * @author Alex
  */
-public class ComparisonErrorTest {
+public class ReflectionExceptionTest {
 	/** A blank error */
 	private final ReflectionException	blank			= new ReflectionException();
 	/** An error with a message */
