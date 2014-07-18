@@ -1,6 +1,8 @@
 package com.alexrnl.commons.database.sql;
 
 import static org.junit.Assert.assertEquals;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -11,6 +13,7 @@ import java.util.logging.Logger;
 
 import org.junit.Test;
 
+import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.Dummy.DummyColumn;
 import com.alexrnl.commons.database.Fake;
@@ -280,7 +283,18 @@ public class QueryGeneratorTest {
 	public void testInsertPrepared () {
 		assertEquals("INSERT INTO Dummy(`name`) VALUES (?)", QueryGenerator.insertPrepared(new Dummy()));
 		assertEquals("INSERT INTO ReverseDummy(`name`,`value`) VALUES (?, ?)", QueryGenerator.insertPrepared(new ReverseDummy()));
-		assertEquals("", QueryGenerator.insertPrepared(new Fake()));
+	}
+	
+	/**
+	 * Test method for single column entity.
+	 */
+	@Test(expected = DataBaseConfigurationError.class)
+	public void testInsertPreparedWithSingleColumnEntity () {
+		final Entity singleColumnEntity = mock(Entity.class);
+		final Map singleColumns = mock(Map.class);
+		when(singleColumnEntity.getEntityColumns()).thenReturn(singleColumns);
+		when(singleColumns.size()).thenReturn(1);
+		QueryGenerator.insertPrepared(singleColumnEntity);
 	}
 	
 	/**

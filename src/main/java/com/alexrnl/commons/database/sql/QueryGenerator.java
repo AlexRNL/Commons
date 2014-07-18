@@ -5,6 +5,7 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.NoIdError;
@@ -251,11 +252,11 @@ public final class QueryGenerator {
 	 * @return the prepared query.
 	 */
 	public static String insertPrepared (final Entity object) {
-		final StringBuilder fields = new StringBuilder(insert(object, false)).append("(");
 		int columnNumber = object.getEntityColumns().size() - 1;
-		if (columnNumber < 1) {
-			return "";
+		if (columnNumber == 0) {
+			throw new DataBaseConfigurationError("Single column tables are not supported");
 		}
+		final StringBuilder fields = new StringBuilder(insert(object, false)).append("(");
 		while (columnNumber > 1) {
 			fields.append("?, ");
 			--columnNumber;
