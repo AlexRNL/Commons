@@ -10,7 +10,9 @@ import static org.mockito.Mockito.verify;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.PrintStream;
+import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.List;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -51,6 +53,9 @@ public class ArgumentsTest {
 		/** An integer */
 		@Param(names = { "-x" }, description = "the value for x")
 		private int		x;
+		/** The list of values*/
+		@Param(names = { "-l" }, description = "values", itemClass = String.class)
+		private final List<String> values;
 
 		/**
 		 * Constructor #1.<br />
@@ -58,6 +63,7 @@ public class ArgumentsTest {
 		 */
 		private Target () {
 			super();
+			values = new ArrayList<>();
 		}
 		
 		/**
@@ -90,6 +96,14 @@ public class ArgumentsTest {
 		 */
 		public int getX () {
 			return x;
+		}
+		
+		/**
+		 * Return the attribute values.
+		 * @return the attribute values.
+		 */
+		public List<String> getValues () {
+			return values;
 		}
 	}
 	
@@ -209,6 +223,13 @@ public class ArgumentsTest {
 		arguments.parse("-n", "test", "-x", "0.28");
 	}
 	
+	@Test
+	public void testCollectionItemProcessing () {
+		arguments.parse("-n", "test", "-l", "myValue");
+		assertEquals("test", target.getName());
+		assertEquals(Arrays.asList("myValue"), target.getValues());
+	}
+	
 	/**
 	 * Test method for {@link Arguments#joinArguments(Iterable)}
 	 */
@@ -244,6 +265,7 @@ public class ArgumentsTest {
 		assertEquals("manLau usage as follow:\n" +
 				"\t   -n\t\t\t\tthe name of the object\n" +
 				"\t[  -b\t\t\t\tboolean wrapping  ]\n" +
+				"\t[  -l\t\t\t\tvalues  ]\n" +
 				"\t[  -o\t\t\t\tobject  ]\n" +
 				"\t[  -u, --used\t\t\t\tif the feature should be used  ]\n" +
 				"\t[  -x\t\t\t\tthe value for x  ]",

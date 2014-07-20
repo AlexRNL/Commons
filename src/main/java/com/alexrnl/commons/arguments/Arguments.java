@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.arguments.parsers.AbstractParser;
 import com.alexrnl.commons.arguments.parsers.ByteParser;
 import com.alexrnl.commons.arguments.parsers.CharParser;
 import com.alexrnl.commons.arguments.parsers.ClassParser;
@@ -228,6 +230,25 @@ public class Arguments {
 					errors.add("Value " + value + " could not be assigned to parameter " + argument);
 					lg.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
+				}
+			} else if (Collection.class.isAssignableFrom(parameterType)) {
+				if (currentParameter.getItemClass() == null) {
+					errors.add("No item class defined for parameter " + currentParameter.getNames());
+					continue;
+				}
+				if (parsers.containsKey(currentParameter.getItemClass())) {
+					try {
+						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
+						((Collection) currentParameter.getField().get(target)).add(collectionItemParser.getValue(value));
+						requiredParameters.remove(currentParameter);
+					} catch (final IllegalArgumentException | IllegalAccessException e) {
+						errors.add("Value " + value + " could not be assigned to parameter " + argument);
+						lg.warning("Parameter " + argument + " value could not be set: "
+								+ ExceptionUtils.display(e));
+					}
+				} else {
+					errors.add("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
+							+ argument + ").");
 				}
 			} else {
 				errors.add("No parser found for type " + parameterType.getName() + " (parameter "
