@@ -239,7 +239,12 @@ public class Arguments {
 				if (parsers.containsKey(currentParameter.getItemClass())) {
 					try {
 						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
-						((Collection) currentParameter.getField().get(target)).add(collectionItemParser.getValue(value));
+						final Collection collection = (Collection) currentParameter.getField().get(target);
+						if (collection == null) {
+							errors.add("Target collection for parameter " + argument + " is null");
+							continue;
+						}
+						collection.add(collectionItemParser.getValue(value));
 						requiredParameters.remove(currentParameter);
 					} catch (final IllegalArgumentException | IllegalAccessException e) {
 						errors.add("Value " + value + " could not be assigned to parameter " + argument);
