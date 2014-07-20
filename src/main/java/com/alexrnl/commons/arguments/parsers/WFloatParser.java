@@ -15,7 +15,7 @@ public class WFloatParser extends AbstractParser<Float> {
 	}
 	
 	@Override
-	protected Float getValue (final String parameter) throws IllegalArgumentException {
+	public Float getValue (final String parameter) throws IllegalArgumentException {
 		return Float.valueOf(parameter);
 	}
 }

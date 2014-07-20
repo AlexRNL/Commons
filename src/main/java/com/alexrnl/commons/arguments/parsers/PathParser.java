@@ -17,7 +17,7 @@ public class PathParser extends AbstractParser<Path> {
 	}
 	
 	@Override
-	protected Path getValue (final String parameter) throws IllegalArgumentException {
+	public Path getValue (final String parameter) throws IllegalArgumentException {
 		return Paths.get(parameter);
 	}
 	

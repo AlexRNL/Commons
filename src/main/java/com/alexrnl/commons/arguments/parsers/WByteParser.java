@@ -14,7 +14,7 @@ public class WByteParser extends AbstractParser<Byte> {
 	}
 	
 	@Override
-	protected Byte getValue (final String parameter) throws IllegalArgumentException {
+	public Byte getValue (final String parameter) throws IllegalArgumentException {
 		return Byte.parseByte(parameter);
 	}
 	

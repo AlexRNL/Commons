@@ -23,7 +23,7 @@ public class ClassParser extends AbstractParser<Class> {
 	public ClassParser () {
 		this(null);
 	}
-
+	
 	/**
 	 * Constructor #2.<br />
 	 * @param rootPackage
@@ -33,9 +33,9 @@ public class ClassParser extends AbstractParser<Class> {
 		super(Class.class);
 		this.rootPackage = rootPackage;
 	}
-
+	
 	@Override
-	protected Class getValue (final String parameter) throws IllegalArgumentException {
+	public Class getValue (final String parameter) throws IllegalArgumentException {
 		try {
 			return Class.forName(rootPackage != null ?
 					rootPackage.getName() + ReflectUtils.PACKAGE_SEPARATOR + parameter
