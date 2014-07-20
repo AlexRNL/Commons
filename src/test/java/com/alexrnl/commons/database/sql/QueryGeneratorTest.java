@@ -7,6 +7,7 @@ import static org.mockito.Mockito.when;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.EnumMap;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -16,7 +17,6 @@ import org.junit.Test;
 import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.Dummy.DummyColumn;
-import com.alexrnl.commons.database.Fake;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.database.structure.EntityColumn;
@@ -160,11 +160,12 @@ public class QueryGeneratorTest {
 	
 	/**
 	 * Test method for {@link QueryGenerator#getIDColumn(Entity)}.<br />
-	 * This expect either an {@link AssertionError} or a {@link NoIdError}.
 	 */
-	@Test(expected = Error.class)
+	@Test(expected = NoIdError.class)
 	public void testGetIDColumnNoIdError () {
-		QueryGenerator.getIDColumn(new Fake());
+		final Entity noId = mock(Entity.class);
+		when(noId.getEntityColumns()).thenReturn(new HashMap());
+		QueryGenerator.getIDColumn(noId);
 	}
 	
 	/**
