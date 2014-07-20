@@ -28,7 +28,7 @@ public class ParameterTest {
 	/** The parameter loaded reflectively */
 	private Parameter reflectParam;
 	/** The parameter to load reflectively */
-	@Param(names = {"-name"}, required = false, description = "the name", order = 1)
+	@Param(names = {"-name"}, required = false, description = "the name", order = 1, itemClass = Number.class)
 	private String myParam;
 	
 	/**
@@ -40,10 +40,9 @@ public class ParameterTest {
 	 */
 	@Before
 	public void setUp () throws NoSuchFieldException, SecurityException {
-		parameter = new Parameter(null, Arrays.asList(new String[] {"-n", "--number"}), true, "my description", 0);
+		parameter = new Parameter(null, Arrays.asList(new String[] {"-n", "--number"}), true, "my description", 0, null);
 		final Field field = ParameterTest.class.getDeclaredField("myParam");
 		reflectParam = new Parameter(field, field.getAnnotation(Param.class));
-		
 	}
 	
 	/**
@@ -52,7 +51,7 @@ public class ParameterTest {
 	@SuppressWarnings("unused")
 	@Test(expected = IllegalArgumentException.class)
 	public void testParamWithNoName () {
-		new Parameter(null, new ArrayList<String>(), false, "does not matter", 0);
+		new Parameter(null, new ArrayList<String>(), false, "does not matter", 0, null);
 	}
 	
 	/**
@@ -106,6 +105,15 @@ public class ParameterTest {
 	}
 	
 	/**
+	 * Test method for {@link Parameter#getItemClass()}.
+	 */
+	@Test
+	public void testGetItemClass () {
+		assertNull(parameter.getItemClass());
+		assertEquals(Number.class, reflectParam.getItemClass());
+	}
+	
+	/**
 	 * Test method for {@link Parameter#hashCode()}.
 	 */
 	@Test
@@ -133,19 +141,19 @@ public class ParameterTest {
 	public void testCompareTo () {
 		final List<String> emptyStrings = Arrays.asList("man", "test");
 		// Order is enough:
-		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 1)), lessThan(0));
-		assertThat(new Parameter(null, emptyStrings, true, "", 2).compareTo(new Parameter(null, emptyStrings, true, "", 1)), greaterThan(0));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0, null).compareTo(new Parameter(null, emptyStrings, true, "", 1, null)), lessThan(0));
+		assertThat(new Parameter(null, emptyStrings, true, "", 2, null).compareTo(new Parameter(null, emptyStrings, true, "", 1, null)), greaterThan(0));
 		
 		// With required attribute:
 		//0-0 & f-t
-		assertThat(new Parameter(null, emptyStrings , false, "", 0).compareTo(new Parameter(null, emptyStrings, true, "", 0)), greaterThan(0));
+		assertThat(new Parameter(null, emptyStrings , false, "", 0, null).compareTo(new Parameter(null, emptyStrings, true, "", 0, null)), greaterThan(0));
 		//0-0 & t-f
-		assertThat(new Parameter(null, emptyStrings, true, "", 0).compareTo(new Parameter(null, emptyStrings, false, "", 0)), lessThan(0));
+		assertThat(new Parameter(null, emptyStrings, true, "", 0, null).compareTo(new Parameter(null, emptyStrings, false, "", 0, null)), lessThan(0));
 
 		// With names:
-		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("a"), true, "", 0)), greaterThan(0));
-		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("xal"), true, "", 0)), lessThan(0));
-		assertThat(new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("xal", "a"), true, "", 0)), greaterThan(0));
-		assertEquals(0, new Parameter(null, emptyStrings , true, "", 0).compareTo(new Parameter(null, Arrays.asList("man"), true, "", 0)));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0, null).compareTo(new Parameter(null, Arrays.asList("a"), true, "", 0, null)), greaterThan(0));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0, null).compareTo(new Parameter(null, Arrays.asList("xal"), true, "", 0, null)), lessThan(0));
+		assertThat(new Parameter(null, emptyStrings , true, "", 0, null).compareTo(new Parameter(null, Arrays.asList("xal", "a"), true, "", 0, null)), greaterThan(0));
+		assertEquals(0, new Parameter(null, emptyStrings , true, "", 0, null).compareTo(new Parameter(null, Arrays.asList("man"), true, "", 0, null)));
 	}
 }
