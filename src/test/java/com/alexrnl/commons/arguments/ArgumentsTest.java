@@ -3,13 +3,18 @@ package com.alexrnl.commons.arguments;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
+import static org.mockito.Matchers.any;
 import static org.mockito.Matchers.anyString;
+import static org.mockito.Matchers.eq;
+import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
 import java.io.PrintStream;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -19,6 +24,8 @@ import java.util.logging.Logger;
 import org.junit.Before;
 import org.junit.Test;
 import org.mockito.Mock;
+
+import com.alexrnl.commons.arguments.parsers.AbstractParser;
 
 /**
  * Test suite for the {@link Arguments} class.
@@ -162,6 +169,18 @@ public class ArgumentsTest {
 		assertEquals("manLau", target.getName());
 		assertTrue(target.isB());
 		assertEquals(28, target.getX());
+	}
+	
+	/**
+	 * Test method for {@link Arguments#addParameterParser(AbstractParser)}.
+	 */
+	@Test
+	public void testAddParameterParser () {
+		final AbstractParser customParser = mock(AbstractParser.class);
+		when(customParser.getFieldType()).thenReturn(String.class);
+		assertTrue(arguments.addParameterParser(customParser));
+		arguments.parse("-n", "test");
+		verify(customParser).parse(eq(target), any(Field.class), eq("test"));
 	}
 	
 	/**

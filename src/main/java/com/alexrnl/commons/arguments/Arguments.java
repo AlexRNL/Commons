@@ -152,13 +152,26 @@ public class Arguments {
 	}
 	
 	/**
+	 * Add a parameter parser to the current arguments.<br />
+	 * Using an abstract parser allows to dynamically build collection using the parser.
+	 * @param parser
+	 *        the parser to add.
+	 * @return <code>true</code> if a previous parser was already set for this field type.
+	 * @see ParameterParser
+	 * @see AbstractParser
+	 */
+	public <T> boolean addParameterParser (final AbstractParser<T> parser) {
+		return addParameterParser((ParameterParser) parser);
+	}
+	
+	/**
 	 * Add a parameter parser to the current arguments.
 	 * @param parser
 	 *        the parser to add.
 	 * @return <code>true</code> if a previous parser was already set for this field type.
 	 * @see ParameterParser
 	 */
-	public boolean addParameterParser (final ParameterParser parser) {
+	private boolean addParameterParser (final ParameterParser parser) {
 		final boolean override = parsers.containsKey(parser.getFieldType());
 		parsers.put(parser.getFieldType(), parser);
 		return override;
