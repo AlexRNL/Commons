@@ -3,6 +3,7 @@ package com.alexrnl.commons.utils;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
+import static org.junit.Assert.assertSame;
 import static org.junit.Assert.assertTrue;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -10,13 +11,17 @@ import static org.mockito.Mockito.when;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.Random;
+import java.util.Set;
 
 import org.junit.Test;
 
@@ -116,5 +121,33 @@ public class CollectionUtilsTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testGetRandomItemNullRandom () {
 		CollectionUtils.getRandomItem(new LinkedList<>(), null);
+	}
+	
+	/**
+	 * Test method for {@link CollectionUtils#joinCollections(Collection, Collection...)}.
+	 */
+	@Test
+	public void testJoinCollections () {
+		final List<Number> target = new LinkedList<>();
+		final Set<Integer> set = new HashSet<>(Arrays.asList(1, 2, 4, 5));
+		final List<Double> list = Arrays.asList(2.8, 4.5, -28.12);
+		
+		// Regular case
+		final Collection<Number> returned = CollectionUtils.joinCollections(target, set, list);
+		assertSame(target, returned);
+		assertEquals(Arrays.asList(1, 2, 4, 5, 2.8, 4.5, -28.12), target);
+		
+		// No other collection provided
+		final List<String> empty = new ArrayList<>();
+		assertEquals(empty, CollectionUtils.joinCollections(empty));
+		assertTrue(empty.isEmpty());
+	}
+	
+	/**
+	 * Test that a <code>null</code> target collection is not permitted.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testJoinCollectionsNullTarget () {
+		CollectionUtils.joinCollections(null);
 	}
 }

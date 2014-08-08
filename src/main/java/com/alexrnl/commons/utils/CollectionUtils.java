@@ -110,4 +110,28 @@ public final class CollectionUtils {
 		}
 		return iterator.next();
 	}
+	
+	/**
+	 * Join several all provided collections in the first one provided.<br />
+	 * The instance of the target collection is returned to ease use in foreach loops.
+	 * @param target
+	 *        the target collection
+	 * @param collections
+	 *        the collections of items to add in the target collection.
+	 * @return the first collection, with the other items of the collection added.
+	 */
+	@SafeVarargs
+	public static <T> Collection<T> joinCollections (final Collection<T> target, final Collection<? extends T>... collections) {
+		if (target == null) {
+			throw new IllegalArgumentException("Cannot join collection in null target");
+		}
+		if (collections.length == 0) {
+			return target;
+		}
+		
+		for (int i = 0; i < collections.length; i++) {
+			target.addAll(collections[i]);
+		}
+		return target;
+	}
 }
