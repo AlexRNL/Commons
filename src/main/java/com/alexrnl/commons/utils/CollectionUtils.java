@@ -1,11 +1,13 @@
 package com.alexrnl.commons.utils;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Objects;
 import java.util.Properties;
+import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -70,5 +72,42 @@ public final class CollectionUtils {
 			map.put((String) property.getKey(), (String) property.getValue());
 		}
 		return map;
+	}
+	
+	/**
+	 * Return a random item from the collection specified.<br />
+	 * If the collection is empty, <code>null</code> is returned.
+	 * @param collection
+	 *        the collection.
+	 * @param random
+	 *        the random generator to use.
+	 * @return the randomly selected item.
+	 */
+	public static <T> T getRandomItem (final Collection<T> collection, final Random random) {
+		// Check argument validity
+		if (collection == null) {
+			throw new IllegalArgumentException("Cannot get random item with null collection");
+		}
+		if (random == null) {
+			throw new IllegalArgumentException("Cannot get random item with null random generator");
+		}
+		
+		// Avoid unnecessary computation with empty collection (or with one item).
+		if (collection.size() == 0) {
+			return null;
+		}
+		if (collection.size() == 1) {
+			return collection.iterator().next();
+		}
+		
+		// Standard cases
+		final int position = random.nextInt(collection.size());
+		int counter = 0;
+		final Iterator<T> iterator = collection.iterator();
+		while (counter < position) {
+			iterator.next();
+			counter++;
+		}
+		return iterator.next();
 	}
 }
