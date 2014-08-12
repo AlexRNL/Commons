@@ -213,11 +213,11 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 * Clear frames, window, unsubscribe models and listeners, etc.
 	 */
 	public void dispose () {
-		synchronized (registeredModels) {
-			registeredModels.clear();
+		for (final AbstractModel model : getRegisteredModels()) {
+			removeModel(model);
 		}
-		synchronized (registeredViews) {
-			registeredViews.clear();
+		for (final AbstractView view : getRegisteredViews()) {
+			removeView(view);
 		}
 	}
 	
