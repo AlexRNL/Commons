@@ -4,12 +4,18 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.error.ExceptionUtils;
+import com.alexrnl.commons.utils.object.ImmutablePair;
+import com.alexrnl.commons.utils.object.Pair;
 import com.alexrnl.commons.utils.object.ReflectUtils;
 
 /**
@@ -20,12 +26,14 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public abstract class AbstractController implements PropertyChangeListener {
 	/** Logger */
-	private static Logger				lg	= Logger.getLogger(AbstractController.class.getName());
+	private static Logger									lg	= Logger.getLogger(AbstractController.class.getName());
 	
 	/** The models represented by the views */
-	private final List<AbstractModel>	registeredModels;
+	private final List<AbstractModel>						registeredModels;
 	/** The views to be updated by the models */
-	private final List<AbstractView>	registeredViews;
+	private final List<AbstractView>						registeredViews;
+	/** Map containing the reference to the methods of the model */
+	private final Map<AbstractModel, Map<Pair<String, Class<?>>, Method>>	methodPropertyMap;
 	
 	/**
 	 * Constructor #1.<br />
@@ -35,6 +43,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 		super();
 		registeredModels = new LinkedList<>();
 		registeredViews = new LinkedList<>();
+		methodPropertyMap = new HashMap<>();
 	}
 	
 	/**
@@ -51,6 +60,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 			registeredModels.add(model);
 		}
 		model.addModelChangeListener(this);
+		synchronized (methodPropertyMap) {
+			methodPropertyMap.put(model, new HashMap<Pair<String, Class<?>>, Method>());
+		}
 	}
 	
 	/**
@@ -67,6 +79,9 @@ public abstract class AbstractController implements PropertyChangeListener {
 			registeredModels.remove(model);
 		}
 		model.removeModelListener(this);
+		synchronized (methodPropertyMap) {
+			methodPropertyMap.remove(model);
+		}
 	}
 	
 	/**
@@ -80,33 +95,63 @@ public abstract class AbstractController implements PropertyChangeListener {
 	}
 	
 	/**
-	 * Utility method for setting property on models
+	 * Get the methods to call for the specified property.<br />
+	 * The methods are cached in a map to avoid looking for them each time.
+	 * @param model
+	 *        the target model.
+	 * @param propertyName
+	 *        the name of the property.
+	 * @param propertyClass
+	 *        the class of the property.
+	 * @return a {@link Set} with the methods to call.
+	 */
+	protected Set<Method> getPropertyMethod (final AbstractModel model, final String propertyName, final Class<?> propertyClass) {
+		final Set<Method> methods = new HashSet<>();
+		synchronized (methodPropertyMap) {
+			final Map<Pair<String, Class<?>>, Method> modelMap = methodPropertyMap.get(model);
+			final Set<Class<?>> classes = ReflectUtils.getAllInterfaces(propertyClass);
+			for (final Class<?> attributeClass : classes) {
+				final ImmutablePair<String, Class<?>> pair = new ImmutablePair<String, Class<?>>(propertyName, attributeClass);
+				if (!modelMap.containsKey(pair)) {
+					try {
+						final Method method = model.getClass().getMethod(ReflectUtils.SETTER_PREFIX + propertyName,
+								new Class<?>[] { attributeClass });
+						modelMap.put(pair, method);
+					} catch (final SecurityException e) {
+						lg.warning("Could not retrieve method for property " + propertyName
+								+ " from model " + model.getClass() + ": " + ExceptionUtils.display(e));
+					} catch (final NoSuchMethodException e) {
+						// Put a null value to avoid future attempts to retrieve the methods
+						modelMap.put(pair, null);
+					}
+				}
+				final Method method = modelMap.get(pair);
+				if (method != null) {
+					methods.add(method);
+				}
+			}
+		}
+		return methods;
+	}
+	
+	/**
+	 * Utility method for setting property on models.
 	 * @param propertyName
 	 *        the name of the property to update (used in the setter).
 	 * @param newValue
 	 *        the value to set, of the appropriate class.
 	 */
 	public void setModelProperty (final String propertyName, final Object newValue) {
+		if (lg.isLoggable(Level.INFO)) {
+			lg.info("Setting property " + propertyName + " to " + newValue + " on models");
+		}
 		for (final AbstractModel model : getRegisteredModels()) {
-			final Set<Class<?>> classes = ReflectUtils.getAllInterfaces(newValue.getClass());
-			lg.info("Classes: " + classes);
-			for (final Class<?> attributeClass : classes) {
+			for (final Method method : getPropertyMethod(model, propertyName, newValue.getClass())) {
 				try {
-					final Method method = model.getClass().getMethod(ReflectUtils.SETTER_PREFIX + propertyName,
-							new Class<?>[] { attributeClass });
 					method.invoke(model, newValue);
-					lg.info("call to " + method.toGenericString());
-				} catch (SecurityException | IllegalAccessException | IllegalArgumentException
-						| InvocationTargetException e) {
-					lg.warning("Error while calling setter in " + model.getClass().getSimpleName()
-							+ " for property " + propertyName + " (" + e.getClass() + "; "
-							+ e.getMessage() + ")");
-				} catch (final NoSuchMethodException e) {
-					// This is a "normal" exception (model does not have the property to update)
-					if (lg.isLoggable(Level.FINE)) {
-						lg.fine("Model " + model.getClass().getSimpleName() + " has no setter for " +
-								"property " + propertyName + " (" + e.getMessage() + ")");
-					}
+				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
+					lg.warning("Could not set property " + propertyName + " on model "
+							+ model.getClass() + ": " + ExceptionUtils.display(e));
 				}
 			}
 		}
