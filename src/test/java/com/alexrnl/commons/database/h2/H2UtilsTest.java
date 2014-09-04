@@ -1,39 +1,37 @@
 package com.alexrnl.commons.database.h2;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
-import java.nio.file.DirectoryNotEmptyException;
-import java.nio.file.FileVisitResult;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
-import java.nio.file.SimpleFileVisitor;
-import java.nio.file.attribute.BasicFileAttributes;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.SQLException;
-import java.util.HashSet;
 import java.util.Set;
 
 import org.h2.engine.Constants;
+import org.junit.ClassRule;
 import org.junit.Test;
+import org.junit.rules.TemporaryFolder;
 
 import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.database.sql.DummySQLDAO;
-import com.alexrnl.commons.utils.StringUtils;
 
 /**
  * Test suite for the {@link H2Utils} class.
  * @author Alex
  */
 public class H2UtilsTest {
+	/** Temporary folder for tests */
+	@ClassRule
+	public static TemporaryFolder	folder	= new TemporaryFolder();
 	
 	/**
 	 * Check that no instance can be created.
@@ -75,8 +73,7 @@ public class H2UtilsTest {
 	@Test
 	public void testInitDatabase () throws URISyntaxException, IOException, SQLException {
 		final Path creationFile = Paths.get(getClass().getResource("/createDummyDB.sql").toURI());
-		final Path tempDBFolder = Files.createTempDirectory("testDB");
-		final Path tempDBFile = Paths.get(tempDBFolder.toString(), "testDummy");
+		final Path tempDBFile = folder.newFolder().toPath().resolve("testDummy");
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL + tempDBFile, "aba", "ldr", creationFile);
 		H2Utils.initDatabase(dbInfos);
 		
@@ -85,22 +82,6 @@ public class H2UtilsTest {
 		final Set<Dummy> dummies = dummyDao.retrieveAll();
 		assertEquals(2, dummies.size());
 		connection.close();
-		
-		Files.delete(Paths.get(tempDBFolder.toString(), "testDummy.h2.db"));
-		try {
-			Files.delete(tempDBFolder);
-		} catch (final DirectoryNotEmptyException e) {
-			final Set<Path> files = new HashSet<>();
-			Files.walkFileTree(tempDBFolder, new SimpleFileVisitor<Path>() {
-				@Override
-				public FileVisitResult visitFile (final Path file, final BasicFileAttributes attrs)
-						throws IOException {
-					files.add(file.toAbsolutePath());
-					return FileVisitResult.CONTINUE;
-				}
-			});
-			fail("Directory is not empty: " + StringUtils.separateWith(", ", files));
-		}
 	}
 	
 	/**
@@ -110,14 +91,12 @@ public class H2UtilsTest {
 	 */
 	@Test
 	public void testInitDatabaseAlreadyCreated () throws IOException {
-		final Path tempDBFile = Files.createTempFile("testDB", ".h2.db");
+		final Path tempDBFile = folder.newFile("testDB.h2.db").toPath();
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL +
 				tempDBFile.toString().substring(0, tempDBFile.toString().length() - ".h2.db".length()), "aba", "ldr", Paths.get("/dummy"));
 		H2Utils.initDatabase(dbInfos);
 		
 		assertEquals(0, Files.size(tempDBFile));
-		
-		Files.deleteIfExists(tempDBFile);
 	}
 	
 	/**
@@ -131,12 +110,8 @@ public class H2UtilsTest {
 	 */
 	@Test(expected = DataBaseConfigurationError.class)
 	public void testInitDatabaseNoCreationScript () throws URISyntaxException, IOException, SQLException {
-		final Path tempDBFolder = Files.createTempDirectory("testDB");
-		final Path tempDBFile = Paths.get(tempDBFolder.toString(), "testDummy");
-		Paths.get(tempDBFolder.toString(), "testDummy.h2.db").toFile().deleteOnExit();
-		tempDBFolder.toFile().deleteOnExit();
+		final Path tempDBFile = folder.newFolder().toPath().resolve("testDummy");
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL + tempDBFile, "aba", "ldr", null);
 		H2Utils.initDatabase(dbInfos);
-		
 	}
 }
