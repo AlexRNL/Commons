@@ -1,0 +1,9 @@
+# language setting
+language: java
+# jdk tag
+jdk:
+ - oraclejdk7
+
+after_success:
+   - mvn clean cobertura:cobertura
+   - mvn test
