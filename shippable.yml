@@ -1,0 +1,8 @@
+# language setting
+language: java
+# jdk tag
+jdk:
+   - oraclejdk7
+ 
+script:
+   - mvn -Denv=shippable clean cobertura:cobertura
