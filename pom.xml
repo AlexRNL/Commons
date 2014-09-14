@@ -41,6 +41,10 @@
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
 		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
 		<surefire-junit4.version>2.7.2</surefire-junit4.version>
+		
+		<!-- Default output directories for tests and coverage -->
+		<surefire-plugin-reportDirectory>${project.build.directory}/testresult</surefire-plugin-reportDirectory>
+		<cobertura-plugin-outputDirectory>${project.build.directory}/codecoverage</cobertura-plugin-outputDirectory>
 	</properties>
 	
 	<dependencies>
@@ -68,6 +72,22 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
+
+	<profiles>
+		<profile>
+			<id>shippable</id>
+			<activation>
+				<property>
+					<name>env</name>
+					<value>shippable</value>
+				</property>
+			</activation>
+			<properties>
+				<surefire-plugin-reportDirectory>shippable/testresults</surefire-plugin-reportDirectory>
+				<cobertura-plugin-outputDirectory>shippable/codecoverage</cobertura-plugin-outputDirectory>
+			</properties>
+		</profile>
+	</profiles>
 	
 	<build>
 		<plugins>
@@ -86,7 +106,7 @@
 				<version>${maven-surefire-plugin.version}</version>
 				<configuration>
 					<redirectTestOutputToFile>true</redirectTestOutputToFile>
-					<reportsDirectory>shippable/testresults</reportsDirectory>
+					<reportsDirectory>${surefire-plugin-reportDirectory}</reportsDirectory>
 				</configuration>
 				<dependencies>
 					<dependency>
@@ -104,7 +124,7 @@
 					<format>xml</format>
 					<maxmem>256m</maxmem>
 					<aggregate>true</aggregate>
-					<outputDirectory>shippable/codecoverage</outputDirectory>
+					<outputDirectory>${cobertura-plugin-outputDirectory}</outputDirectory>
 				</configuration>
 			</plugin>
 		</plugins>

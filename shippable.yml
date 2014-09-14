@@ -3,11 +3,7 @@ language: java
 # jdk tag
 jdk:
    - oraclejdk7
-
-before_script:
-   - mkdir -p shippable/testresults
-   - mkdir -p shippable/codecoverage
  
 script:
-   - mvn clean cobertura:cobertura
+   - mvn -Denv=shippable clean cobertura:cobertura
    - mvn test
