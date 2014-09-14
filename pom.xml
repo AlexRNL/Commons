@@ -38,7 +38,6 @@
 		<!-- Versions for plugins -->
 		<maven-compiler-plugin.version>3.0</maven-compiler-plugin.version>
 		<java.version>1.7</java.version>
-		<coveralls-maven-plugin.version>2.2.0</coveralls-maven-plugin.version>
 		<cobertura-maven-plugin.version>2.6</cobertura-maven-plugin.version>
 		<maven-surefire-plugin.version>2.17</maven-surefire-plugin.version>
 		<surefire-junit4.version>2.7.2</surefire-junit4.version>
@@ -80,11 +79,6 @@
 					<source>${java.version}</source>
 					<target>${java.version}</target>
 				</configuration>
-			</plugin>
-			<plugin>
-				<groupId>org.eluder.coveralls</groupId>
-				<artifactId>coveralls-maven-plugin</artifactId>
-				<version>${coveralls-maven-plugin.version}</version>
 			</plugin>
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>

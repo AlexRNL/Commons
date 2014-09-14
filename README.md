@@ -14,5 +14,4 @@ It contains many useful classes which may be reused easily across projects.
 
 Build status
 ------
-[![Build Status](https://travis-ci.org/AlexRNL/Commons.png?branch=master)](https://travis-ci.org/AlexRNL/Commons)
-[![Coverage Status](https://coveralls.io/repos/AlexRNL/Commons/badge.png)](https://coveralls.io/r/AlexRNL/Commons)
+[![Build Status](https://api.shippable.com/projects/540f61dc21c97efdb8989f34/badge?branchName=master)](https://app.shippable.com/projects/540f61dc21c97efdb8989f34/builds/latest)
