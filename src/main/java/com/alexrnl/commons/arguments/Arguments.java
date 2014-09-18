@@ -245,7 +245,7 @@ public class Arguments {
 							+ ExceptionUtils.display(e));
 				}
 			} else if (Collection.class.isAssignableFrom(parameterType)) {
-				if (currentParameter.getItemClass() == null) {
+				if (currentParameter.getItemClass() == Object.class) {
 					errors.add("No item class defined for parameter " + currentParameter.getNames());
 					continue;
 				}
