@@ -17,7 +17,9 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -62,15 +64,23 @@ public class ArgumentsTest {
 		private int		x;
 		/** The list of values*/
 		@Param(names = { "-l" }, description = "values", itemClass = String.class)
-		private final List<String> values;
+		private List<String> values;
 
 		/**
-		 * Constructor #1.<br />
 		 * Default constructor.
 		 */
 		private Target () {
 			super();
 			values = new ArrayList<>();
+		}
+		
+		/**
+		 * Constructor which leave the collection attribute to <code>null</code>.
+		 * @param nullList
+		 *        useless parameter.
+		 */
+		private Target (final String nullList) {
+			super();
 		}
 		
 		/**
@@ -242,11 +252,59 @@ public class ArgumentsTest {
 		arguments.parse("-n", "test", "-x", "0.28");
 	}
 	
+	/**
+	 * Test with parameters for collections.
+	 */
 	@Test
 	public void testCollectionItemProcessing () {
-		arguments.parse("-n", "test", "-l", "myValue");
+		arguments.parse("-n", "test", "-l", "myValue", "-l", "XXX");
 		assertEquals("test", target.getName());
-		assertEquals(Arrays.asList("myValue"), target.getValues());
+		assertEquals(Arrays.asList("myValue", "XXX"), target.getValues());
+	}
+	
+	/**
+	 * Test that an uninitialized collection is throwing an {@link IllegalArgumentException}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNullTargetCollection () {
+		final Arguments args = new Arguments("test", new Target("forNullList"));
+		args.parse("-n", "test", "-l", "fail!");
+	}
+	
+	/**
+	 * Test that a collection without a itemClass attribute is throwing an exception.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testNoItemClassSet () {
+		final Arguments args = new Arguments("test", new Object () {
+			@Param(names = "-l", description = "Strings for the program")
+			private final List<String> strings = new LinkedList<>();
+		});
+		args.parse("-l", "fail!");
+	}
+	
+	/**
+	 * Test with an collection item which has no parser.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testUnknownParserForCollectionItem () {
+		final Arguments args = new Arguments("test", new Object () {
+			@Param(names = "-m", description = "Strings for the program", itemClass = Map.class)
+			private final List<Map<String, String>> strings = new LinkedList<>();
+		});
+		args.parse("-m", "XXX");
+	}
+	
+	/**
+	 * Test with a bad value in a collection.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testBadValueInCollection () {
+		final Arguments args = new Arguments("test", new Object () {
+			@Param(names = "-numbers", description = "Numbers for the program", itemClass = Integer.class)
+			private final List<Integer> numbers = new LinkedList<>();
+		});
+		args.parse("-numbers", "XXX");
 	}
 	
 	/**
