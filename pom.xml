@@ -9,6 +9,13 @@
 	<name>Commons</name>
 	<url>https://github.com/AlexRNL/Commons</url>
 	<inceptionYear>2013</inceptionYear>
+	<licenses>
+		<license>
+			<name>BSD 3-Clause License</name>
+			<url>http://opensource.org/licenses/BSD-3-Clause</url>
+			<distribution>manual</distribution>
+		</license>
+	</licenses>
 	<scm>
 		<url>https://github.com/AlexRNL/Commons</url>
 		<connection>scm:git:git://github.com/AlexRNL/Commons.git</connection>
