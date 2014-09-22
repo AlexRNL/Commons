@@ -4,6 +4,7 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -17,6 +18,7 @@ import java.util.TreeSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
+import com.alexrnl.commons.arguments.parsers.AbstractParser;
 import com.alexrnl.commons.arguments.parsers.ByteParser;
 import com.alexrnl.commons.arguments.parsers.CharParser;
 import com.alexrnl.commons.arguments.parsers.ClassParser;
@@ -150,13 +152,26 @@ public class Arguments {
 	}
 	
 	/**
+	 * Add a parameter parser to the current arguments.<br />
+	 * Using an abstract parser allows to dynamically build collection using the parser.
+	 * @param parser
+	 *        the parser to add.
+	 * @return <code>true</code> if a previous parser was already set for this field type.
+	 * @see ParameterParser
+	 * @see AbstractParser
+	 */
+	public <T> boolean addParameterParser (final AbstractParser<T> parser) {
+		return addParameterParser((ParameterParser) parser);
+	}
+	
+	/**
 	 * Add a parameter parser to the current arguments.
 	 * @param parser
 	 *        the parser to add.
 	 * @return <code>true</code> if a previous parser was already set for this field type.
 	 * @see ParameterParser
 	 */
-	public boolean addParameterParser (final ParameterParser parser) {
+	private boolean addParameterParser (final ParameterParser parser) {
 		final boolean override = parsers.containsKey(parser.getFieldType());
 		parsers.put(parser.getFieldType(), parser);
 		return override;
@@ -228,6 +243,30 @@ public class Arguments {
 					errors.add("Value " + value + " could not be assigned to parameter " + argument);
 					lg.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
+				}
+			} else if (Collection.class.isAssignableFrom(parameterType)) {
+				if (currentParameter.getItemClass() == Object.class) {
+					errors.add("No item class defined for parameter " + currentParameter.getNames());
+					continue;
+				}
+				if (parsers.containsKey(currentParameter.getItemClass())) {
+					try {
+						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
+						final Collection collection = (Collection) currentParameter.getField().get(target);
+						if (collection == null) {
+							errors.add("Target collection for parameter " + argument + " is null");
+							continue;
+						}
+						collection.add(collectionItemParser.getValue(value));
+						requiredParameters.remove(currentParameter);
+					} catch (final IllegalArgumentException | IllegalAccessException e) {
+						errors.add("Value " + value + " could not be assigned to parameter " + argument);
+						lg.warning("Parameter " + argument + " value could not be set: "
+								+ ExceptionUtils.display(e));
+					}
+				} else {
+					errors.add("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
+							+ argument + ").");
 				}
 			} else {
 				errors.add("No parser found for type " + parameterType.getName() + " (parameter "

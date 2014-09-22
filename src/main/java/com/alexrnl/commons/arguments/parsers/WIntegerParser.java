@@ -14,7 +14,7 @@ public class WIntegerParser extends AbstractParser<Integer> {
 	}
 	
 	@Override
-	protected Integer getValue (final String parameter) throws IllegalArgumentException {
+	public Integer getValue (final String parameter) throws IllegalArgumentException {
 		return Integer.parseInt(parameter);
 	}
 	

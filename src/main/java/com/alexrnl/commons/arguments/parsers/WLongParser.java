@@ -14,7 +14,7 @@ public class WLongParser extends AbstractParser<Long> {
 	}
 	
 	@Override
-	protected Long getValue (final String parameter) throws IllegalArgumentException {
+	public Long getValue (final String parameter) throws IllegalArgumentException {
 		return Long.parseLong(parameter);
 	}
 	

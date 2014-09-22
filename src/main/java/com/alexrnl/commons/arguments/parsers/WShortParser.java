@@ -14,7 +14,7 @@ public class WShortParser extends AbstractParser<Short> {
 	}
 	
 	@Override
-	protected Short getValue (final String parameter) throws IllegalArgumentException {
+	public Short getValue (final String parameter) throws IllegalArgumentException {
 		return Short.parseShort(parameter);
 	}
 	

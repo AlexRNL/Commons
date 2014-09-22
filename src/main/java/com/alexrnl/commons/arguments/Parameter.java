@@ -28,6 +28,8 @@ public class Parameter implements Comparable<Parameter> {
 	private final String		description;
 	/** The order of the parameter*/
 	private final int			order;
+	/** The class of the item in the collection (relevant only if the parameter is a collection) */
+	private final Class<?>		itemClass;
 	
 	/**
 	 * Constructor #1.<br />
@@ -41,9 +43,12 @@ public class Parameter implements Comparable<Parameter> {
 	 *        the description of the parameter.
 	 * @param order
 	 *        the order of the parameter.
+	 * @param itemClass
+	 *        the class of the item in the collection (relevant only if the parameter is a
+	 *        collection).
 	 */
 	public Parameter (final Field field, final Collection<String> names, final boolean required,
-			final String description, final int order) {
+			final String description, final int order, final Class<?> itemClass) {
 		super();
 		if (names.isEmpty()) {
 			throw new IllegalArgumentException("Cannot create parameter with no names");
@@ -64,6 +69,7 @@ public class Parameter implements Comparable<Parameter> {
 		this.required = required;
 		this.description = description;
 		this.order = order;
+		this.itemClass = itemClass;
 	}
 	
 	/**
@@ -74,7 +80,7 @@ public class Parameter implements Comparable<Parameter> {
 	 *        the {@link Param} annotation associated to the field.
 	 */
 	public Parameter (final Field field, final Param param) {
-		this(field, Arrays.asList(param.names()), param.required(), param.description(), param.order());
+		this(field, Arrays.asList(param.names()), param.required(), param.description(), param.order(), param.itemClass());
 	}
 	
 	/**
@@ -118,6 +124,14 @@ public class Parameter implements Comparable<Parameter> {
 	@com.alexrnl.commons.utils.object.Field
 	public int getOrder () {
 		return order;
+	}
+	
+	/**
+	 * Return the attribute itemClass.
+	 * @return the attribute itemClass.
+	 */
+	public Class<?> getItemClass () {
+		return itemClass;
 	}
 	
 	@Override
