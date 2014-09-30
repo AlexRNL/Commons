@@ -19,7 +19,7 @@ import java.util.logging.Logger;
  */
 public final class ReflectUtils {
 	/** Logger */
-	private static Logger			lg					= Logger.getLogger(ReflectUtils.class.getName());
+	private static final Logger		LG					= Logger.getLogger(ReflectUtils.class.getName());
 	
 	/** The common prefix for attribute setters in classes */
 	public static final String		SETTER_PREFIX		= "set";
@@ -52,8 +52,8 @@ public final class ReflectUtils {
 		final Set<Method> methods = new HashSet<>();
 		for (final Method method : objClass.getMethods()) {
 			if (annotationClass == null || method.getAnnotation(annotationClass) != null) {
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("Added method: " + method.getName());
+				if (LG.isLoggable(Level.FINE)) {
+					LG.fine("Added method: " + method.getName());
 				}
 				methods.add(method);
 			}
@@ -75,8 +75,8 @@ public final class ReflectUtils {
 		final Set<Field> fields = new HashSet<>();
 		for (final Field field : objClass.getDeclaredFields()) {
 			if (annotationClass == null || field.getAnnotation(annotationClass) != null) {
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("Added field: " + field.getName());
+				if (LG.isLoggable(Level.FINE)) {
+					LG.fine("Added field: " + field.getName());
 				}
 				fields.add(field);
 			}
@@ -131,8 +131,8 @@ public final class ReflectUtils {
 			allInterfaces.addAll(Arrays.asList(currentClass.getInterfaces()));
 			currentClass = currentClass.getSuperclass();
 		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Public interfaces of " + objClass + ": " + allInterfaces);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Public interfaces of " + objClass + ": " + allInterfaces);
 		}
 		return allInterfaces;
 	}

@@ -47,7 +47,7 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public class Arguments {
 	/** Logger */
-	private static Logger							lg							= Logger.getLogger(Arguments.class.getName());
+	private static final Logger						LG							= Logger.getLogger(Arguments.class.getName());
 	
 	/** The tab character */
 	private static final Character					TAB							= '\t';
@@ -125,7 +125,7 @@ public class Arguments {
 		this.parsers = new HashMap<>();
 		for (final ParameterParser parser : DEFAULT_PARSERS) {
 			if (addParameterParser(parser)) {
-				lg.warning("Default parsers override each other for class " + parser.getFieldType());
+				LG.warning("Default parsers override each other for class " + parser.getFieldType());
 			}
 		}
 	}
@@ -195,8 +195,8 @@ public class Arguments {
 	 */
 	public void parse (final Iterable<String> arguments) throws IllegalArgumentException {
 		final Iterable<String> args = joinArguments(arguments);
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Parsing arguments " + args.toString());
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Parsing arguments " + args.toString());
 		}
 		
 		final Set<Parameter> requiredParameters = getRequiredParameters();
@@ -208,8 +208,8 @@ public class Arguments {
 		boolean helpRequested = false;
 		while (iterator.hasNext()) {
 			final String argument = iterator.next();
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Processing argument " + argument);
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info("Processing argument " + argument);
 			}
 			
 			if (isHelp(argument)) {
@@ -241,7 +241,7 @@ public class Arguments {
 					requiredParameters.remove(currentParameter);
 				} catch (final IllegalArgumentException e) {
 					errors.add("Value " + value + " could not be assigned to parameter " + argument);
-					lg.warning("Parameter " + argument + " value could not be set: "
+					LG.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
 				}
 			} else if (Collection.class.isAssignableFrom(parameterType)) {
@@ -261,7 +261,7 @@ public class Arguments {
 						requiredParameters.remove(currentParameter);
 					} catch (final IllegalArgumentException | IllegalAccessException e) {
 						errors.add("Value " + value + " could not be assigned to parameter " + argument);
-						lg.warning("Parameter " + argument + " value could not be set: "
+						LG.warning("Parameter " + argument + " value could not be set: "
 								+ ExceptionUtils.display(e));
 					}
 				} else {
@@ -369,7 +369,7 @@ public class Arguments {
 				try {
 					parameter.getField().set(target, Boolean.FALSE);
 				} catch (IllegalArgumentException | IllegalAccessException e) {
-					lg.warning("Parameter " + parameter.getNames() + " value could not be " +
+					LG.warning("Parameter " + parameter.getNames() + " value could not be " +
 							"initialize to false: " + ExceptionUtils.display(e));
 				}
 			}
@@ -410,7 +410,7 @@ public class Arguments {
 				}
 				requiredParameters.remove(parameter);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				lg.warning("Parameter " + parameter.getNames() + " boolean value could not be set: "
+				LG.warning("Parameter " + parameter.getNames() + " boolean value could not be set: "
 						+ ExceptionUtils.display(e));
 			}
 			return true;

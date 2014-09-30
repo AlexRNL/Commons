@@ -25,7 +25,7 @@ import com.alexrnl.commons.io.IOUtils;
  */
 public class Configuration {
 	/** Logger */
-	private static Logger		lg							= Logger.getLogger(Configuration.class.getName());
+	private static final Logger	LG							= Logger.getLogger(Configuration.class.getName());
 
 	/** The file extension for XML files. */
 	private static final String	XML_EXTENSION				= "xml";
@@ -88,17 +88,17 @@ public class Configuration {
 				configuration.load(Files.newInputStream(configurationFile));
 			}
 			loaded = true;
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info(size() + " properties loaded from file: " + configurationFile);
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info(size() + " properties loaded from file: " + configurationFile);
 			}
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Properties successfully loaded:");
+			if (LG.isLoggable(Level.FINE)) {
+				LG.fine("Properties successfully loaded:");
 				for (final Entry<Object, Object> currentProp : configuration.entrySet()) {
-					lg.fine("\t" + currentProp.getKey() + " = " + currentProp.getValue());
+					LG.fine("\t" + currentProp.getKey() + " = " + currentProp.getValue());
 				}
 			}
 		} catch (final IOException e) {
-			lg.warning("Exception while loading configuration (" + ExceptionUtils.display(e) + ")");
+			LG.warning("Exception while loading configuration (" + ExceptionUtils.display(e) + ")");
 		}
 	}
 	
@@ -124,7 +124,7 @@ public class Configuration {
 		}
 		final String propertyValue = configuration.getProperty(propertyName);
 		if (propertyValue == null) {
-			lg.warning("No property with name " + propertyName);
+			LG.warning("No property with name " + propertyName);
 			return null;
 		}
 		return propertyValue;

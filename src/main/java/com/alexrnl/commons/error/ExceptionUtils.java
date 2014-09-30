@@ -8,7 +8,7 @@ import java.util.logging.Logger;
  */
 public final class ExceptionUtils {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(ExceptionUtils.class.getName());
+	private static final Logger	LG	= Logger.getLogger(ExceptionUtils.class.getName());
 	
 	/** The separator used to separate the class from the message. */
 	private static final String	CLASS_MESSAGE_SEPARATOR	= "; ";
@@ -31,7 +31,7 @@ public final class ExceptionUtils {
 	 */
 	public static String display (final Throwable e) {
 		if (e == null) {
-			lg.warning("Cannot display null exception.");
+			LG.warning("Cannot display null exception.");
 			return "null exception caught";
 		}
 		return e.getClass() + CLASS_MESSAGE_SEPARATOR + e.getMessage();

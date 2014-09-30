@@ -18,7 +18,7 @@ import java.util.logging.Logger;
  */
 public final class IOUtils {
 	/** Logger */
-	private static Logger			lg						= Logger.getLogger(IOUtils.class.getName());
+	private static final Logger		LG						= Logger.getLogger(IOUtils.class.getName());
 	
 	/** The byte order mark used at the beginning of unicode files */
 	public static final Character	UNICODE_BYTE_ORDER_MARK	= '\ufeff';
@@ -47,8 +47,8 @@ public final class IOUtils {
 	public static String readLine (final BufferedReader reader) throws IOException, EOFException {
 		Objects.requireNonNull(reader);
 		final String line = reader.readLine();
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Read line: " + line);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Read line: " + line);
 		}
 		if (line == null) {
 			throw new EOFException("End of stream reached");

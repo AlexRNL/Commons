@@ -13,7 +13,7 @@ import javax.swing.AbstractSpinnerModel;
  */
 public class SpinnerTimeModel extends AbstractSpinnerModel {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(SpinnerTimeModel.class.getName());
+	private static final Logger	LG					= Logger.getLogger(SpinnerTimeModel.class.getName());
 	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= 5142588648167228978L;
@@ -45,7 +45,7 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 		this.maxValue = maxValue;
 		this.minValue = minValue;
 		if (!isValid(value)) {
-			lg.warning("Value for SpinnerTimeModel is not valid: " + value + " < " + minValue
+			LG.warning("Value for SpinnerTimeModel is not valid: " + value + " < " + minValue
 					+ " OR " + value + " > "  + maxValue);
 			throw new IllegalArgumentException("Value for TimeSpinnerModel is not in specified bounds: min="
 					+ minValue + "; max=" + maxValue + "; value=" + value);
@@ -85,11 +85,11 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 			}
 			if (isValid(newValue)) {
 				this.value = newValue;
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("New value for SpinnerTimeModel: " + value);
+				if (LG.isLoggable(Level.FINE)) {
+					LG.fine("New value for SpinnerTimeModel: " + value);
 				}
-			} else if (lg.isLoggable(Level.INFO)) {
-				lg.info("Could not set " + newValue + " for SpinnerTimeModel, out of ["
+			} else if (LG.isLoggable(Level.INFO)) {
+				LG.info("Could not set " + newValue + " for SpinnerTimeModel, out of ["
 						+ minValue + ";" + maxValue + "]");
 			}
 			fireStateChanged();
@@ -131,8 +131,8 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	 */
 	private Time incrTime (final boolean forward) {
 		Time newValue = null;
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("incrTime forward? " + forward);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("incrTime forward? " + forward);
 		}
 		
 		// Changing value
@@ -141,8 +141,8 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 		} else {
 			newValue = value.sub(step);
 		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("newValue: " + newValue);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("newValue: " + newValue);
 		}
 		
 		return isValid(newValue) ? newValue : null;

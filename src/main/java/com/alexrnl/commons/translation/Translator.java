@@ -39,7 +39,7 @@ import com.alexrnl.commons.utils.StringUtils;
  */
 public class Translator extends Configuration {
 	/** Logger */
-	private static Logger			lg					= Logger.getLogger(Translator.class.getName());
+	private static final Logger		LG					= Logger.getLogger(Translator.class.getName());
 	
 	/** Character which is used to separate hierarchy levels of translations */
 	public static final Character	HIERARCHY_SEPARATOR	= '.';
@@ -58,8 +58,8 @@ public class Translator extends Configuration {
 	public Translator (final Path translationFile) {
 		super(translationFile, true);
 		
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Language locale file " + translationFile + " successfully loaded (" + size() + " keys loaded)");
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Language locale file " + translationFile + " successfully loaded (" + size() + " keys loaded)");
 		}
 	}
 	
@@ -72,8 +72,8 @@ public class Translator extends Configuration {
 	@Override
 	public String get (final String key) {
 		if (!has(key)) {
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Cannot find translation for key " + key);
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info("Cannot find translation for key " + key);
 			}
 			return key;
 		}
@@ -102,7 +102,7 @@ public class Translator extends Configuration {
 			// In case it has not been found at all
 			if (strToReplace.isEmpty()) {
 				strToReplace = backUpStr;
-				lg.warning("Could not found any suitable translation for the include key: " + strToReplace);
+				LG.warning("Could not found any suitable translation for the include key: " + strToReplace);
 			}
 			
 			// Replace the prefix + key with the translation of the key (hence the substring)
@@ -136,7 +136,7 @@ public class Translator extends Configuration {
 			final Object parameter = parameters[indexParameter];
 			final String strToReplace = PARAMETER_PREFIX.toString() + indexParameter;
 			if (translation.indexOf(strToReplace) == -1) {
-				lg.warning("Parameter '" + parameter + "' cannot be put into the translation, '" +
+				LG.warning("Parameter '" + parameter + "' cannot be put into the translation, '" +
 						strToReplace + "' was not found.");
 				continue;
 			}

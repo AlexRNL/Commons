@@ -27,7 +27,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  */
 public abstract class AbstractDAOFactory implements Closeable {
 	/** Logger */
-	private static Logger												lg	= Logger.getLogger(AbstractDAOFactory.class.getName());
+	private static final Logger											LG	= Logger.getLogger(AbstractDAOFactory.class.getName());
 	
 	/** The database configuration information */
 	private final DataSourceConfiguration								dataSourceConfig;
@@ -57,7 +57,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 		} catch (InstantiationException | IllegalAccessException | ClassNotFoundException
 				| ClassCastException | NoSuchMethodException | SecurityException |
 				IllegalArgumentException | InvocationTargetException e) {
-			lg.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
+			LG.severe("Cannot instantiate DAO factory class (" + factoryClass + "). " + ExceptionUtils.display(e));
 			throw new DAOInstantiationError(factoryClass, e);
 		}
 		return factory;
@@ -116,15 +116,15 @@ public abstract class AbstractDAOFactory implements Closeable {
 	protected <T extends Entity> void addDAO (final Class<T> entityClass, final DAO<T> dao) {
 		if (daos.containsKey(entityClass)) {
 			try {
-				if (lg.isLoggable(Level.INFO)) {
-					lg.info("Closing previously installed DAO on class " + entityClass);
+				if (LG.isLoggable(Level.INFO)) {
+					LG.info("Closing previously installed DAO on class " + entityClass);
 				}
 				final DAO<? extends Entity> oldDAO = daos.remove(entityClass);
 				if (oldDAO != null) {
 					oldDAO.close();
 				}
 			} catch (final IOException e) {
-				lg.warning("Error while closing DAO: " + ExceptionUtils.display(e));
+				LG.warning("Error while closing DAO: " + ExceptionUtils.display(e));
 			}
 		}
 		daos.put(entityClass, dao);

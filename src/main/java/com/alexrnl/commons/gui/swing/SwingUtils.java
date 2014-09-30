@@ -31,7 +31,7 @@ import com.alexrnl.commons.utils.StringUtils;
  */
 public final class SwingUtils {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(SwingUtils.class.getName());
+	private static final Logger	LG	= Logger.getLogger(SwingUtils.class.getName());
 	
 	/**
 	 * Constructor #1.<br />
@@ -51,26 +51,26 @@ public final class SwingUtils {
 	 */
 	public static boolean setLookAndFeel (final String lookAndFeelName) {
 		if (UIManager.getLookAndFeel().getName().equals(lookAndFeelName)) {
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Look and Feel " + lookAndFeelName + " is already set, nothing to do");
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info("Look and Feel " + lookAndFeelName + " is already set, nothing to do");
 			}
 			return true;
 		}
 		boolean lookAndFeelApplied = false;
 		for (final LookAndFeelInfo laf : UIManager.getInstalledLookAndFeels()) {
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine(laf.getName());
+			if (LG.isLoggable(Level.FINE)) {
+				LG.fine(laf.getName());
 			}
 			if (laf.getName().equals(lookAndFeelName)) {
 				try {
 					UIManager.setLookAndFeel(laf.getClassName());
-					if (lg.isLoggable(Level.INFO)) {
-						lg.info("Look and feel properly setted (" + laf.getName() + ").");
+					if (LG.isLoggable(Level.INFO)) {
+						LG.info("Look and feel properly setted (" + laf.getName() + ").");
 					}
 					lookAndFeelApplied = true;
 				} catch (ClassNotFoundException | InstantiationException | IllegalAccessException
 						| UnsupportedLookAndFeelException e) {
-					lg.warning("Could not set the look and feel " + laf.getName() + ": "
+					LG.warning("Could not set the look and feel " + laf.getName() + ": "
 						+ ExceptionUtils.display(e));
 					lookAndFeelApplied = false;
 				}
@@ -82,7 +82,7 @@ public final class SwingUtils {
 				SwingUtilities.updateComponentTreeUI(frame);
 			}
 		} else {
-			lg.warning("Could not find (or set) the look and feel " + lookAndFeelName
+			LG.warning("Could not find (or set) the look and feel " + lookAndFeelName
 					+ ". Using default look and feel.");
 		}
 		return lookAndFeelApplied;
@@ -164,7 +164,7 @@ public final class SwingUtils {
 	public static <T> T askChoice (final Component parent, final Translator translator,
 			final AbstractDialog dialog, final Collection<T> elements, final int maxLine) {
 		if (elements == null || elements.isEmpty()) {
-			lg.warning("Cannot display a dialog for choices with an null or empty list");
+			LG.warning("Cannot display a dialog for choices with an null or empty list");
 			throw new IllegalArgumentException("Cannot display input dialog with null or empty list");
 		}
 		
@@ -178,8 +178,8 @@ public final class SwingUtils {
 				translator.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
 				translationMap.keySet().toArray(new Object[0]), translationMap.keySet().iterator().next());
 		
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("The user has choose " + choice);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("The user has choose " + choice);
 		}
 		
 		return translationMap.get(choice);
@@ -252,7 +252,7 @@ public final class SwingUtils {
 		String text = translator.get(key);
 		final int mnemonicIndex = text.indexOf(Translator.MNEMONIC_MARK);
 		if (mnemonicIndex == text.length() - 1) {
-			lg.warning("Mnemonic mark at the end of the translation, cannot set mnemonic");
+			LG.warning("Mnemonic mark at the end of the translation, cannot set mnemonic");
 			menu.setText(text.substring(0, mnemonicIndex));
 		} else if (mnemonicIndex > -1) {
 			text = text.substring(0, mnemonicIndex) + text.substring(mnemonicIndex + 1);

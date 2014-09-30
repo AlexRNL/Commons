@@ -12,7 +12,7 @@ import java.util.logging.Logger;
  */
 public class EditableInputStream extends InputStream {
 	/** Logger */
-	private static Logger		lg	= Logger.getLogger(EditableInputStream.class.getName());
+	private static final Logger	LG	= Logger.getLogger(EditableInputStream.class.getName());
 	
 	/** The input stream used */
 	private InputStream	inputStream;
@@ -30,8 +30,8 @@ public class EditableInputStream extends InputStream {
 		super();
 		this.charset = charset;
 		inputStream = IOUtils.toInputStream(initialContent, charset);
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Building input stream with '" + initialContent + "'");
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Building input stream with '" + initialContent + "'");
 		}
 	}
 	
@@ -55,8 +55,8 @@ public class EditableInputStream extends InputStream {
 	 */
 	public void updateStream (final String content) throws IOException {
 		close();
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Changing input stream content to '" + content + "'");
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Changing input stream content to '" + content + "'");
 		}
 		inputStream = IOUtils.toInputStream(content, charset);
 	}

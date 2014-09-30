@@ -13,7 +13,7 @@ import java.util.logging.Logger;
  */
 public abstract class AbstractModel {
 	/** Logger */
-	private static Logger			lg	= Logger.getLogger(AbstractModel.class.getName());
+	private static final Logger			LG	= Logger.getLogger(AbstractModel.class.getName());
 	
 	/** The observable object */
 	private final PropertyChangeSupport	observable;
@@ -24,8 +24,8 @@ public abstract class AbstractModel {
 	 */
 	public AbstractModel () {
 		observable = new PropertyChangeSupport(this);
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Created a new " + this.getClass().getSimpleName());
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Created a new " + this.getClass().getSimpleName());
 		}
 	}
 	

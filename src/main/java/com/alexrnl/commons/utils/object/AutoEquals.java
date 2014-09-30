@@ -17,7 +17,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  */
 public final class AutoEquals {
 	/** Logger */
-	private static Logger						lg			= Logger.getLogger(AutoEquals.class.getName());
+	private static final Logger					LG			= Logger.getLogger(AutoEquals.class.getName());
 	
 	/** Unique instance of the class */
 	private static AutoEquals					singleton	= new AutoEquals();
@@ -89,7 +89,7 @@ public final class AutoEquals {
 			leftAttributes = ReflectUtils.invokeMethods(left, methods);
 			rightAttributes = ReflectUtils.invokeMethods(right, methods);
 		} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-			lg.warning("Could not compute list of attribute, exception while invoking methods: "
+			LG.warning("Could not compute list of attribute, exception while invoking methods: "
 					+ ExceptionUtils.display(e));
 			throw new ReflectionException("AutoEquals failed for class " + left.getClass(), e);
 		}

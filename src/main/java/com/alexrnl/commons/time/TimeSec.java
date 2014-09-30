@@ -18,7 +18,7 @@ import com.alexrnl.commons.utils.object.Field;
  */
 public class TimeSec extends Time implements Cloneable {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(TimeSec.class.getName());
+	private static final Logger	LG					= Logger.getLogger(TimeSec.class.getName());
 	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -5220683648807102121L;
@@ -155,8 +155,8 @@ public class TimeSec extends Time implements Cloneable {
 			seconds = Integer.parseInt(s);
 			break;
 		}
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Parsing time " + time + " into " + hours + "h " + minutes + "m " + seconds + "s");
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Parsing time " + time + " into " + hours + "h " + minutes + "m " + seconds + "s");
 		}
 		return new TimeSec(hours == null ? 0 : hours,
 						minutes == null ? 0 : minutes,

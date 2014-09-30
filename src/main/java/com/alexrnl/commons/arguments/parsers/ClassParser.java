@@ -12,10 +12,10 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
 @SuppressWarnings("rawtypes")
 public class ClassParser extends AbstractParser<Class> {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(ClassParser.class.getName());
+	private static final Logger	LG	= Logger.getLogger(ClassParser.class.getName());
 	
 	/** The root package to avoid writing the package. */
-	private final Package	rootPackage;
+	private final Package		rootPackage;
 	
 	/**
 	 * Constructor #1.<br />
@@ -41,7 +41,7 @@ public class ClassParser extends AbstractParser<Class> {
 					rootPackage.getName() + ReflectUtils.PACKAGE_SEPARATOR + parameter
 					: parameter);
 		} catch (final ClassNotFoundException e) {
-			lg.warning("Could not find class " + parameter + ": " + ExceptionUtils.display(e));
+			LG.warning("Could not find class " + parameter + ": " + ExceptionUtils.display(e));
 			throw new IllegalArgumentException("Could not find class " + parameter, e);
 		}
 	}

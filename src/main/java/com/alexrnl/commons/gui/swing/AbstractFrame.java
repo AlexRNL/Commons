@@ -23,7 +23,7 @@ import com.alexrnl.commons.mvc.AbstractView;
  */
 public abstract class AbstractFrame extends JFrame implements AbstractView {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(AbstractFrame.class.getName());
+	private static final Logger	LG					= Logger.getLogger(AbstractFrame.class.getName());
 	
 	/** Serial Version UID */
 	private static final long	serialVersionUID	= -3391832845968248721L;
@@ -50,8 +50,8 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 		frame = this;
 		this.iconFile = iconFile;
 		setTitle(title);
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Building abstract view with parameters: " + Arrays.toString(parameters));
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Building abstract view with parameters: " + Arrays.toString(parameters));
 		}
 		preInit(parameters);
 		SwingUtilities.invokeLater(new GuiBuilder());
@@ -100,7 +100,7 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 			try {
 				setIconImage(ImageIO.read(Files.newInputStream(iconFile)));
 			} catch (final IOException e) {
-				lg.warning("Could not load icon, frame " + getTitle() + " will be iconless: "
+				LG.warning("Could not load icon, frame " + getTitle() + " will be iconless: "
 						+ ExceptionUtils.display(e));
 			}
 		}
@@ -130,8 +130,8 @@ public abstract class AbstractFrame extends JFrame implements AbstractView {
 		public void run () {
 			buildGUI();
 			
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Frame " + getTitle() + " built");
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info("Frame " + getTitle() + " built");
 			}
 			ready = true;
 			synchronized (frame) {

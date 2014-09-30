@@ -22,7 +22,7 @@ import com.alexrnl.commons.error.TopLevelError;
  */
 public final class StringUtils {
 	/** Logger */
-	private static Logger				lg					= Logger.getLogger(StringUtils.class.getName());
+	private static final Logger			LG					= Logger.getLogger(StringUtils.class.getName());
 	
 	/** The HTML tag for a new HTML document */
 	public static final String			HTML_HTML_START		= "<" + Tag.HTML + ">";
@@ -45,14 +45,14 @@ public final class StringUtils {
 	/** The SHA-1 message digest algorithm */
 	private static final MessageDigest	SHA1_MESSAGE_DIGEST;
 	/**
-	 * Load the message digest algorithms
+	 * Load the message digest algorithm
 	 */
 	static {
 		try {
 			MD5_MESSAGE_DIGEST = MessageDigest.getInstance(MD5_ALGORITHM_NAME);
 			SHA1_MESSAGE_DIGEST = MessageDigest.getInstance(SHA1_ALGORITHM_NAME);
 		} catch (final NoSuchAlgorithmException e) {
-			lg.severe("Message digest algorithm not found: "
+			LG.severe("Message digest algorithm not found: "
 					+ ExceptionUtils.display(e));
 			throw new TopLevelError(e);
 		}
@@ -258,7 +258,7 @@ public final class StringUtils {
 	public static String splitInLines (final String input, final int maxLength) {
 		Objects.requireNonNull(input, "Cannot work on null input String");
 		if (maxLength < 1) {
-			lg.warning("Cannot split line with maxLength=" + maxLength);
+			LG.warning("Cannot split line with maxLength=" + maxLength);
 			throw new IllegalArgumentException("maxLength for spliting in line cannot be less than 1 (was " + maxLength + ")");
 		}
 		
@@ -272,17 +272,17 @@ public final class StringUtils {
 		String remaining = removeMultipleSpaces(input);
 		while (remaining.length() > maxLength) {
 			String nextLine = remaining.substring(0, maxLength);
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Next characters to split '" + nextLine + "'");
+			if (LG.isLoggable(Level.FINE)) {
+				LG.fine("Next characters to split '" + nextLine + "'");
 			}
 			final int lastSpace = nextLine.lastIndexOf(SPACE);
 			if (lastSpace > 0) {
 				nextLine = nextLine.substring(0, lastSpace);
 			} else {
-				lg.warning("No space in line '" + nextLine + "' cannot properly split String.");
+				LG.warning("No space in line '" + nextLine + "' cannot properly split String.");
 			}
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Next line is '" + nextLine + "'");
+			if (LG.isLoggable(Level.FINE)) {
+				LG.fine("Next line is '" + nextLine + "'");
 			}
 			result.append(nextLine).append(NEW_LINE);
 			remaining = remaining.substring(nextLine.length()).trim();

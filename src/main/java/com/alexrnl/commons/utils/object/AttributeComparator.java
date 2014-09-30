@@ -14,7 +14,7 @@ import java.util.logging.Logger;
  */
 public class AttributeComparator {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(AttributeComparator.class.getName());
+	private static final Logger	LG	= Logger.getLogger(AttributeComparator.class.getName());
 	
 	/**
 	 * Represent a couple of attributes of the same type.
@@ -48,7 +48,7 @@ public class AttributeComparator {
 	}
 	
 	/** List of the attributes to be compared */
-	private final List<Attributes<?>> attributes;
+	private final List<Attributes<?>>	attributes;
 	
 	/**
 	 * Constructor #1.<br />
@@ -117,8 +117,8 @@ public class AttributeComparator {
 	 * @return <code>true</code> if both objects are equals.
 	 */
 	public static <T> boolean areEquals(final T left, final T right) {
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Comparing " + left + " and " + right);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Comparing " + left + " and " + right);
 		}
 		
 		// Arrays required a different process

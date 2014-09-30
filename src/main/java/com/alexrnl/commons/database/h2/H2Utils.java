@@ -20,7 +20,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  */
 public final class H2Utils {
 	/** Logger */
-	private static Logger			lg							= Logger.getLogger(H2Utils.class.getName());
+	private static final Logger		LG							= Logger.getLogger(H2Utils.class.getName());
 	
 	/** The file prefix used in URIs */
 	public static final String		FILE_URI_PREFIX				= "file:";
@@ -68,8 +68,8 @@ public final class H2Utils {
 			file += Constants.SUFFIX_PAGE_FILE;
 		}
 		
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("filename: " + file);
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("filename: " + file);
 		}
 		return Paths.get(file);
 	}
@@ -87,15 +87,15 @@ public final class H2Utils {
 				throw new DataBaseConfigurationError("No creation script defined in the data " +
 						"source configuration, cannot initialize database.");
 			}
-			if (lg.isLoggable(Level.INFO)) {
-				lg.info("Database file for connection " + dbInfos.getUrl() + " does not exists, " +
+			if (LG.isLoggable(Level.INFO)) {
+				LG.info("Database file for connection " + dbInfos.getUrl() + " does not exists, " +
 						"initializing database with script " + dbInfos.getCreationFile());
 			}
 			try {
 				RunScript.execute(Constants.START_URL + getDBFile(dbInfos, false), dbInfos.getUsername(),
 						dbInfos.getPassword(), dbInfos.getCreationFile().toString(), null, true);
 			} catch (final SQLException e) {
-				lg.warning("Error while initilization of H2 database: " + ExceptionUtils.display(e));
+				LG.warning("Error while initilization of H2 database: " + ExceptionUtils.display(e));
 				throw new DataBaseConfigurationError("Could not create H2 database", e);
 			}
 		}

@@ -15,7 +15,7 @@ import com.alexrnl.commons.utils.object.Field;
  */
 public final class Word implements Serializable, Comparable<String>, CharSequence {
 	/** Logger */
-	private static Logger		lg					= Logger.getLogger(Word.class.getName());
+	private static final Logger	LG					= Logger.getLogger(Word.class.getName());
 	
 	/** Serial version UID */
 	private static final long	serialVersionUID	= -2514704200569256612L;
@@ -143,8 +143,8 @@ public final class Word implements Serializable, Comparable<String>, CharSequenc
 		}
 		
 		final String word = string.substring(begin, end);
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("The next word in '" + string + "' is '" + word + "'");
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("The next word in '" + string + "' is '" + word + "'");
 		}
 		return new Word(word, begin, end);
 	}

@@ -16,7 +16,7 @@ import com.alexrnl.commons.database.structure.NoIdError;
  */
 public final class QueryGenerator {
 	/** Logger */
-	private static Logger								lg			= Logger.getLogger(QueryGenerator.class.getName());
+	private static final Logger							LG			= Logger.getLogger(QueryGenerator.class.getName());
 	
 	/** Map between the entities and their id columns */
 	private static Map<Class<? extends Entity>, Column>	idColumns	= new HashMap<>();
@@ -46,8 +46,8 @@ public final class QueryGenerator {
 			// Searching the id column
 			for (final Column column : object.getEntityColumns().values()) {
 				if (column.isID()) {
-					if (lg.isLoggable(Level.FINE)) {
-						lg.fine("ID column found for entity " + object.getEntityName() + ": "
+					if (LG.isLoggable(Level.FINE)) {
+						LG.fine("ID column found for entity " + object.getEntityName() + ": "
 								+ column.getName());
 					}
 					idColumns.put(object.getClass(), column);

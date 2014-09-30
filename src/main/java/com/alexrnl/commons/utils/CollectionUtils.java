@@ -17,7 +17,7 @@ import java.util.logging.Logger;
  */
 public final class CollectionUtils {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(CollectionUtils.class.getName());
+	private static final Logger	LG	= Logger.getLogger(CollectionUtils.class.getName());
 	
 	/**
 	 * Constructor #1.<br />
@@ -47,8 +47,8 @@ public final class CollectionUtils {
 		while (it.hasNext()) {
 			final T next = it.next();
 			if (current.compareTo(next) > 0) {
-				if (lg.isLoggable(Level.INFO)) {
-					lg.info("Collection is unordered at element " + current);
+				if (LG.isLoggable(Level.INFO)) {
+					LG.info("Collection is unordered at element " + current);
 				}
 				return false;
 			}

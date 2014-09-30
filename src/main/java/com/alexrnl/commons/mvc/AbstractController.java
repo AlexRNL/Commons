@@ -26,7 +26,7 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
  */
 public abstract class AbstractController implements PropertyChangeListener {
 	/** Logger */
-	private static Logger									lg	= Logger.getLogger(AbstractController.class.getName());
+	private static final Logger								LG	= Logger.getLogger(AbstractController.class.getName());
 	
 	/** The models represented by the views */
 	private final List<AbstractModel>						registeredModels;
@@ -53,7 +53,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 */
 	public void addModel (final AbstractModel model) {
 		if (model == null) {
-			lg.warning("Cannot add null model to controller");
+			LG.warning("Cannot add null model to controller");
 			return;
 		}
 		synchronized (registeredModels) {
@@ -72,7 +72,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 */
 	public void removeModel (final AbstractModel model) {
 		if (model == null) {
-			lg.warning("Cannot remove null model to controller");
+			LG.warning("Cannot remove null model to controller");
 			return;
 		}
 		synchronized (registeredModels) {
@@ -118,7 +118,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 								new Class<?>[] { attributeClass });
 						modelMap.put(pair, method);
 					} catch (final SecurityException e) {
-						lg.warning("Could not retrieve method for property " + propertyName
+						LG.warning("Could not retrieve method for property " + propertyName
 								+ " from model " + model.getClass() + ": " + ExceptionUtils.display(e));
 					} catch (final NoSuchMethodException e) {
 						// Put a null value to avoid future attempts to retrieve the methods
@@ -142,15 +142,15 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 *        the value to set, of the appropriate class.
 	 */
 	public void setModelProperty (final String propertyName, final Object newValue) {
-		if (lg.isLoggable(Level.INFO)) {
-			lg.info("Setting property " + propertyName + " to " + newValue + " on models");
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Setting property " + propertyName + " to " + newValue + " on models");
 		}
 		for (final AbstractModel model : getRegisteredModels()) {
 			for (final Method method : getPropertyMethod(model, propertyName, newValue.getClass())) {
 				try {
 					method.invoke(model, newValue);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					lg.warning("Could not set property " + propertyName + " on model "
+					LG.warning("Could not set property " + propertyName + " on model "
 							+ model.getClass() + ": " + ExceptionUtils.display(e));
 				}
 			}
@@ -164,7 +164,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 */
 	public void addView (final AbstractView view) {
 		if (view == null) {
-			lg.warning("Cannot add null view to controller");
+			LG.warning("Cannot add null view to controller");
 			return;
 		}
 		synchronized (registeredViews) {
@@ -179,7 +179,7 @@ public abstract class AbstractController implements PropertyChangeListener {
 	 */
 	public void removeView (final AbstractView view) {
 		if (view == null) {
-			lg.warning("Cannot remove null view to controller");
+			LG.warning("Cannot remove null view to controller");
 			return;
 		}
 		synchronized (registeredViews) {
@@ -199,8 +199,8 @@ public abstract class AbstractController implements PropertyChangeListener {
 	
 	@Override
 	public void propertyChange (final PropertyChangeEvent evt) {
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("property changed in model: " + evt.getPropertyName() + " = " + evt.getNewValue()
 					+ " (" + evt.getOldValue() + ")");
 		}
 		for (final AbstractView view : getRegisteredViews()) {

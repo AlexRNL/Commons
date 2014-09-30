@@ -16,7 +16,7 @@ import javax.swing.JList;
  */
 public class ListCellTextHighLighterRenderer extends ListCellTextRenderer<String> {
 	/** Logger */
-	private static Logger				lg	= Logger.getLogger(ListCellTextHighLighterRenderer.class.getName());
+	private static final Logger			LG	= Logger.getLogger(ListCellTextHighLighterRenderer.class.getName());
 	
 	/** The collection of strings to highlight */
 	private final Collection<String>	toHighlight;
@@ -47,8 +47,8 @@ public class ListCellTextHighLighterRenderer extends ListCellTextRenderer<String
 		
 		if (toHighlight.contains(component.getText()) && !isSelected) {
 			component.setBackground(highlightColor);
-			if (lg.isLoggable(Level.FINE)) {
-				lg.fine("Highlighting " + component.getText() + " with " + highlightColor
+			if (LG.isLoggable(Level.FINE)) {
+				LG.fine("Highlighting " + component.getText() + " with " + highlightColor
 						+ "; " + component.getBackground());
 			}
 		}

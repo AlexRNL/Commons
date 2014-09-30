@@ -18,7 +18,7 @@ import com.alexrnl.commons.error.ExceptionUtils;
  */
 public final class AutoHashCode {
 	/** Logger */
-	private static Logger						lg			= Logger.getLogger(AutoHashCode.class.getName());
+	private static final Logger					LG			= Logger.getLogger(AutoHashCode.class.getName());
 	
 	/** Unique instance of the class */
 	private static AutoHashCode					singleton	= new AutoHashCode();
@@ -69,12 +69,12 @@ public final class AutoHashCode {
 		final List<Object> attributes = new ArrayList<>();
 		for (final Method method : getHashCodeMethods(obj.getClass())) {
 			try {
-				if (lg.isLoggable(Level.FINE)) {
-					lg.fine("method: " + method.getName());
+				if (LG.isLoggable(Level.FINE)) {
+					LG.fine("method: " + method.getName());
 				}
 				attributes.add(method.invoke(obj, (Object[]) null));
 			} catch (final IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-				lg.warning("Could not add the value of the method " + method.getName() + ": "
+				LG.warning("Could not add the value of the method " + method.getName() + ": "
 						+ ExceptionUtils.display(e));
 				throw new ReflectionException("AutoHashCode failed for class " + obj.getClass(), e);
 			}

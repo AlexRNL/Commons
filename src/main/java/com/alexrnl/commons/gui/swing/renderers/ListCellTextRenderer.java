@@ -18,7 +18,7 @@ import javax.swing.ListCellRenderer;
  */
 public abstract class ListCellTextRenderer<T> implements ListCellRenderer<T> {
 	/** Logger */
-	private static Logger	lg	= Logger.getLogger(ListCellTextRenderer.class.getName());
+	private static final Logger	LG	= Logger.getLogger(ListCellTextRenderer.class.getName());
 	
 	/** The first renderer to use (avoid shrinking) */
 	private final DefaultListCellRenderer renderer;
@@ -40,8 +40,8 @@ public abstract class ListCellTextRenderer<T> implements ListCellRenderer<T> {
 		
 		component.setText(getText(value));
 		
-		if (lg.isLoggable(Level.FINE)) {
-			lg.fine("Rendering text " + component.getText());
+		if (LG.isLoggable(Level.FINE)) {
+			LG.fine("Rendering text " + component.getText());
 		}
 		
 		return component;
