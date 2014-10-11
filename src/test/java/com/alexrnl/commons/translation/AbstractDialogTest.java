@@ -31,7 +31,7 @@ public class AbstractDialogTest {
 		}
 		
 		@Override
-		public String toString () {
+		public String getTranslationKey () {
 			return helloKey;
 		}
 		
@@ -62,11 +62,11 @@ public class AbstractDialogTest {
 	}
 	
 	/**
-	 * Test method for {@link AbstractDialog#toString()}.
+	 * Test method for {@link AbstractDialog#getTranslationKey()}.
 	 */
 	@Test
-	public void testToString () {
-		assertEquals("commons.dialogs.hello", dialog.toString());
+	public void testGetTranslationKey () {
+		assertEquals("commons.dialogs.hello", dialog.getTranslationKey());
 	}
 	
 	/**

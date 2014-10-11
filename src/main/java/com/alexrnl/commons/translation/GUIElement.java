@@ -20,7 +20,7 @@ package com.alexrnl.commons.translation;
  * </pre>
  * @author Alex
  */
-public class GUIElement {
+public class GUIElement implements Translatable {
 	/** The string defining the key for the component's shortcut */
 	private static final String	SHORTCUT	= "shortcut";
 	/** The string defining the key for the component's tooltip */
@@ -40,7 +40,7 @@ public class GUIElement {
 	}
 	
 	@Override
-	public String toString () {
+	public String getTranslationKey () {
 		return propertyKey;
 	}
 	
@@ -49,7 +49,7 @@ public class GUIElement {
 	 * @return the translation for the main text of the GUI element.
 	 */
 	public String getText () {
-		return toString();
+		return getTranslationKey();
 	}
 	
 	/**

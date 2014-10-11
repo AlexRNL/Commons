@@ -5,12 +5,14 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+import java.awt.Component;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Collection;
 import java.util.LinkedList;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -27,6 +29,7 @@ import org.junit.Test;
 
 import com.alexrnl.commons.translation.AbstractDialog;
 import com.alexrnl.commons.translation.GUIElement;
+import com.alexrnl.commons.translation.Translatable;
 import com.alexrnl.commons.translation.Translator;
 
 /**
@@ -145,7 +148,7 @@ public class SwingUtilsTest {
 		}
 
 		@Override
-		public String toString () {
+		public String getTranslationKey () {
 			return "commons.dialog";
 		}
 		
@@ -157,7 +160,7 @@ public class SwingUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link SwingUtils#getMessage(Translator, com.alexrnl.commons.translation.AbstractDialog, int)}.
+	 * Test method for {@link SwingUtils#getMessage(Translator, AbstractDialog, int)}.
 	 */
 	@Test
 	public void testGetMessage () {
@@ -166,7 +169,7 @@ public class SwingUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link SwingUtils#askChoice(java.awt.Component, Translator, AbstractDialog, java.util.Collection, int)}.
+	 * Test method for {@link SwingUtils#askChoice(Component, Translator, AbstractDialog, Collection, int)}.
 	 * If the list provided is null.
 	 */
 	@Test(expected = IllegalArgumentException.class)
@@ -175,11 +178,11 @@ public class SwingUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@link SwingUtils#askChoice(java.awt.Component, Translator, AbstractDialog, java.util.Collection, int)}.
+	 * Test method for {@link SwingUtils#askChoice(Component, Translator, AbstractDialog, Collection, int)}.
 	 * If the list provided is null.
 	 */
 	@Test(expected = IllegalArgumentException.class)
 	public void testAskChoiceEmptyList () {
-		SwingUtils.askChoice(null, translator, new TestDialog(28), new LinkedList<>(), 48);
+		SwingUtils.askChoice(null, translator, new TestDialog(28), new LinkedList<Translatable>(), 48);
 	}
 }

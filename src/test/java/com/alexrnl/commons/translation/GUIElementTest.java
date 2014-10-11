@@ -22,11 +22,11 @@ public class GUIElementTest {
 	}
 	
 	/**
-	 * Test method for {@link GUIElement#toString()}.
+	 * Test method for {@link GUIElement#getTranslationKey()}.
 	 */
 	@Test
-	public void testToString () {
-		assertEquals("commons.menu.open", component.toString());
+	public void testGetTranslationKey () {
+		assertEquals("commons.menu.open", component.getTranslationKey());
 	}
 	
 	/**

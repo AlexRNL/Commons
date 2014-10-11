@@ -4,7 +4,7 @@ package com.alexrnl.commons.translation;
 /**
  * This class is defining the translation for a dialog.<br />
  * A standard dialog is composed of a title and a message, this class factorise the definition of
- * the keys for these data and uses the {@link #toString()} method to build the key.<br />
+ * the keys for these data and uses the {@link #getTranslationKey()} method to build the key.<br />
  * This class also implements the {@link ParametrableTranslation} interface which returns an empty
  * parameter array by default (i.e. no parameter are accepted by this dialog); override the method
  * {@link #getParameters()} if necessary.
@@ -22,7 +22,7 @@ package com.alexrnl.commons.translation;
  * 		parameters[0] = name;
  * 	}
  * 
- * 	public String toString () {
+ * 	public String getTranslationKey () {
  * 		return helloKey;
  * 	}
  * 
@@ -43,13 +43,13 @@ public abstract class AbstractDialog implements ParametrableTranslation {
 	public static final String	TITLE	= "title";
 	/** The string defining the key for the dialog's message */
 	public static final String	MESSAGE	= "message";
-
+	
 	/**
 	 * The title of the dialog.
 	 * @return the translation of the dialog's title.
 	 */
 	public String title () {
-		return toString() + Translator.HIERARCHY_SEPARATOR + TITLE;
+		return getTranslationKey() + Translator.HIERARCHY_SEPARATOR + TITLE;
 	}
 	
 	/**
@@ -57,16 +57,9 @@ public abstract class AbstractDialog implements ParametrableTranslation {
 	 * @return the translation of the dialog's message.
 	 */
 	public String message () {
-		return toString() + Translator.HIERARCHY_SEPARATOR + MESSAGE;
+		return getTranslationKey() + Translator.HIERARCHY_SEPARATOR + MESSAGE;
 	}
-
-	/**
-	 * Provide the key to the dialog, which allow to define the {@link #title()} and
-	 * {@link #message()} method at this level.
-	 */
-	@Override
-	public abstract String toString ();
-
+	
 	/**
 	 * By default, all dialogs are configurable but return no parameters.<br />
 	 * This allow to define generic behavior for displaying dialogs, override this if the dialog

@@ -6,7 +6,7 @@ package com.alexrnl.commons.translation;
  * this interface.
  * @author Alex
  */
-public interface ParametrableTranslation {
+public interface ParametrableTranslation extends Translatable {
 	
 	/**
 	 * Return the parameters to use when building the translation of the key.

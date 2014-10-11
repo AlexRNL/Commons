@@ -22,6 +22,7 @@ import javax.swing.UnsupportedLookAndFeelException;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.translation.AbstractDialog;
 import com.alexrnl.commons.translation.GUIElement;
+import com.alexrnl.commons.translation.Translatable;
 import com.alexrnl.commons.translation.Translator;
 import com.alexrnl.commons.utils.StringUtils;
 
@@ -145,7 +146,8 @@ public final class SwingUtils {
 	
 	/**
 	 * Ask the user to choose an element from a list.<br />
-	 * The elements of the list will be translated using their {@link Object#toString()} method.<br />
+	 * The elements of the list will be translated using their {@link Translatable#getTranslationKey()}
+	 * method.<br />
 	 * The collection provided should not contain identical object or identical text translations.
 	 * @param <T>
 	 *        the type of element the dialog offers.
@@ -161,7 +163,7 @@ public final class SwingUtils {
 	 *        the maximum length allowed on a line.
 	 * @return the selected element, or <code>null</code> if user canceled.
 	 */
-	public static <T> T askChoice (final Component parent, final Translator translator,
+	public static <T extends Translatable> T askChoice (final Component parent, final Translator translator,
 			final AbstractDialog dialog, final Collection<T> elements, final int maxLine) {
 		if (elements == null || elements.isEmpty()) {
 			LG.warning("Cannot display a dialog for choices with an null or empty list");
@@ -171,7 +173,7 @@ public final class SwingUtils {
 		// Map element and their translation,
 		final Map<String, T> translationMap = new LinkedHashMap<>(elements.size());
 		for (final T t : elements) {
-			translationMap.put(translator.get(t.toString()), t);
+			translationMap.put(translator.get(t.getTranslationKey()), t);
 		}
 		
 		final String choice = (String) JOptionPane.showInputDialog(parent, getMessage(translator, dialog, maxLine),
