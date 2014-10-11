@@ -12,7 +12,7 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 /**
- * TODO
+ * Test suite for the {@link UncloseableInputStream} class.
  * @author Alex
  */
 public class UncloseableInputStreamTest {
