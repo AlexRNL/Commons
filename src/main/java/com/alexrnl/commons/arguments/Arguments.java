@@ -93,22 +93,40 @@ public class Arguments {
 	private final SortedSet<Parameter>				parameters;
 	/** The output to use to display the usage of the arguments TODO replace with custom interface? */
 	private final PrintStream						out;
+	/** Flag to allow unknown parameters*/
+	private final boolean							allowUnknownParameters;
 	/** Map with the parameter parsers to use */
 	private final Map<Class<?>, ParameterParser>	parsers;
-	
+
 	/**
 	 * Constructor #1.<br />
+	 * Output is standard output, unknown parameter trigger error in parsing.
 	 * @param programName
 	 *        the name of the program.
 	 * @param target
 	 *        the object which holds the target.
 	 */
 	public Arguments (final String programName, final Object target) {
-		this(programName, target, System.out);
+		this(programName, target, false);
 	}
-
+	
 	/**
-	 * Constructor #1.<br />
+	 * Constructor #2.<br />
+	 * Output is standard output.
+	 * @param programName
+	 *        the name of the program.
+	 * @param target
+	 *        the object which holds the target.
+	 * @param allowUnknownParameters
+	 *        if <code>true</code> allow parsing unknown parameters.
+	 */
+	public Arguments (final String programName, final Object target, final boolean allowUnknownParameters) {
+		this(programName, target, System.out, allowUnknownParameters);
+	}
+	
+	/**
+	 * Constructor #2.<br />
+	 * Output is standard output.
 	 * @param programName
 	 *        the name of the program.
 	 * @param target
@@ -117,11 +135,27 @@ public class Arguments {
 	 *        the output stream to use for displaying argument's usage.
 	 */
 	public Arguments (final String programName, final Object target, final PrintStream out) {
+		this(programName, target, out, false);
+	}
+	
+	/**
+	 * Constructor #3.<br />
+	 * @param programName
+	 *        the name of the program.
+	 * @param target
+	 *        the object which holds the target.
+	 * @param out
+	 *        the output stream to use for displaying argument's usage.
+	 * @param allowUnknownParameters
+	 *        if <code>true</code> allow parsing unknown parameters.
+	 */
+	public Arguments (final String programName, final Object target, final PrintStream out, final boolean allowUnknownParameters) {
 		super();
 		this.programName = programName;
 		this.target = target;
 		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
 		this.out = out;
+		this.allowUnknownParameters = allowUnknownParameters;
 		this.parsers = new HashMap<>();
 		for (final ParameterParser parser : DEFAULT_PARSERS) {
 			if (addParameterParser(parser)) {
@@ -219,7 +253,9 @@ public class Arguments {
 			
 			final Parameter currentParameter = getParameterByName(argument);
 			if (currentParameter == null) {
-				errors.add("No parameter with name " + argument + " found.");
+				if (!allowUnknownParameters) {
+					errors.add("No parameter with name " + argument + " found.");
+				}
 				continue;
 			}
 			

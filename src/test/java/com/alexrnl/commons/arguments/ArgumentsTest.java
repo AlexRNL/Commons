@@ -10,6 +10,7 @@ import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
 import static org.mockito.Mockito.verify;
+import static org.mockito.Mockito.verifyZeroInteractions;
 import static org.mockito.Mockito.when;
 import static org.mockito.MockitoAnnotations.initMocks;
 
@@ -250,6 +251,17 @@ public class ArgumentsTest {
 	@Test(expected = IllegalArgumentException.class)
 	public void testBadValue () {
 		arguments.parse("-n", "test", "-x", "0.28");
+	}
+	
+	/**
+	 * Test with the allow unknown parameter option.
+	 */
+	@Test
+	public void testAllowUnknownParameters () {
+		final Arguments unknownArguments = new Arguments("test", target, out, true);
+		unknownArguments.parse("-n", "test", "-i", "not", "-a");
+		assertEquals("test", target.getName());
+		verifyZeroInteractions(out);
 	}
 	
 	/**
