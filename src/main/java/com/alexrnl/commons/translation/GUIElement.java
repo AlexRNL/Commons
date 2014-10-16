@@ -16,7 +16,7 @@ package com.alexrnl.commons.translation;
  * <pre>
  * GUIElement fileMenu = new GUIElement("commons.menu.file");
  * fileMenu.getShortcut(); // return the shortcut key associated
- * fileMenu.getTooltTip(); // return the tool tip key
+ * fileMenu.getToolTip(); // return the tool tip key
  * </pre>
  * @author Alex
  */
