@@ -50,7 +50,7 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 */
 	public static <T extends AbstractDAOFactory> T buildFactory (final String factoryClass,
 			final DataSourceConfiguration dataSourceConfig, final Class<T> parentClass) {
-		T factory = null;
+		T factory;
 		try {
 			factory = Class.forName(factoryClass).asSubclass(parentClass)
 					.getConstructor(DataSourceConfiguration.class).newInstance(dataSourceConfig);

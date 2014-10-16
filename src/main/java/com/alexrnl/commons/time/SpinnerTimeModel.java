@@ -130,7 +130,7 @@ public class SpinnerTimeModel extends AbstractSpinnerModel {
 	 * @return the new time to be set.
 	 */
 	private Time incrTime (final boolean forward) {
-		Time newValue = null;
+		Time newValue;
 		if (LG.isLoggable(Level.FINE)) {
 			LG.fine("incrTime forward? " + forward);
 		}
