@@ -131,7 +131,7 @@ public class Translator extends Configuration {
 		for (int indexParameter = 0; indexParameter < parameters.length; ++indexParameter) {
 			final Object parameter = parameters[indexParameter];
 			final String strToReplace = PARAMETER_PREFIX.toString() + indexParameter;
-			if (translation.indexOf(strToReplace) == -1) {
+			if (!translation.contains(strToReplace)) {
 				LG.warning("Parameter '" + parameter + "' cannot be put into the translation, '" +
 						strToReplace + "' was not found.");
 				continue;
