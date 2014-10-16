@@ -3,6 +3,10 @@
 .classpath
 .settings
 
+# IntelliJ files
+.idea
+*.iml
+
 # Compilation files #
 *.class
 target
