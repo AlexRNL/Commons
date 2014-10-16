@@ -178,7 +178,7 @@ public final class SwingUtils {
 		
 		final String choice = (String) JOptionPane.showInputDialog(parent, getMessage(translator, dialog, maxLine),
 				translator.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null,
-				translationMap.keySet().toArray(new Object[0]), translationMap.keySet().iterator().next());
+				translationMap.keySet().toArray(new Object[elements.size()]), translationMap.keySet().iterator().next());
 		
 		if (LG.isLoggable(Level.FINE)) {
 			LG.fine("The user has choose " + choice);
