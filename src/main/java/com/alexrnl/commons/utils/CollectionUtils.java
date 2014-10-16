@@ -129,8 +129,8 @@ public final class CollectionUtils {
 			return target;
 		}
 		
-		for (int i = 0; i < collections.length; i++) {
-			target.addAll(collections[i]);
+		for (Collection<? extends T> collection : collections) {
+			target.addAll(collection);
 		}
 		return target;
 	}
