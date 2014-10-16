@@ -66,7 +66,7 @@ public final class CollectionUtils {
 	 */
 	public static Map<String, String> convertPropertiesToMap (final Properties properties) {
 		Objects.requireNonNull(properties);
-		final HashMap<String, String> map = new HashMap<>(properties.size());
+		final Map<String, String> map = new HashMap<>(properties.size());
 		for (final Entry<Object, Object> property : properties.entrySet()) {
 			// Properties are always Strings (left as Object in JDK for backward compatibility purposes)
 			map.put((String) property.getKey(), (String) property.getValue());
