@@ -3,12 +3,14 @@ package com.alexrnl.commons.gui.swing.renderers;
 import java.awt.Color;
 import java.awt.Component;
 import java.util.Collection;
-import java.util.Objects;
+import java.util.HashSet;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import javax.swing.JLabel;
 import javax.swing.JList;
+
+import static java.util.Objects.requireNonNull;
 
 /**
  * This renderer highlight a defined set of strings.<br />
@@ -32,10 +34,8 @@ public class ListCellTextHighLighterRenderer extends ListCellTextRenderer<String
 	 */
 	public ListCellTextHighLighterRenderer (final Collection<String> toHighlight, final Color highlightColor) {
 		super();
-		Objects.requireNonNull(toHighlight, "Collection of strings to highlight cannot be null");
-		Objects.requireNonNull(highlightColor, "Color for highlighting cannot be null");
-		this.toHighlight = toHighlight;
-		this.highlightColor = highlightColor;
+		this.toHighlight = new HashSet<>(requireNonNull(toHighlight, "Collection of strings to highlight cannot be null"));
+		this.highlightColor = requireNonNull(highlightColor, "Color for highlighting cannot be null");
 	}
 	
 	@Override
