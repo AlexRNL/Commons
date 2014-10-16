@@ -100,7 +100,7 @@ public class ReflectUtilsTest {
 	}
 	
 	/**
-	 * Test method for {@lin ReflectUtils#retrieveFields(Class, Class)}.
+	 * Test method for {@link ReflectUtils#retrieveFields(Class, Class)}.
 	 */
 	@Test
 	public void testRetrieveFields () {
