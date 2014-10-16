@@ -303,9 +303,7 @@ public final class StringUtils {
 	 * @see #splitInLines(String, int)
 	 */
 	public static String splitInLinesHTML (final String input, final int maxLength) {
-		final StringBuilder result = new StringBuilder(HTML_HTML_START);
-		result.append(splitInLines(input, maxLength)).append(HTML_HTML_END);
-		return result.toString().replace("" + NEW_LINE, HTML_NEW_LINE);
+		return (HTML_HTML_START + splitInLines(input, maxLength) + HTML_HTML_END).replace(String.valueOf(NEW_LINE), HTML_NEW_LINE);
 	}
 
 	/**

@@ -106,11 +106,7 @@ public class Translator extends Configuration {
 			}
 			
 			// Replace the prefix + key with the translation of the key (hence the substring)
-			final StringBuilder newTranslation = new StringBuilder();
-			newTranslation.append(translation.substring(0, location - 1));
-			newTranslation.append(get(strToReplace));
-			newTranslation.append(translation.substring(location + strToReplace.length()));
-			translation = newTranslation.toString();
+			translation = translation.substring(0, location - 1) + get(strToReplace) + translation.substring(location + strToReplace.length());
 		}
 		
 		return translation;
