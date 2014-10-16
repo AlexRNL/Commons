@@ -145,7 +145,7 @@ public final class StringUtils {
 			builder.append(object).append(separator);
 		}
 		
-		return builder.substring(0, builder.length() - separator.length()).toString();
+		return builder.substring(0, builder.length() - separator.length());
 	}
 	
 	/**
@@ -244,7 +244,7 @@ public final class StringUtils {
 				result.append(part).append(SPACE);
 			}
 		}
-		return result.substring(0, result.length() - 1).toString();
+		return result.substring(0, result.length() - 1);
 	}
 	
 	/**
