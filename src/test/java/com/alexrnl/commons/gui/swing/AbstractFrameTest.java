@@ -10,7 +10,6 @@ import static org.junit.Assume.assumeFalse;
 
 import java.awt.GraphicsEnvironment;
 import java.beans.PropertyChangeEvent;
-import java.io.IOException;
 import java.net.URISyntaxException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -79,13 +78,11 @@ public class AbstractFrameTest {
 	 * Test method for the final state of the frame.
 	 * @throws URISyntaxException
 	 *         if there was an issue with the icon's path.
-	 * @throws IOException
-	 *         if there was an issue while loading the icon.
 	 * @throws InterruptedException
 	 *         if the thread was interrupted while waiting for the frame to be drawn.
 	 */
 	@Test
-	public void testFinalState () throws URISyntaxException, IOException, InterruptedException {
+	public void testFinalState () throws URISyntaxException, InterruptedException {
 		Logger.getLogger(AbstractFrame.class.getName()).setLevel(Level.WARNING);
 		final TestFrame frame = new TestFrame();
 		assertFalse(frame.isReady());

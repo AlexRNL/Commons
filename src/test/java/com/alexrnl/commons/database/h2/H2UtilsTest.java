@@ -101,15 +101,11 @@ public class H2UtilsTest {
 	
 	/**
 	 * Test method for {@link H2Utils#initDatabase(DataSourceConfiguration)}.
-	 * @throws URISyntaxException
-	 *         if there is a problem while loading the file.
 	 * @throws IOException
 	 *         if there is an error while creating the file database.
-	 * @throws SQLException
-	 *         if an SQL error occur while parsing the database.
 	 */
 	@Test(expected = DataBaseConfigurationError.class)
-	public void testInitDatabaseNoCreationScript () throws URISyntaxException, IOException, SQLException {
+	public void testInitDatabaseNoCreationScript () throws IOException {
 		final Path tempDBFile = folder.newFolder().toPath().resolve("testDummy");
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL + tempDBFile, "aba", "ldr", null);
 		H2Utils.initDatabase(dbInfos);
