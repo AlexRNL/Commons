@@ -19,16 +19,20 @@ import java.util.logging.Logger;
  */
 public final class ReflectUtils {
 	/** Logger */
-	private static final Logger		LG					= Logger.getLogger(ReflectUtils.class.getName());
+	private static final Logger		LG							= Logger.getLogger(ReflectUtils.class.getName());
 	
 	/** The common prefix for attribute setters in classes */
-	public static final String		SETTER_PREFIX		= "set";
+	public static final String		SETTER_PREFIX				= "set";
 	/** The common prefix for attribute getters in classes */
-	public static final String		GETTER_PREFIX		= "get";
+	public static final String		GETTER_PREFIX				= "get";
 	/** The common prefix for boolean attribute getters in classes */
-	public static final String		GETTER_BOOL_PREFIX	= "is";
+	public static final String		GETTER_BOOL_PREFIX			= "is";
 	/** The package separator */
-	public static final Character	PACKAGE_SEPARATOR	= '.';
+	public static final Character	PACKAGE_SEPARATOR			= '.';
+	/** The name of the valueOf method in an enum */
+	private static final String		ENUM_VALUE_OF_METHOD_NAME	= "valueOf";
+	/** The name of the values method in an enum */
+	private static final String		ENUM_VALUES_METHOD_NAME		= "values";
 
 	/**
 	 * Constructor #1.<br />
@@ -135,5 +139,20 @@ public final class ReflectUtils {
 			LG.fine("Public interfaces of " + objClass + ": " + allInterfaces);
 		}
 		return allInterfaces;
+	}
+	
+	/**
+	 * Method to allow having a complete code coverage over Java enum.
+	 * @param enumClass
+	 *        the class of the enumeration.
+	 */
+	public static void fullEnumCoverage (final Class<? extends Enum<?>> enumClass) {
+		try {
+			for (final Object o : (Object[]) enumClass.getMethod(ENUM_VALUES_METHOD_NAME).invoke(null)) {
+				enumClass.getMethod(ENUM_VALUE_OF_METHOD_NAME, String.class).invoke(null, o.toString());
+			}
+		} catch (final Exception e) {
+			throw new RuntimeException(e);
+		}
 	}
 }
