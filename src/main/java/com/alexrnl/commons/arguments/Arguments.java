@@ -188,6 +188,8 @@ public class Arguments {
 	/**
 	 * Add a parameter parser to the current arguments.<br />
 	 * Using an abstract parser allows to dynamically build collection using the parser.
+	 * @param <T>
+	 *        the type of parameter parsed.
 	 * @param parser
 	 *        the parser to add.
 	 * @return <code>true</code> if a previous parser was already set for this field type.
@@ -288,7 +290,7 @@ public class Arguments {
 				if (parsers.containsKey(currentParameter.getItemClass())) {
 					try {
 						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
-						final Collection collection = (Collection) currentParameter.getField().get(target);
+						final Collection collection = (Collection<?>) currentParameter.getField().get(target);
 						if (collection == null) {
 							errors.add("Target collection for parameter " + argument + " is null");
 							continue;

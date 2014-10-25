@@ -60,6 +60,8 @@ public class AttributeComparator {
 	
 	/**
 	 * Add attributes to be compared.
+	 * @param <T>
+	 *        The type of the attributes.
 	 * @param left
 	 *        the left attribute.
 	 * @param right
@@ -71,6 +73,8 @@ public class AttributeComparator {
 	
 	/**
 	 * Add a new attribute to be compared.
+	 * @param <T>
+	 *        The type of the attributes.
 	 * @param attribute
 	 *        the attribute to add.
 	 */
@@ -110,6 +114,8 @@ public class AttributeComparator {
 	/**
 	 * Compare both attributes and returns <code>true</code> if the attributes are equals.<br />
 	 * Works with arrays as well.
+	 * @param <T>
+	 *        The type of the attributes.
 	 * @param left
 	 *        the left attribute.
 	 * @param right

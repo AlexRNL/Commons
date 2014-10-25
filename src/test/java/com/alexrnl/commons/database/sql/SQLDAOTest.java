@@ -27,6 +27,7 @@ import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.Dummy.DummyColumn;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
+import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * Test suite for the {@link SQLDAO} class.
@@ -46,10 +47,13 @@ public class SQLDAOTest {
 	@BeforeClass
 	public static void setUpBeforeClass () throws SQLException {
 		connection = DriverManager.getConnection("jdbc:h2:mem:");
-		final PreparedStatement createTable = connection.prepareStatement("CREATE TABLE dummy ("
+		try (final PreparedStatement createTable = connection.prepareStatement("CREATE TABLE dummy ("
 				+ "id		INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-				+ "name		VARCHAR_IGNORECASE(60) NOT NULL);");
-		createTable.executeUpdate();
+				+ "name		VARCHAR_IGNORECASE(60) NOT NULL);")) {
+			createTable.executeUpdate();
+		} catch (final Exception e) {
+			fail(ExceptionUtils.display(e));
+		}
 	}
 	
 	/**

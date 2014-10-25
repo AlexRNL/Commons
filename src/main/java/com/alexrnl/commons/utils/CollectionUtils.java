@@ -30,6 +30,8 @@ public final class CollectionUtils {
 	
 	/**
 	 * Check if a collection is sorted.<br />
+	 * @param <T>
+	 *        the type of the elements contained in the collection.
 	 * @param collection
 	 *        the collection to check.
 	 * @return <code>true</code> if the collection is sorted.
@@ -77,6 +79,8 @@ public final class CollectionUtils {
 	/**
 	 * Return a random item from the collection specified.<br />
 	 * If the collection is empty, <code>null</code> is returned.
+	 * @param <T>
+	 *        the type of the elements contained in the collection.
 	 * @param collection
 	 *        the collection.
 	 * @param random
@@ -114,6 +118,8 @@ public final class CollectionUtils {
 	/**
 	 * Join several all provided collections in the first one provided.<br />
 	 * The instance of the target collection is returned to ease use in foreach loops.
+	 * @param <T>
+	 *        the type of the elements contained in the collection.
 	 * @param target
 	 *        the target collection
 	 * @param collections
@@ -129,7 +135,7 @@ public final class CollectionUtils {
 			return target;
 		}
 		
-		for (Collection<? extends T> collection : collections) {
+		for (final Collection<? extends T> collection : collections) {
 			target.addAll(collection);
 		}
 		return target;

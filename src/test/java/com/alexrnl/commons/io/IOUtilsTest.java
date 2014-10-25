@@ -3,13 +3,13 @@ package com.alexrnl.commons.io;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.fail;
 
 import java.io.BufferedReader;
 import java.io.EOFException;
 import java.io.IOException;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.net.URISyntaxException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.nio.file.Path;
@@ -17,6 +17,8 @@ import java.nio.file.Paths;
 import java.util.Scanner;
 
 import org.junit.Test;
+
+import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * Test suite for the {@link IOUtils} class.
@@ -38,25 +40,24 @@ public class IOUtilsTest {
 	
 	/**
 	 * Test method for {@link IOUtils#readLine(BufferedReader)}.
-	 * @throws URISyntaxException
-	 *         if the path to the test file is not correct.
-	 * @throws IOException
-	 *         if there was an issue while reading the file.
 	 */
 	@Test
-	public void testReadLine () throws IOException, URISyntaxException {
-		final BufferedReader reader = Files.newBufferedReader(
+	public void testReadLine () {
+		try (final BufferedReader reader = Files.newBufferedReader(
 				Paths.get(getClass().getResource("/configuration.properties").toURI()),
-				StandardCharsets.UTF_8);
-		assertNotNull(IOUtils.readLine(reader));
-		assertNotNull(IOUtils.readLine(reader));
-		boolean eof = false;
-		try {
-			IOUtils.readLine(reader);
-		} catch (final EOFException e) {
-			eof = true;
-		} finally {
-			assertTrue(eof);
+				StandardCharsets.UTF_8)) {
+			assertNotNull(IOUtils.readLine(reader));
+			assertNotNull(IOUtils.readLine(reader));
+			boolean eof = false;
+			try {
+				IOUtils.readLine(reader);
+			} catch (final EOFException e) {
+				eof = true;
+			} finally {
+				assertTrue(eof);
+			}
+		} catch (final Exception e) {
+			fail(ExceptionUtils.display(e));
 		}
 	}
 
@@ -139,10 +140,12 @@ public class IOUtilsTest {
 	 */
 	@Test
 	public void testToInputStream () {
-		final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*€"));
-		assertEquals("lauManAba#À", stream.nextLine());
-		assertEquals("@#1289%*€", stream.nextLine());
-		stream.close();
+		try (final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*€"))) {
+			assertEquals("lauManAba#À", stream.nextLine());
+			assertEquals("@#1289%*€", stream.nextLine());
+		} catch (final Exception e) {
+			fail(ExceptionUtils.display(e));
+		}
 	}
 	
 	/**
@@ -150,9 +153,12 @@ public class IOUtilsTest {
 	 */
 	@Test
 	public void testToInputStreamCharset () {
-		final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*$", StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1.name());
-		assertEquals("lauManAba#À", stream.nextLine());
-		assertEquals("@#1289%*$", stream.nextLine());
-		stream.close();
+		try (final Scanner stream = new Scanner(IOUtils.toInputStream("lauManAba#À\n@#1289%*$",
+				StandardCharsets.ISO_8859_1), StandardCharsets.ISO_8859_1.name())) {
+			assertEquals("lauManAba#À", stream.nextLine());
+			assertEquals("@#1289%*$", stream.nextLine());
+		} catch (final Exception e) {
+			fail(ExceptionUtils.display(e));
+		}
 	}
 }

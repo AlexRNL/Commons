@@ -1,6 +1,7 @@
 package com.alexrnl.commons.database.h2;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
 
 import java.io.IOException;
 import java.lang.reflect.Constructor;
@@ -23,6 +24,7 @@ import com.alexrnl.commons.database.DataBaseConfigurationError;
 import com.alexrnl.commons.database.Dummy;
 import com.alexrnl.commons.database.dao.DataSourceConfiguration;
 import com.alexrnl.commons.database.sql.DummySQLDAO;
+import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
  * Test suite for the {@link H2Utils} class.
@@ -67,21 +69,21 @@ public class H2UtilsTest {
 	 *         if there is a problem while loading the file.
 	 * @throws IOException
 	 *         if there is an error while creating the file database.
-	 * @throws SQLException
-	 *         if an SQL error occur while parsing the database.
 	 */
 	@Test
-	public void testInitDatabase () throws URISyntaxException, IOException, SQLException {
+	public void testInitDatabase () throws URISyntaxException, IOException {
 		final Path creationFile = Paths.get(getClass().getResource("/createDummyDB.sql").toURI());
 		final Path tempDBFile = folder.newFolder().toPath().resolve("testDummy");
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration(Constants.START_URL + tempDBFile, "aba", "ldr", creationFile);
 		H2Utils.initDatabase(dbInfos);
 		
-		final Connection connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword());
-		final DummySQLDAO dummyDao = new DummySQLDAO(connection);
-		final Set<Dummy> dummies = dummyDao.retrieveAll();
-		assertEquals(2, dummies.size());
-		connection.close();
+		try (final Connection connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword())) {
+			final DummySQLDAO dummyDao = new DummySQLDAO(connection);
+			final Set<Dummy> dummies = dummyDao.retrieveAll();
+			assertEquals(2, dummies.size());
+		} catch (final SQLException e) {
+			fail(ExceptionUtils.display(e));
+		}
 	}
 	
 	/**

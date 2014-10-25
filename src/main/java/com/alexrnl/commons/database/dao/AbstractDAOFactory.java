@@ -39,6 +39,8 @@ public abstract class AbstractDAOFactory implements Closeable {
 	 * Retrieve and create the appropriate factory using the name of the class.<br />
 	 * Using this method will avoid dependencies to the concrete factory type and allow changing
 	 * factories easily (via external configuration for example).
+	 * @param <T>
+	 *        The concrete factory class.
 	 * @param factoryClass
 	 *        the type of DAO required.
 	 * @param dataSourceConfig
@@ -98,6 +100,8 @@ public abstract class AbstractDAOFactory implements Closeable {
 	
 	/**
 	 * Get the DAO for the specified class.<br />
+	 * @param <T>
+	 *        the type of object manipulated by the DAO.
 	 * @param entityClass
 	 *        the entity class to get the DAO from.
 	 * @return the DAO associated to the class.
@@ -108,6 +112,8 @@ public abstract class AbstractDAOFactory implements Closeable {
 	
 	/**
 	 * Add the DAO to the map.
+	 * @param <T>
+	 *        the type of object manipulated by the DAO.
 	 * @param entityClass
 	 *        the class manage by the DAO.
 	 * @param dao

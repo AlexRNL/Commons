@@ -36,7 +36,7 @@ public class AttributeComparatorTest {
 		left.add(null);
 		right.add(null);
 		left.add(new int[] {2, 1});
-		right.add(new int[] {2, 1});;
+		right.add(new int[] {2, 1});
 		left.add(new Double[] {8.4, 86.42});
 		right.add(new Double[] {8.4, 86.42});
 	}
