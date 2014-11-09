@@ -33,6 +33,20 @@
 			<id>AlexRNL</id>
 		</developer>
 	</developers>
+	<distributionManagement>
+		<!-- For releases -->
+		<repository>
+			<id>nexus</id>
+			<name>RepositoryProxy</name>
+			<url>http://ks3374067.kimsufi.com/nexus/content/repositories/releases</url>
+		</repository>
+		<!-- For snapshots -->
+		<snapshotRepository>
+			<id>nexus</id>
+			<name>RepositoryProxy</name>
+			<url>http://ks3374067.kimsufi.com/nexus/content/repositories/snapshots</url>
+		</snapshotRepository>
+	</distributionManagement>
 	
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -79,7 +93,7 @@
 			<scope>test</scope>
 		</dependency>
 	</dependencies>
-
+	
 	<profiles>
 		<profile>
 			<id>shippable</id>
