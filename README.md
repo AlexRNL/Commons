@@ -10,6 +10,7 @@ It contains many useful classes which may be reused easily across projects.
 * Time
 * Error handling
 * Automate object comparisons
+* Argument processing
 * And more!
 
 Build status
