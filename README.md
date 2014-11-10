@@ -15,4 +15,4 @@ It contains many useful classes which may be reused easily across projects.
 
 Build status
 ------
-[![Build Status](https://api.shippable.com/projects/540f61dc21c97efdb8989f34/badge?branchName=master)](https://app.shippable.com/projects/540f61dc21c97efdb8989f34/builds/latest)
+N/A.
