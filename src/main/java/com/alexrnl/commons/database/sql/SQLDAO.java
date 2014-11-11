@@ -224,7 +224,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 				}
 			}
 		} catch (final SQLException e) {
-			LG.warning("Could not find " + entityName + ": " + e.getMessage());
+			LG.warning("Could not find " + entityName + ": " + ExceptionUtils.display(e));
 			return null;
 		}
 		
@@ -254,7 +254,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 			update.executeUpdate();
 			update.clearParameters();
 		} catch (final SQLException e) {
-			LG.warning("Could not update " + entityName + ": " + e.getMessage());
+			LG.warning("Could not update " + entityName + ": " + ExceptionUtils.display(e));
 			return false;
 		}
 		
