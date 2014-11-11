@@ -97,7 +97,7 @@ public final class CollectionUtils {
 		}
 		
 		// Avoid unnecessary computation with empty collection (or with one item).
-		if (collection.size() == 0) {
+		if (collection.isEmpty()) {
 			return null;
 		}
 		if (collection.size() == 1) {
