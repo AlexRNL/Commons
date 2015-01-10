@@ -136,11 +136,10 @@ public class TimeSec extends Time implements Cloneable {
 	 * @return the time matching the string.
 	 */
 	public static TimeSec get (final String time) {
-		final String[] hm = time.split(NON_DECIMAL_CHARACTER);
 		Integer hours = null;
 		Integer minutes = null;
 		Integer seconds = null;
-		for (final String s : hm) {
+		for (final String s : time.split(NON_DECIMAL_CHARACTER)) {
 			if (s.isEmpty()) {
 				continue;
 			}
