@@ -142,4 +142,13 @@ public class Translator extends Configuration {
 		return translation;
 	}
 	
+	/**
+	 * Short-hand for {@link #get(String, Object...)}, translate the provide object.
+	 * @param translatable the {@link Translatable} object to translate
+	 * @return the translation of the object.
+	 * @see #get(String, Object...)
+	 */
+	public String get (final ParametrableTranslation translatable) {
+		return get(translatable.getTranslationKey(), translatable.getParameters());
+	}
 }
