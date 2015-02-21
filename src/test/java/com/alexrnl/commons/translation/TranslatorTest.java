@@ -51,4 +51,22 @@ public class TranslatorTest {
 		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA", "XXX"));
 	}
 	
+	/**
+	 * Test method for {@link Translator#get(ParametrableTranslation)}.
+	 */
+	@Test
+	public void testGetParametrableTranslation () {
+		assertEquals("This LDR is really ABA!", translator.get(new ParametrableTranslation() {
+			@Override
+			public String getTranslationKey () {
+				return "commons.test.parameters";
+			}
+			
+			@Override
+			public Object[] getParameters () {
+				return new String [] {"LDR", "ABA", "XXX"};
+			}
+		}));
+	}
+	
 }
