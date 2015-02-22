@@ -24,6 +24,8 @@ public final class H2Utils {
 	
 	/** The file prefix used in URIs */
 	public static final String		FILE_URI_PREFIX				= "file:";
+	/** The mem prefix used in URIs */
+	public static final String		IN_MEMORY_PREFIX			= "mem:";
 	/** The separator between the URL and the parameters in a H2 database file description */
 	private static final Character	H2_URL_PARAMETER_SEPARATOR	= ';';
 	
@@ -48,11 +50,17 @@ public final class H2Utils {
 	 *        the database information to use.
 	 * @param suffix
 	 *        <code>true</code> if the suffix should be added to the path.
-	 * @return the path of the database file.
+	 * @return the path of the database file, or <code>null</code> if the configuration denotes an
+	 *         in-memory database.
 	 */
 	public static Path getDBFile (final DataSourceConfiguration dbInfos, final boolean suffix) {
 		// Removing the jdbc:h2 part of the URL
 		String file = dbInfos.getUrl().substring(Constants.START_URL.length());
+		
+		if (file.startsWith(IN_MEMORY_PREFIX)) {
+			// The configuration of the database is for a in-memory database.
+			return null;
+		}
 		// Removing the file: part of the URL, if present
 		if (file.startsWith(FILE_URI_PREFIX)) {
 			file = file.substring(FILE_URI_PREFIX.length());
@@ -82,22 +90,34 @@ public final class H2Utils {
 	 *        the database information to use.
 	 */
 	public static void initDatabase (final DataSourceConfiguration dbInfos) {
-		if (!Files.exists(getDBFile(dbInfos, true))) {
-			if (dbInfos.getCreationFile() == null) {
-				throw new DataBaseConfigurationError("No creation script defined in the data " +
-						"source configuration, cannot initialize database.");
+		if (dbInfos.getCreationFile() == null) {
+			throw new DataBaseConfigurationError("No creation script defined in the data " +
+					"source configuration, cannot initialize database.");
+		}
+		if (LG.isLoggable(Level.INFO)) {
+			LG.info("Database file for connection " + dbInfos.getUrl() + " does not exists, " +
+					"initializing database with script " + dbInfos.getCreationFile());
+		}
+		
+		final Path dbFile = getDBFile(dbInfos, true);
+		try {
+			String dbUrl = null;
+			
+			if (dbFile == null) {
+				// in-memory database
+				dbUrl = dbInfos.getUrl();
+			} else if (!Files.exists(dbFile)) {
+				// un-existing database
+				dbUrl = Constants.START_URL + getDBFile(dbInfos, false);
 			}
-			if (LG.isLoggable(Level.INFO)) {
-				LG.info("Database file for connection " + dbInfos.getUrl() + " does not exists, " +
-						"initializing database with script " + dbInfos.getCreationFile());
+			
+			if (dbUrl != null) {
+				RunScript.execute(dbUrl, dbInfos.getUsername(), dbInfos.getPassword(),
+						dbInfos.getCreationFile().toString(), null, false);
 			}
-			try {
-				RunScript.execute(Constants.START_URL + getDBFile(dbInfos, false), dbInfos.getUsername(),
-						dbInfos.getPassword(), dbInfos.getCreationFile().toString(), null, true);
-			} catch (final SQLException e) {
-				LG.warning("Error while initilization of H2 database: " + ExceptionUtils.display(e));
-				throw new DataBaseConfigurationError("Could not create H2 database", e);
-			}
+		} catch (final SQLException e) {
+			LG.warning("Error while initilization of H2 database: " + ExceptionUtils.display(e));
+			throw new DataBaseConfigurationError("Could not create H2 database", e);
 		}
 	}
 }
