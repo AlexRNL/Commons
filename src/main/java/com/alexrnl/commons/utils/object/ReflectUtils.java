@@ -148,8 +148,8 @@ public final class ReflectUtils {
 	 */
 	public static void fullEnumCoverage (final Class<? extends Enum<?>> enumClass) {
 		try {
-			for (final Object o : (Object[]) enumClass.getMethod(ENUM_VALUES_METHOD_NAME).invoke(null)) {
-				enumClass.getMethod(ENUM_VALUE_OF_METHOD_NAME, String.class).invoke(null, o.toString());
+			for (final Enum<?> o : (Enum[]) enumClass.getMethod(ENUM_VALUES_METHOD_NAME).invoke(null)) {
+				enumClass.getMethod(ENUM_VALUE_OF_METHOD_NAME, String.class).invoke(null, o.name());
 			}
 		} catch (final Exception e) {
 			throw new RuntimeException(e);
