@@ -2,6 +2,7 @@ package com.alexrnl.commons.translation;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
+import static org.junit.Assert.assertTrue;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -52,6 +53,6 @@ public class StandardDialogTest {
 	@Test
 	public void testGetParameters () {
 		assertNotNull(dialog.getParameters());
-		assertEquals(0, dialog.getParameters().length);
+		assertTrue(dialog.getParameters().isEmpty());
 	}
 }

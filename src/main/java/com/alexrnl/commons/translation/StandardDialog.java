@@ -1,5 +1,10 @@
 package com.alexrnl.commons.translation;
 
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.List;
+
 
 /**
  * This class is defining the translation for a dialog.<br />
@@ -24,9 +29,9 @@ public class StandardDialog implements Dialog {
 	public static final String	MESSAGE	= "message";
 	
 	/** The translation key of the dialog */
-	private final String	dialogKey;
+	private final String		dialogKey;
 	/** The parameters of the dialog */
-	private final Object[]	parameters;
+	private final List<Object>	parameters;
 
 	/**
 	 * Constructor #1.<br />
@@ -38,16 +43,7 @@ public class StandardDialog implements Dialog {
 	public StandardDialog (final String dialogKey, final Object... parameters) {
 		super();
 		this.dialogKey = dialogKey;
-		this.parameters = parameters;
-	}
-	
-	/**
-	 * Constructor #2.<br />
-	 * @param dialogKey
-	 *        the translation key of the dialog.
-	 */
-	public StandardDialog(final String dialogKey){
-		this(dialogKey, new Object[0]);
+		this.parameters = Collections.unmodifiableList(Arrays.asList(parameters));
 	}
 	
 	@Override
@@ -66,7 +62,7 @@ public class StandardDialog implements Dialog {
 	}
 	
 	@Override
-	public Object[] getParameters () {
-		return parameters.clone();
+	public Collection<Object> getParameters () {
+		return parameters;
 	}
 }

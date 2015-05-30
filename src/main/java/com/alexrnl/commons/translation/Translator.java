@@ -1,6 +1,8 @@
 package com.alexrnl.commons.translation;
 
 import java.nio.file.Path;
+import java.util.Arrays;
+import java.util.Collection;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -121,22 +123,35 @@ public class Translator extends Configuration {
 	 * @return the translation of the key from the specified locale file.
 	 */
 	public String get (final String key, final Object... parameters) {
+		return get(key, Arrays.asList(parameters));
+	}
+
+	
+	/**
+	 * Get the translation of a specific key.
+	 * @param key
+	 *        the key to translate.
+	 * @param parameters
+	 *        the parameters to use to build the translation.
+	 * @return the translation of the key from the specified locale file.
+	 */
+	public String get (final String key, final Collection<Object> parameters) {
 		String translation = get(key);
-		// Case with no parameters or no translation found
-		if (key.equals(translation) || parameters == null || parameters.length == 0) {
+		// Case with no translation found or no translator
+		if (key.equals(translation) || parameters == null || parameters.isEmpty()) {
 			return translation;
 		}
 		
 		// Replace parameters
-		for (int indexParameter = 0; indexParameter < parameters.length; ++indexParameter) {
-			final Object parameter = parameters[indexParameter];
-			final String strToReplace = PARAMETER_PREFIX.toString() + indexParameter;
+		int indexParameter = 0;
+		for (final Object parameter : parameters) {
+			final String strToReplace = PARAMETER_PREFIX.toString() + indexParameter++;
 			if (!translation.contains(strToReplace)) {
 				LG.warning("Parameter '" + parameter + "' cannot be put into the translation, '" +
 						strToReplace + "' was not found.");
 				continue;
 			}
-			translation = translation.replace(strToReplace, parameter.toString());
+			translation = translation.replace(strToReplace, String.valueOf(parameter));
 		}
 		
 		return translation;

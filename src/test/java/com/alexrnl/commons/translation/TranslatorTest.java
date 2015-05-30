@@ -4,6 +4,9 @@ import static org.junit.Assert.assertEquals;
 
 import java.net.URISyntaxException;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.Collections;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -39,13 +42,13 @@ public class TranslatorTest {
 	}
 	
 	/**
-	 * Test method for {@link Translator#get(java.lang.String, Object[])}.
+	 * Test method for {@link Translator#get(java.lang.String, Collection)}.
 	 */
 	@Test
-	public void testGetStringObjectArray () {
-		assertEquals("aba.ldr", translator.get("aba.ldr", (Object[]) null));
-		assertEquals("The Name", translator.get("commons.test.name", (Object[]) null));
-		assertEquals("The Name", translator.get("commons.test.name", new Object[0]));
+	public void testGetStringCollection () {
+		assertEquals("aba.ldr", translator.get("aba.ldr", Collections.emptyList()));
+		assertEquals("The Name", translator.get("commons.test.name", Collections.emptyList()));
+		assertEquals("The Name", translator.get("commons.test.name", (Collection<Object>) null));
 		assertEquals("My parameter LDR", translator.get("commons.test.parameter", "LDR"));
 		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA"));
 		assertEquals("This LDR is really ABA!", translator.get("commons.test.parameters", "LDR", "ABA", "XXX"));
@@ -63,8 +66,8 @@ public class TranslatorTest {
 			}
 			
 			@Override
-			public Object[] getParameters () {
-				return new String [] {"LDR", "ABA", "XXX"};
+			public Collection<Object> getParameters () {
+				return Arrays.<Object>asList("LDR", "ABA", "XXX");
 			}
 		}));
 	}
