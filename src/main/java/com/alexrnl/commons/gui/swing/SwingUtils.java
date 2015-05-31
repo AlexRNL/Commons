@@ -20,7 +20,7 @@ import javax.swing.UIManager.LookAndFeelInfo;
 import javax.swing.UnsupportedLookAndFeelException;
 
 import com.alexrnl.commons.error.ExceptionUtils;
-import com.alexrnl.commons.translation.AbstractDialog;
+import com.alexrnl.commons.translation.Dialog;
 import com.alexrnl.commons.translation.GUIElement;
 import com.alexrnl.commons.translation.Translatable;
 import com.alexrnl.commons.translation.Translator;
@@ -99,8 +99,8 @@ public final class SwingUtils {
 	 *        the maximum length allowed on a line.
 	 * @return the message to display.
 	 */
-	static String getMessage (final Translator translator, final AbstractDialog dialog, final int maxLine) {
-		return StringUtils.splitInLinesHTML(translator.get(dialog.message(), dialog.getParameters()), maxLine);
+	static String getMessage (final Translator translator, final Dialog dialog, final int maxLine) {
+		return StringUtils.splitInLinesHTML(translator.get(dialog), maxLine);
 	}
 	
 	/**
@@ -121,7 +121,7 @@ public final class SwingUtils {
 	 * @see JOptionPane#showMessageDialog(Component, Object, String, int, javax.swing.Icon)
 	 */
 	public static void showMessageDialog (final Component parent, final Translator translator,
-			final AbstractDialog dialog, final int type, final int maxLine) {
+			final Dialog dialog, final int type, final int maxLine) {
 		JOptionPane.showMessageDialog(parent, getMessage(translator, dialog, maxLine), translator.get(dialog.title()), type);
 	}
 	
@@ -138,7 +138,7 @@ public final class SwingUtils {
 	 * @return <code>true</code> if the use confirmed the dialog (clicked 'yes').
 	 */
 	public static boolean askConfirmation (final Component parent, final Translator translator,
-			final AbstractDialog dialog, final int maxLine) {
+			final Dialog dialog, final int maxLine) {
 		final int choice = JOptionPane.showConfirmDialog(parent, getMessage(translator, dialog, maxLine),
 				translator.get(dialog.title()), JOptionPane.YES_NO_OPTION, JOptionPane.QUESTION_MESSAGE);
 		return choice == JOptionPane.YES_OPTION;
@@ -164,7 +164,7 @@ public final class SwingUtils {
 	 * @return the selected element, or <code>null</code> if user canceled.
 	 */
 	public static <T extends Translatable> T askChoice (final Component parent, final Translator translator,
-			final AbstractDialog dialog, final Collection<T> elements, final int maxLine) {
+			final Dialog dialog, final Collection<T> elements, final int maxLine) {
 		if (elements == null || elements.isEmpty()) {
 			LG.warning("Cannot display a dialog for choices with an null or empty list");
 			throw new IllegalArgumentException("Cannot display input dialog with null or empty list");
