@@ -44,7 +44,7 @@ public final class IOUtils {
 	 * @throws EOFException
 	 *         if the line returned is <code>null</code>.
 	 */
-	public static String readLine (final BufferedReader reader) throws IOException, EOFException {
+	public static String readLine (final BufferedReader reader) throws IOException {
 		Objects.requireNonNull(reader);
 		final String line = reader.readLine();
 		if (LG.isLoggable(Level.FINE)) {

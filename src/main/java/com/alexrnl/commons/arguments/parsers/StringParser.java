@@ -15,7 +15,7 @@ public class StringParser extends AbstractParser<String> {
 	}
 	
 	@Override
-	public String getValue (final String parameter) throws IllegalArgumentException {
+	public String getValue (final String parameter) {
 		return parameter;
 	}
 }

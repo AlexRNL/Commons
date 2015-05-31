@@ -35,7 +35,7 @@ public class ClassParser extends AbstractParser<Class> {
 	}
 	
 	@Override
-	public Class getValue (final String parameter) throws IllegalArgumentException {
+	public Class getValue (final String parameter) {
 		try {
 			return Class.forName(rootPackage != null ?
 					rootPackage.getName() + ReflectUtils.PACKAGE_SEPARATOR + parameter

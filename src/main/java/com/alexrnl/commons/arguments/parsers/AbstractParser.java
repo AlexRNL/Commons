@@ -45,5 +45,5 @@ public abstract class AbstractParser<T> implements ParameterParser {
 	 * @throws IllegalArgumentException
 	 *         if the specified parameter could not be read properly.
 	 */
-	public abstract T getValue (String parameter) throws IllegalArgumentException;
+	public abstract T getValue (String parameter);
 }

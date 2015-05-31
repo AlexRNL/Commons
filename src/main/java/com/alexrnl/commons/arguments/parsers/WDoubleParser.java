@@ -15,7 +15,7 @@ public class WDoubleParser extends AbstractParser<Double> {
 	}
 	
 	@Override
-	public Double getValue (final String parameter) throws IllegalArgumentException {
+	public Double getValue (final String parameter) {
 		return Double.valueOf(parameter);
 	}
 }

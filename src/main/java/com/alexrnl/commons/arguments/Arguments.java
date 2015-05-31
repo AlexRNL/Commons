@@ -229,7 +229,7 @@ public class Arguments {
 	 * @throws IllegalArgumentException
 	 *         if there is an error (or several) during parsing the arguments.
 	 */
-	public void parse (final Iterable<String> arguments) throws IllegalArgumentException {
+	public void parse (final Iterable<String> arguments) {
 		final Iterable<String> args = joinArguments(arguments);
 		if (LG.isLoggable(Level.INFO)) {
 			LG.info("Parsing arguments " + args.toString());
@@ -470,7 +470,7 @@ public class Arguments {
 	 *         if the parsing of arguments has failed.
 	 */
 	private void errorAndHelpProcessing (final Set<Parameter> requiredParameters,
-			final List<String> errors, final boolean helpRequested) throws IllegalArgumentException {
+			final List<String> errors, final boolean helpRequested) {
 		// Check that all required arguments were set
 		if (!requiredParameters.isEmpty()) {
 			final List<Set<String>> listParamNames = new ArrayList<>(requiredParameters.size());
