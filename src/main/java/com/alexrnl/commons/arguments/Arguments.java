@@ -91,7 +91,7 @@ public class Arguments {
 	private final Object							target;
 	/** The list of parameters in the target */
 	private final SortedSet<Parameter>				parameters;
-	/** The output to use to display the usage of the arguments TODO replace with custom interface? */
+	/** The output to use to display the usage of the arguments */
 	private final PrintStream						out;
 	/** Flag to allow unknown parameters*/
 	private final boolean							allowUnknownParameters;
