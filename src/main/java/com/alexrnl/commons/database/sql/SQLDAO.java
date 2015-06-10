@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -16,8 +17,6 @@ import com.alexrnl.commons.database.dao.DAO;
 import com.alexrnl.commons.database.structure.Column;
 import com.alexrnl.commons.database.structure.Entity;
 import com.alexrnl.commons.error.ExceptionUtils;
-import com.alexrnl.commons.time.TimeConverter;
-import com.alexrnl.commons.time.TimeConverter.Unit;
 
 /**
  * This class shall be the super class of all SQL {@link DAO}.<br />
@@ -159,7 +158,7 @@ public abstract class SQLDAO<T extends Entity> implements DAO<T> {
 	 * @return the string to display.
 	 */
 	private static String usTimeDiff (final long nanoTimeReference) {
-		return TimeConverter.convert(System.nanoTime() - nanoTimeReference, Unit.NANOSECONDS, Unit.MICROSECONDS) + " µseconds";
+		return TimeUnit.MICROSECONDS.convert(System.nanoTime() - nanoTimeReference, TimeUnit.NANOSECONDS) + " µseconds";
 	}
 	
 	@Override

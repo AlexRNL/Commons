@@ -4,8 +4,8 @@ import java.io.Serializable;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 
-import com.alexrnl.commons.time.TimeConverter.Unit;
 import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -26,7 +26,7 @@ public class Time implements Serializable, Comparable<Time>, Cloneable {
 	/** The regex pattern that matches any non decimal character */
 	public static final String	NON_DECIMAL_CHARACTER	= "[^0-9]";
 	/** Number of minutes per hour */
-	public static final int		MINUTES_PER_HOURS		= Double.valueOf(TimeConverter.getConversionFactor(Unit.HOURS, Unit.MINUTES)).intValue();
+	public static final int		MINUTES_PER_HOURS		= (int) TimeUnit.MINUTES.convert(1, TimeUnit.HOURS);
 	
 	/** The number of hours */
 	private final int			hours;

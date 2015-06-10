@@ -3,10 +3,10 @@ package com.alexrnl.commons.time;
 import java.sql.Date;
 import java.util.Calendar;
 import java.util.Locale;
+import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
-import com.alexrnl.commons.time.TimeConverter.Unit;
 import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 import com.alexrnl.commons.utils.object.Field;
@@ -24,7 +24,7 @@ public class TimeSec extends Time implements Cloneable {
 	private static final long	serialVersionUID	= -5220683648807102121L;
 	
 	/** Number of seconds per minutes */
-	public static final int		SECONDS_PER_MINUTES	= Double.valueOf(TimeConverter.getConversionFactor(Unit.MINUTES, Unit.SECONDS)).intValue();
+	public static final int		SECONDS_PER_MINUTES	= (int) TimeUnit.SECONDS.convert(1, TimeUnit.MINUTES);
 	
 	/** The number of seconds */
 	private final int			seconds;
