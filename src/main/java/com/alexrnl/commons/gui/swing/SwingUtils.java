@@ -188,6 +188,26 @@ public final class SwingUtils {
 	}
 	
 	/**
+	 * Ask the user for a free input.<br />
+	 * @param parent
+	 *        the parent component.
+	 * @param translator
+	 *        the translator to use for displaying the text.
+	 * @param dialog
+	 *        the dialog to display.
+	 * @param initialValue
+	 *        the initial value of the input.
+	 * @param maxLine
+	 *        the maximum length allowed on a line.
+	 * @return the user input, or <code>null</code> if user canceled.
+	 */
+	public static String askFreeInput (final Component parent, final Translator translator,
+			final Dialog dialog, final String initialValue, final int maxLine) {
+		return (String) JOptionPane.showInputDialog(parent, getMessage(translator, dialog, maxLine),
+				translator.get(dialog.title()), JOptionPane.QUESTION_MESSAGE, null, null, initialValue);
+	}
+	
+	/**
 	 * Creates a {@link JMenuItem} based on the parameters provided.<br />
 	 * <ul>
 	 * <li>Set a mnemonic (using the character following the {@link Translator#MNEMONIC_MARK} defined).</li>
