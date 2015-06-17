@@ -4,6 +4,7 @@ import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -145,15 +146,20 @@ public abstract class AbstractController implements PropertyChangeListener {
 		if (LG.isLoggable(Level.INFO)) {
 			LG.info("Setting property " + propertyName + " to " + newValue + " on models");
 		}
+		boolean propertyFound = false;
 		for (final AbstractModel model : getRegisteredModels()) {
 			for (final Method method : getPropertyMethod(model, propertyName, newValue.getClass())) {
 				try {
+					propertyFound = true;
 					method.invoke(model, newValue);
 				} catch (IllegalAccessException | IllegalArgumentException | InvocationTargetException e) {
-					LG.warning("Could not set property " + propertyName + " on model "
-							+ model.getClass() + ": " + ExceptionUtils.display(e));
+					LG.log(Level.WARNING, "Could not set property " + propertyName + " on model "
+							+ model.getClass() + ": " + ExceptionUtils.display(e), e);
 				}
 			}
+		}
+		if (!propertyFound) {
+			LG.warning("No property " + propertyName + " found in models " + Arrays.toString(getRegisteredModels()));
 		}
 	}
 
