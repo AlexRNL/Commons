@@ -3,6 +3,8 @@ package com.alexrnl.commons.translation;
 import java.nio.file.Path;
 import java.util.Arrays;
 import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 
@@ -52,6 +54,9 @@ public class Translator extends Configuration {
 	/** Character used to include a translation into an other one */
 	public static final Character	INCLUDE_PREFIX		= '§';
 	
+	/** Set with the missing translations keys (avoid displaying warning multiple times) */
+	private final Set<String>		missingKeys;
+	
 	/**
 	 * Constructor #1.<br />
 	 * @param translationFile
@@ -59,6 +64,7 @@ public class Translator extends Configuration {
 	 */
 	public Translator (final Path translationFile) {
 		super(translationFile, true);
+		this.missingKeys = new HashSet<>();
 		
 		if (LG.isLoggable(Level.INFO)) {
 			LG.info("Language locale file " + translationFile + " successfully loaded (" + size() + " keys loaded)");
@@ -74,8 +80,8 @@ public class Translator extends Configuration {
 	@Override
 	public String get (final String key) {
 		if (!has(key)) {
-			if (LG.isLoggable(Level.INFO)) {
-				LG.info("Cannot find translation for key " + key);
+			if (missingKeys.add(key)) {
+				LG.warning("Cannot find translation for key " + key);
 			}
 			return key;
 		}

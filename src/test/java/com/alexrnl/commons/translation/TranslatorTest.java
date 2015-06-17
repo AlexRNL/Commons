@@ -38,6 +38,7 @@ public class TranslatorTest {
 		assertEquals("The Name", translator.get("commons.test.name"));
 		assertEquals("Hey, this has The Name, isn't that cool?", translator.get("commons.test.include"));
 		assertEquals("Hey, this has The Name", translator.get("commons.test.includeEnd"));
+		assertEquals("commons.test.missing", translator.get("commons.test.missing"));
 		assertEquals("Hey, this has commons.test.missing", translator.get("commons.test.includeFake"));
 	}
 	
