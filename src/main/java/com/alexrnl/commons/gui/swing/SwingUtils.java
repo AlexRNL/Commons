@@ -173,7 +173,7 @@ public final class SwingUtils {
 		// Map element and their translation,
 		final Map<String, T> translationMap = new LinkedHashMap<>(elements.size());
 		for (final T t : elements) {
-			translationMap.put(translator.get(t.getTranslationKey()), t);
+			translationMap.put(translator.get(t), t);
 		}
 		
 		final String choice = (String) JOptionPane.showInputDialog(parent, getMessage(translator, dialog, maxLine),

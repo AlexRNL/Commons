@@ -73,4 +73,17 @@ public class TranslatorTest {
 		}));
 	}
 	
+	/**
+	 * Test method for {@link Translator#get(Translatable)}.
+	 */
+	@Test
+	public void testGetTranslatable () {
+		assertEquals("The Name", translator.get(new Translatable() {
+			@Override
+			public String getTranslationKey () {
+				return "commons.test.name";
+			}
+		}));
+	}
+	
 }
