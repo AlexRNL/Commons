@@ -88,6 +88,7 @@ public class Translator extends Configuration {
 		
 		String translation = super.get(key);
 		
+		// FIXME self-inclusion provoke a stack overflow!
 		// Replace other translations included in the current one
 		while (translation.contains(INCLUDE_PREFIX.toString())) {
 			// Isolate the string to replace, from the Constants.INCLUDE_PREFIX to the next space
@@ -111,6 +112,11 @@ public class Translator extends Configuration {
 			if (strToReplace.isEmpty()) {
 				strToReplace = backUpStr;
 				LG.warning("Could not found any suitable translation for the include key: " + strToReplace);
+			}
+			
+			if (strToReplace.equals(key)) {
+				LG.warning("Self inclusion detected for key " + key);
+				throw new IllegalArgumentException("Cannot include self in translation for key: " + key);
 			}
 			
 			// Replace the prefix + key with the translation of the key (hence the substring)

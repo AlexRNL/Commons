@@ -43,6 +43,15 @@ public class TranslatorTest {
 	}
 	
 	/**
+	 * Test that verify that a self inclusion throwing an {@link IllegalArgumentException} instead
+	 * of provoking a {@link StackOverflowError}.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testGetSelfIncludedTranslation () {
+		translator.get("commons.test.includeSelf");
+	}
+	
+	/**
 	 * Test method for {@link Translator#get(java.lang.String, Collection)}.
 	 */
 	@Test
