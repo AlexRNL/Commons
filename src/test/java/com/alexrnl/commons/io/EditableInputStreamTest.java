@@ -5,7 +5,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import org.junit.Before;
 import org.junit.Test;
@@ -119,7 +118,6 @@ public class EditableInputStreamTest {
 		stream.updateStream("lauAba");
 		final byte[] arrayUpdated = new byte[6];
 		assertEquals(6, stream.read(arrayUpdated));
-		System.out.println(Arrays.toString(arrayUpdated));
 		assertArrayEquals(new byte[] {108, 97, 117, 65, 98, 97}, arrayUpdated);
 	}
 }

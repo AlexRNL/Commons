@@ -164,7 +164,6 @@ public class H2UtilsTest {
 	 */
 	@Test(expected = DataBaseConfigurationError.class)
 	public void testBadSQLScript () throws URISyntaxException {
-		System.out.println("XXXXXXXXXXXXXXXXXXXXXXXXXX");
 		final Path badCreationFile = Paths.get(getClass().getResource("/badScript.sql").toURI());
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration("jdbc:h2:mem:testBadScript", "aba", "ldr", badCreationFile);
 		H2Utils.initDatabase(dbInfos);
