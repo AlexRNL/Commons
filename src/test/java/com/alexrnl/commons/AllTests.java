@@ -11,7 +11,7 @@ import com.alexrnl.commons.gui.GUITests;
 import com.alexrnl.commons.io.IOTests;
 import com.alexrnl.commons.mvc.MVCTests;
 import com.alexrnl.commons.time.TimeTests;
-import com.alexrnl.commons.translation.TranslationsTests;
+import com.alexrnl.commons.translation.TranslationTests;
 import com.alexrnl.commons.utils.UtilsTests;
 
 /**
@@ -20,6 +20,6 @@ import com.alexrnl.commons.utils.UtilsTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ArgumentsTests.class, DatabaseTests.class, ErrorTests.class, GUITests.class,
-		IOTests.class, MVCTests.class, TimeTests.class, TranslationsTests.class, UtilsTests.class })
+		IOTests.class, MVCTests.class, TimeTests.class, TranslationTests.class, UtilsTests.class })
 public class AllTests {
 }

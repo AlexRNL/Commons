@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ StandardDialogTest.class, GUIElementTest.class, TranslatorTest.class })
-public class TranslationsTests {
-	
+@SuiteClasses({ SimpleDialogTest.class, StandardDialogTest.class, GUIElementTest.class,
+		TranslatorTest.class })
+public class TranslationTests {
+
 }
