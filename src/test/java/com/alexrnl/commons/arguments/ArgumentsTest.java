@@ -29,6 +29,8 @@ import org.junit.Test;
 import org.mockito.Mock;
 
 import com.alexrnl.commons.arguments.parsers.AbstractParser;
+import com.alexrnl.commons.arguments.validators.ParameterValidator;
+import com.alexrnl.commons.arguments.validators.PositiveNumberValidator;
 
 /**
  * Test suite for the {@link Arguments} class.
@@ -45,7 +47,6 @@ public class ArgumentsTest {
 	
 	/**
 	 * A class representing the target for the argument parsing.
-	 * @author Alex
 	 */
 	private static class Target {
 		/** If the feature is used */
@@ -127,7 +128,6 @@ public class ArgumentsTest {
 	
 	/**
 	 * Class which holds duplicate parameter name.
-	 * @author Alex
 	 */
 	private static class DuplicateParam {
 		/** A string */
@@ -136,6 +136,33 @@ public class ArgumentsTest {
 		/** An integer */
 		@Param(names = { "-x" }, description = "the value for x")
 		private int		x;
+	}
+	
+	/**
+	 * Class for tests with validated parameters.
+	 */
+	private static class ValidatedParam {
+		/** An integer */
+		@Param(names = { "-n" }, description = "the value for n (positive)", validator = PositiveNumberValidator.class)
+		private int				n;
+		/** The list of values */
+		@Param(names = { "-numbers" }, description = "the numbers (positive)", itemClass = Integer.class, validator = PositiveNumberValidator.class)
+		private final List<Integer>	values;
+		
+		/**
+		 * Default constructor.
+		 */
+		private ValidatedParam () {
+			super();
+			values = new ArrayList<>();
+		}
+	}
+	
+	/**
+	 * Invalid validator.
+	 */
+	private interface DummyValidator extends ParameterValidator<Integer> {
+		
 	}
 	
 	/**
@@ -317,6 +344,59 @@ public class ArgumentsTest {
 			private final List<Integer> numbers = new LinkedList<>();
 		});
 		args.parse("-numbers", "XXX");
+	}
+	
+	/**
+	 * Test field validation.
+	 */
+	@Test
+	public void testValidator () {
+		final ValidatedParam targetValidator = new ValidatedParam();
+		final Arguments args = new Arguments("test", targetValidator);
+		args.parse("-n", "1");
+		assertEquals(1, targetValidator.n);
+	}
+	
+	/**
+	 * Test field validation which fails.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testValidatorFail () {
+		final Arguments args = new Arguments("test", new ValidatedParam());
+		args.parse("-n", "-1");
+	}
+	
+	/**
+	 * Test field validation in a collection.
+	 */
+	@Test
+	public void testValidatorInCollection () {
+		final ValidatedParam targetValidator = new ValidatedParam();
+		final Arguments args = new Arguments("test", targetValidator);
+		args.parse("-numbers", "1");
+		assertEquals(Arrays.asList(1), targetValidator.values);
+	}
+	
+	/**
+	 * Test field validation in a collection which fails.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testValidatorInCollectionFail () {
+		final Arguments args = new Arguments("test", new ValidatedParam());
+		args.parse("-numbers", "-1");
+	}
+	
+	/**
+	 * Test with a bad validator class.
+	 */
+	@Test(expected = IllegalArgumentException.class)
+	public void testBadValidator () {
+		final Arguments args = new Arguments("test", new Object(){
+			/** An integer */
+			@Param(names = { "-x" }, description = "the value for x", validator = DummyValidator.class)
+			private int	x;
+		});
+		args.parse("-x", "1");
 	}
 	
 	/**

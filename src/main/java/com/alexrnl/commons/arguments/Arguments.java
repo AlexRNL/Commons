@@ -195,7 +195,8 @@ public class Arguments {
 				continue;
 			}
 			
-			valueSetterFactory.createParameterValueSetter(currentParameter).setValue(results, new ParsingParameters(target, iterator.next(), argument));
+			valueSetterFactory.createParameterValueSetter(currentParameter)
+				.setValue(results, new ParsingParameters(target, iterator.next(), argument));
 		}
 		
 		errorAndHelpProcessing(results);
