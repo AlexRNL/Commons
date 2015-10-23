@@ -9,7 +9,8 @@ import org.junit.runners.Suite.SuiteClasses;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ PositiveNumberValidatorTest.class })
+@SuiteClasses({ ExistingPathValidatorTest.class, NonEmptyStringValidatorTest.class,
+		PositiveNumberValidatorTest.class })
 public class ValidatorsTests {
-	
+
 }
