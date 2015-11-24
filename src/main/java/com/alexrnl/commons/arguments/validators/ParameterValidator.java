@@ -4,7 +4,7 @@ package com.alexrnl.commons.arguments.validators;
  * Interface for parameter validators.<br />
  * @author barfety_a
  * @param <T>
- *        the type of the parameters to validate. TODO keep generic?
+ *        the type of the parameters to validate.
  */
 public interface ParameterValidator<T> {
 	

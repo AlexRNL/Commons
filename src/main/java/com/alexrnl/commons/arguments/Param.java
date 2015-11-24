@@ -34,7 +34,8 @@ public @interface Param {
 	
 	/**
 	 * This field is used to order parameters (e.g. in usage).<br />
-	 * If blank, then the TODO
+	 * If blank, the order is determined using the required attribute, and finally the first name of
+	 * the parameter.
 	 */
 	int order() default 0;
 	
