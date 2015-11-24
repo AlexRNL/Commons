@@ -88,13 +88,16 @@ public class H2UtilsTest {
 	 *        the database information to use to connect to the database.
 	 * @throws SQLException
 	 *         if there was an SQL error while validating the database.
+	 * @throws IOException
+	 *         if an exception occur while closing the DAO.
 	 */
-	private static void validateDatabase (final DataSourceConfiguration dbInfos) throws SQLException {
+	private static void validateDatabase (final DataSourceConfiguration dbInfos) throws SQLException, IOException {
 		try (final Connection connection = DriverManager.getConnection(dbInfos.getUrl(), dbInfos.getUsername(), dbInfos.getPassword())) {
 			final DummySQLDAO dummyDao = new DummySQLDAO(connection);
 			final Set<Dummy> dummies = dummyDao.retrieveAll();
 			assertEquals(2, dummies.size());
-		} catch (final SQLException e) {
+			dummyDao.close();
+		} catch (final SQLException | IOException e) {
 			throw e;
 		}
 	}
@@ -119,9 +122,11 @@ public class H2UtilsTest {
 	 * Test method for {@link H2Utils#initDatabase(DataSourceConfiguration)} with in-memory database.
 	 * @throws SQLException
 	 *         if there was an SQL error while validating the database.
+	 * @throws IOException
+	 *         if an exception occur while closing the DAO.
 	 */
 	@Test
-	public void testInitDatabaseInMemory () throws SQLException {
+	public void testInitDatabaseInMemory () throws IOException, SQLException {
 		final DataSourceConfiguration dbInfos = new DataSourceConfiguration("jdbc:h2:mem:testInMemory;DB_CLOSE_DELAY=-1", "aba", "ldr", creationFile);
 		Logger.getLogger(H2Utils.class.getName()).setLevel(Level.WARNING);
 		H2Utils.initDatabase(dbInfos);
