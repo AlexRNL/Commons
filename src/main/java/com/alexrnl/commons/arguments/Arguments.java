@@ -314,56 +314,53 @@ public class Arguments {
 			LG.info("Parsing arguments " + args.toString());
 		}
 		
-		final Set<Parameter> requiredParameters = getRequiredParameters();
+		final ParsingResults results = new ParsingResults(getRequiredParameters());
 		initializeBooleansParameters();
-		final List<String> errors = new LinkedList<>();
 		
 		// Parse arguments provided
 		final Iterator<String> iterator = args.iterator();
-		boolean helpRequested = false;
 		while (iterator.hasNext()) {
 			final String argument = iterator.next();
 			if (LG.isLoggable(Level.INFO)) {
 				LG.info("Processing argument " + argument);
 			}
 			
-			if (isHelp(argument)) {
-				helpRequested = true;
+			if (isHelp(results, argument)) {
 				continue;
 			}
 			
 			final Parameter currentParameter = getParameterByName(argument);
 			if (currentParameter == null) {
 				if (!allowUnknownParameters) {
-					errors.add("No parameter with name " + argument + " found.");
+					results.addError("No parameter with name " + argument + " found.");
 				}
 				continue;
 			}
 			
 			// If the parameter is a boolean, then its presence is enough
 			final Class<?> parameterType = currentParameter.getField().getType();
-			if (checkBooleanParameter(currentParameter, requiredParameters)) {
+			if (checkBooleanParameter(results, currentParameter)) {
 				continue;
 			}
 			
 			// The parameter will take the next argument as value
 			if (!iterator.hasNext()) {
-				errors.add("No value found for parameter " + argument + ".");
+				results.addError("No value found for parameter " + argument + ".");
 				continue;
 			}
 			final String value = iterator.next();
 			if (parsers.containsKey(parameterType)) {
 				try {
 					parsers.get(parameterType).parse(target, currentParameter.getField(), value);
-					requiredParameters.remove(currentParameter);
+					results.removeRequiredParameter(currentParameter);
 				} catch (final IllegalArgumentException e) {
-					errors.add("Value " + value + " could not be assigned to parameter " + argument);
+					results.addError("Value " + value + " could not be assigned to parameter " + argument);
 					LG.warning("Parameter " + argument + " value could not be set: "
 							+ ExceptionUtils.display(e));
 				}
 			} else if (Collection.class.isAssignableFrom(parameterType)) {
 				if (currentParameter.getItemClass() == Object.class) {
-					errors.add("No item class defined for parameter " + currentParameter.getNames());
+					results.addError("No item class defined for parameter " + currentParameter.getNames());
 					continue;
 				}
 				if (parsers.containsKey(currentParameter.getItemClass())) {
@@ -371,37 +368,43 @@ public class Arguments {
 						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
 						final Collection collection = (Collection<?>) currentParameter.getField().get(target);
 						if (collection == null) {
-							errors.add("Target collection for parameter " + argument + " is null");
+							results.addError("Target collection for parameter " + argument + " is null");
 							continue;
 						}
 						collection.add(collectionItemParser.getValue(value));
-						requiredParameters.remove(currentParameter);
+						results.removeRequiredParameter(currentParameter);
 					} catch (final IllegalArgumentException | IllegalAccessException e) {
-						errors.add("Value " + value + " could not be assigned to parameter " + argument);
+						results.addError("Value " + value + " could not be assigned to parameter " + argument);
 						LG.warning("Parameter " + argument + " value could not be set: "
 								+ ExceptionUtils.display(e));
 					}
 				} else {
-					errors.add("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
+					results.addError("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
 							+ argument + ").");
 				}
 			} else {
-				errors.add("No parser found for type " + parameterType.getName() + " (parameter "
+				results.addError("No parser found for type " + parameterType.getName() + " (parameter "
 						+ argument + ").");
 			}
 		}
 		
-		errorAndHelpProcessing(requiredParameters, errors, helpRequested);
+		errorAndHelpProcessing(results);
 	}
 
 	/**
 	 * Check if the name of the argument is an alias of the help command.
+	 * @param results
+	 *        the results of the parsing.
 	 * @param name
 	 *        the name to check.
 	 * @return <code>true</code> if the argument is the help command.
 	 */
-	private static boolean isHelp (final String name) {
-		return HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name);
+	private static boolean isHelp (final ParsingResults results, final String name) {
+		if (HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name)) {
+			results.setHelpRequested(true);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -510,24 +513,24 @@ public class Arguments {
 	
 	/**
 	 * Check if the current parameter is a boolean and process it accordingly.
-	 * @param parameter
+	 * @param results
+	 *        the parsing results to update.
+	 * @param currentParameter
 	 *        the parameter to process.
-	 * @param requiredParameters
-	 *        the list of required parameter, updated if necessary.
 	 * @return <code>true</code> if the parameter was a boolean parameter and has been processed.
 	 */
-	private boolean checkBooleanParameter (final Parameter parameter, final Set<Parameter> requiredParameters) {
-		final Class<?> type = parameter.getField().getType();
+	private boolean checkBooleanParameter (final ParsingResults results, final Parameter currentParameter) {
+		final Class<?> type = currentParameter.getField().getType();
 		if (type.equals(Boolean.class) || type.equals(boolean.class)) {
 			try {
 				if (type.equals(boolean.class)) {
-					parameter.getField().setBoolean(target, true);
+					currentParameter.getField().setBoolean(target, true);
 				} else {
-					parameter.getField().set(target, Boolean.TRUE);
+					currentParameter.getField().set(target, Boolean.TRUE);
 				}
-				requiredParameters.remove(parameter);
+				results.removeRequiredParameter(currentParameter);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				LG.warning("Parameter " + parameter.getNames() + " boolean value could not be set: "
+				LG.warning("Parameter " + currentParameter.getNames() + " boolean value could not be set: "
 						+ ExceptionUtils.display(e));
 			}
 			return true;
@@ -536,37 +539,34 @@ public class Arguments {
 	}
 
 	/**
-	 * Post processing of argument.<br />
+	 * Process parsing results.<br />
 	 * Display error messages and/or help if required, and throw an {@link IllegalArgumentException}
 	 * if the parsing failed.
-	 * @param requiredParameters
-	 *        the set with the required parameters which were not set by the arguments provided.
-	 * @param errors
-	 *        the errors messages generated by the current set of arguments.
-	 * @param helpRequested
-	 *        if the help was requested.
+	 * @param results
+	 *        the result of the parsing.
 	 * @throws IllegalArgumentException
 	 *         if the parsing of arguments has failed.
 	 */
-	private void errorAndHelpProcessing (final Set<Parameter> requiredParameters,
-			final List<String> errors, final boolean helpRequested) {
+	private void errorAndHelpProcessing (final ParsingResults results) {
 		// Check that all required arguments were set
+		final Set<Parameter> requiredParameters = results.getRequiredParameters();
 		if (!requiredParameters.isEmpty()) {
 			final List<Set<String>> listParamNames = new ArrayList<>(requiredParameters.size());
 			for (final Parameter parameter : requiredParameters) {
 				listParamNames.add(parameter.getNames());
 			}
-			errors.add("The following parameters were not set: "
+			results.addError("The following parameters were not set: "
 					+ StringUtils.separateWith(", ", listParamNames) + ".");
 		}
 		
 		IllegalArgumentException e = null;
-		if (!errors.isEmpty() && !helpRequested) {
+		final List<String> errors = results.getErrors();
+		if (!errors.isEmpty() && !results.isHelpRequested()) {
 			final String errorsMessage = StringUtils.separateWith("\n", errors);
 			out.println(errorsMessage);
 			e = new IllegalArgumentException(errorsMessage);
 		}
-		if (helpRequested || !errors.isEmpty()) {
+		if (results.isHelpRequested() || !errors.isEmpty()) {
 			usage();
 		}
 		if (e != null) {
