@@ -349,18 +349,16 @@ public class Arguments {
 			} else if (Collection.class.isAssignableFrom(parameterType)) {
 				if (currentParameter.getItemClass() == Object.class) {
 					results.addError("No item class defined for parameter " + currentParameter.getNames());
-					continue;
-				}
-				if (parsers.containsKey(currentParameter.getItemClass())) {
+				} else if (parsers.containsKey(currentParameter.getItemClass())) {
 					try {
 						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
 						final Collection collection = (Collection<?>) currentParameter.getField().get(target);
 						if (collection == null) {
 							results.addError("Target collection for parameter " + argument + " is null");
-							continue;
+						} else {
+							collection.add(collectionItemParser.getValue(value));
+							results.removeRequiredParameter(currentParameter);
 						}
-						collection.add(collectionItemParser.getValue(value));
-						results.removeRequiredParameter(currentParameter);
 					} catch (final IllegalArgumentException | IllegalAccessException e) {
 						results.addError("Value " + value + " could not be assigned to parameter " + argument);
 						LG.warning("Parameter " + argument + " value could not be set: "
