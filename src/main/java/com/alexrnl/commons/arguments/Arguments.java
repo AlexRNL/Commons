@@ -325,29 +325,17 @@ public class Arguments {
 				LG.info("Processing argument " + argument);
 			}
 			
-			if (isHelp(results, argument)) {
-				continue;
-			}
-			
 			final Parameter currentParameter = getParameterByName(argument);
-			if (currentParameter == null) {
-				if (!allowUnknownParameters) {
-					results.addError("No parameter with name " + argument + " found.");
-				}
+			
+			// Skip the following cases: help, parameter unknown, booleans parameters and missing values
+			if (isHelp(results, argument)
+					|| !isParameterFound(results, argument, currentParameter)
+					|| checkBooleanParameter(results, currentParameter)
+					|| missingParameterValue(results, argument, iterator.hasNext())) {
 				continue;
 			}
 			
-			// If the parameter is a boolean, then its presence is enough
 			final Class<?> parameterType = currentParameter.getField().getType();
-			if (checkBooleanParameter(results, currentParameter)) {
-				continue;
-			}
-			
-			// The parameter will take the next argument as value
-			if (!iterator.hasNext()) {
-				results.addError("No value found for parameter " + argument + ".");
-				continue;
-			}
 			final String value = iterator.next();
 			if (parsers.containsKey(parameterType)) {
 				try {
@@ -512,6 +500,26 @@ public class Arguments {
 	}
 	
 	/**
+	 * Process unknown arguments cases.
+	 * @param results
+	 *        the parsing results to update.
+	 * @param argumentName
+	 *        the name of the argument.
+	 * @param currentParameter
+	 *        the parameter to verify.
+	 * @return <code>true</code> if the parameter was found.
+	 */
+	private boolean isParameterFound (final ParsingResults results, final String argumentName, final Parameter currentParameter) {
+		if (currentParameter == null) {
+			if (!allowUnknownParameters) {
+				results.addError("No parameter with name " + argumentName + " found.");
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Check if the current parameter is a boolean and process it accordingly.
 	 * @param results
 	 *        the parsing results to update.
@@ -536,6 +544,23 @@ public class Arguments {
 			return true;
 		}
 		return false;
+	}
+	
+	/**
+	 * Process cases where the value of the parameter is missing.
+	 * @param results
+	 *        the parsing results to update.
+	 * @param argumentName
+	 *        the name of the argument.
+	 * @param hasValue
+	 *        if there is a value to assign to the parameter.
+	 * @return <code>true</code> if there is no value to assign to the parameter.
+	 */
+	private static boolean missingParameterValue (final ParsingResults results, final String argumentName, final boolean hasValue) {
+		if (!hasValue) {
+			results.addError("No value found for parameter " + argumentName + ".");
+		}
+		return !hasValue;
 	}
 
 	/**
