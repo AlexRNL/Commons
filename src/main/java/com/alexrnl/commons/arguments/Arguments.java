@@ -4,14 +4,11 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -19,24 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.arguments.parsers.AbstractParser;
-import com.alexrnl.commons.arguments.parsers.ByteParser;
-import com.alexrnl.commons.arguments.parsers.CharParser;
-import com.alexrnl.commons.arguments.parsers.ClassParser;
-import com.alexrnl.commons.arguments.parsers.DoubleParser;
-import com.alexrnl.commons.arguments.parsers.FloatParser;
-import com.alexrnl.commons.arguments.parsers.IntParser;
-import com.alexrnl.commons.arguments.parsers.LongParser;
 import com.alexrnl.commons.arguments.parsers.ParameterParser;
-import com.alexrnl.commons.arguments.parsers.PathParser;
-import com.alexrnl.commons.arguments.parsers.ShortParser;
-import com.alexrnl.commons.arguments.parsers.StringParser;
-import com.alexrnl.commons.arguments.parsers.WByteParser;
-import com.alexrnl.commons.arguments.parsers.WCharParser;
-import com.alexrnl.commons.arguments.parsers.WDoubleParser;
-import com.alexrnl.commons.arguments.parsers.WFloatParser;
-import com.alexrnl.commons.arguments.parsers.WIntegerParser;
-import com.alexrnl.commons.arguments.parsers.WLongParser;
-import com.alexrnl.commons.arguments.parsers.WShortParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -61,30 +41,9 @@ public class Arguments {
 	public static final String						HELP_SHORT_NAME				= "-h";
 	/** The long name for the help command */
 	public static final String						HELP_LONG_NAME				= "--help";
-	/** The default parameter parsers */
-	private static final List<ParameterParser>		DEFAULT_PARSERS				= Collections.unmodifiableList(Arrays.asList(
-																						// primitive types
-																						new ByteParser(),
-																						new CharParser(),
-																						new DoubleParser(),
-																						new FloatParser(),
-																						new IntParser(),
-																						new LongParser(),
-																						new ShortParser(),
-																						// wrappers
-																						new WByteParser(),
-																						new WCharParser(),
-																						new WDoubleParser(),
-																						new WFloatParser(),
-																						new WIntegerParser(),
-																						new WLongParser(),
-																						new WShortParser(),
-																						// others
-																						new StringParser(),
-																						new ClassParser(),
-																						new PathParser()
-																					));
 	
+	/** The factory for parameter value setters */
+	private final ParameterValueSetterFactory		valueSetterFactory;
 	/** The name of the program */
 	private final String							programName;
 	/** The object which holds the target */
@@ -95,9 +54,7 @@ public class Arguments {
 	private final PrintStream						out;
 	/** Flag to allow unknown parameters*/
 	private final boolean							allowUnknownParameters;
-	/** Map with the parameter parsers to use */
-	private final Map<Class<?>, ParameterParser>	parsers;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Output is standard output, unknown parameter trigger error in parsing.
@@ -156,12 +113,7 @@ public class Arguments {
 		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
 		this.out = out;
 		this.allowUnknownParameters = allowUnknownParameters;
-		this.parsers = new HashMap<>();
-		for (final ParameterParser parser : DEFAULT_PARSERS) {
-			if (addParameterParser(parser)) {
-				LG.warning("Default parsers override each other for class " + parser.getFieldType());
-			}
-		}
+		valueSetterFactory = new DefaultParameterValueSetterFactory();
 	}
 	
 	/**
@@ -197,20 +149,7 @@ public class Arguments {
 	 * @see AbstractParser
 	 */
 	public <T> boolean addParameterParser (final AbstractParser<T> parser) {
-		return addParameterParser((ParameterParser) parser);
-	}
-	
-	/**
-	 * Add a parameter parser to the current arguments.
-	 * @param parser
-	 *        the parser to add.
-	 * @return <code>true</code> if a previous parser was already set for this field type.
-	 * @see ParameterParser
-	 */
-	private boolean addParameterParser (final ParameterParser parser) {
-		final boolean override = parsers.containsKey(parser.getFieldType());
-		parsers.put(parser.getFieldType(), parser);
-		return override;
+		return valueSetterFactory.addParameterParser(parser);
 	}
 	
 	/**
@@ -256,43 +195,7 @@ public class Arguments {
 				continue;
 			}
 			
-			final Class<?> parameterType = currentParameter.getField().getType();
-			final String value = iterator.next();
-			if (parsers.containsKey(parameterType)) {
-				try {
-					parsers.get(parameterType).parse(target, currentParameter.getField(), value);
-					results.removeRequiredParameter(currentParameter);
-				} catch (final IllegalArgumentException e) {
-					results.addError("Value " + value + " could not be assigned to parameter " + argument);
-					LG.warning("Parameter " + argument + " value could not be set: "
-							+ ExceptionUtils.display(e));
-				}
-			} else if (Collection.class.isAssignableFrom(parameterType)) {
-				if (currentParameter.getItemClass() == Object.class) {
-					results.addError("No item class defined for parameter " + currentParameter.getNames());
-				} else if (parsers.containsKey(currentParameter.getItemClass())) {
-					try {
-						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
-						final Collection collection = (Collection<?>) currentParameter.getField().get(target);
-						if (collection == null) {
-							results.addError("Target collection for parameter " + argument + " is null");
-						} else {
-							collection.add(collectionItemParser.getValue(value));
-							results.removeRequiredParameter(currentParameter);
-						}
-					} catch (final IllegalArgumentException | IllegalAccessException e) {
-						results.addError("Value " + value + " could not be assigned to parameter " + argument);
-						LG.warning("Parameter " + argument + " value could not be set: "
-								+ ExceptionUtils.display(e));
-					}
-				} else {
-					results.addError("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
-							+ argument + ").");
-				}
-			} else {
-				results.addError("No parser found for type " + parameterType.getName() + " (parameter "
-						+ argument + ").");
-			}
+			valueSetterFactory.createParameterValueSetter(currentParameter).setValue(results, target, iterator.next(), argument);
 		}
 		
 		errorAndHelpProcessing(results);
