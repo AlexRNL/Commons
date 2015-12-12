@@ -6,23 +6,22 @@ package com.alexrnl.commons.arguments;
  * @author Alex
  */
 public class ParserNotFound implements ParameterValueSetter {
-	/** The parameter for which parsers were not found */
-	private final Parameter	parameter;
+	/** The parameterType for which there was not found */
+	private final String	parameterType;
 	
 	/**
 	 * Constructor #1.<br />
-	 * @param parameter
-	 *        the parameter for which parsers were not found.
+	 * @param parameterType
+	 *        the parameterType type for which parsers were not found.
 	 */
-	public ParserNotFound (final Parameter parameter) {
+	public ParserNotFound (final String parameterType) {
 		super();
-		this.parameter = parameter;
+		this.parameterType = parameterType;
 	}
 	
 	@Override
 	public void setValue (final ParsingResults results, final Object target, final String value, final String argument) {
-		results.addError("No parser found for type " + parameter.getField().getType().getName()
-				+ " (parameter " + argument + ").");
+		results.addError("No parser found for type " + parameterType + " (parameterType " + argument + ").");
 	}
 	
 }

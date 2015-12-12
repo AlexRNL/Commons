@@ -34,31 +34,31 @@ import com.alexrnl.commons.arguments.parsers.WShortParser;
  */
 public class DefaultParameterValueSetterFactory implements ParameterValueSetterFactory {
 	/** Logger */
-	private static final Logger					LG				= Logger.getLogger(DefaultParameterValueSetterFactory.class.getName());
+	private static final Logger						LG				= Logger.getLogger(DefaultParameterValueSetterFactory.class.getName());
 	
 	/** The default parameter parsers */
-	private static final List<ParameterParser>	DEFAULT_PARSERS	= Collections.unmodifiableList(Arrays.asList(
-																	// primitive types
-																	new ByteParser(),
-																	new CharParser(),
-																	new DoubleParser(),
-																	new FloatParser(),
-																	new IntParser(),
-																	new LongParser(),
-																	new ShortParser(),
-																	// wrappers
-																	new WByteParser(),
-																	new WCharParser(),
-																	new WDoubleParser(),
-																	new WFloatParser(),
-																	new WIntegerParser(),
-																	new WLongParser(),
-																	new WShortParser(),
-																	// others
-																	new StringParser(),
-																	new ClassParser(),
-																	new PathParser()
-																));
+	private static final List<ParameterParser>		DEFAULT_PARSERS	= Collections.unmodifiableList(Arrays.asList(
+																		// primitive types
+																		new ByteParser(),
+																		new CharParser(),
+																		new DoubleParser(),
+																		new FloatParser(),
+																		new IntParser(),
+																		new LongParser(),
+																		new ShortParser(),
+																		// wrappers
+																		new WByteParser(),
+																		new WCharParser(),
+																		new WDoubleParser(),
+																		new WFloatParser(),
+																		new WIntegerParser(),
+																		new WLongParser(),
+																		new WShortParser(),
+																		// others
+																		new StringParser(),
+																		new ClassParser(),
+																		new PathParser()
+																	));
 	
 
 	/** Map with the parameter parsers to use */
@@ -102,8 +102,16 @@ public class DefaultParameterValueSetterFactory implements ParameterValueSetterF
 			return new GenericFieldSetter(parameter, parsers.get(parameterType));
 		}
 		if (Collection.class.isAssignableFrom(parameterType)) {
-			return new CollectionFieldSetter(parameter, Collections.unmodifiableMap(parsers));
+			final Class<?> collectionParameterType = parameter.getItemClass();
+			if (collectionParameterType == Object.class) {
+				return new UndefinedItemClass(parameter);
+			}
+			if (!parsers.containsKey(parameter.getItemClass())) {
+				return new ParserNotFound(collectionParameterType.getName());
+			}
+			
+			return new CollectionFieldSetter(parameter, (AbstractParser<?>) parsers.get(collectionParameterType));
 		}
-		return new ParserNotFound(parameter);
+		return new ParserNotFound(parameter.getField().getType().getName());
 	}
 }
