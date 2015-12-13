@@ -35,18 +35,19 @@ public class CollectionFieldSetter<T> implements ParameterValueSetter {
 	}
 	
 	@Override
-	public void setValue (final ParsingResults results, final Object target, final String value, final String argument) {
+	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
 		try {
-			final Collection<T> collection = (Collection<T>) parameter.getField().get(target);
+			final Collection<T> collection = (Collection<T>) parameter.getField().get(parameters.getTarget());
 			if (collection == null) {
-				results.addError("Target collection for parameter " + argument + " is null");
+				results.addError("Target collection for parameter " + parameters.getArgument() + " is null");
 			} else {
-				collection.add(parser.getValue(value));
+				collection.add(parser.getValue(parameters.getValue()));
 				results.removeRequiredParameter(parameter);
 			}
 		} catch (final IllegalArgumentException | IllegalAccessException e) {
-			results.addError("Value " + value + " could not be assigned to parameter " + argument);
-			LG.warning("Parameter " + argument + " value could not be set: "
+			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
+					+ parameters.getArgument());
+			LG.warning("Parameter " + parameters.getArgument() + " value could not be set: "
 					+ ExceptionUtils.display(e));
 		}
 	}

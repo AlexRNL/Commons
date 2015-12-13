@@ -20,8 +20,8 @@ public class ParserNotFound implements ParameterValueSetter {
 	}
 	
 	@Override
-	public void setValue (final ParsingResults results, final Object target, final String value, final String argument) {
-		results.addError("No parser found for type " + parameterType + " (parameterType " + argument + ").");
+	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
+		results.addError("No parser found for type " + parameterType + " (parameterType " + parameters.getArgument() + ").");
 	}
 	
 }

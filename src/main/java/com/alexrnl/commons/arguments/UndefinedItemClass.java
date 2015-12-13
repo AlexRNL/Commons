@@ -6,7 +6,7 @@ import java.util.Collection;
  * Implementation of {@link ParameterValueSetter} interface that handles cases where the item
  * class is undefined for a {@link Collection} parameter.
  */
-final class UndefinedItemClass implements ParameterValueSetter {
+public class UndefinedItemClass implements ParameterValueSetter {
 	/** The parameter for which the item class was not defined. */
 	private final Parameter	parameter;
 	
@@ -20,7 +20,7 @@ final class UndefinedItemClass implements ParameterValueSetter {
 	}
 	
 	@Override
-	public void setValue (final ParsingResults results, final Object target, final String value, final String argument) {
+	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
 		results.addError("No item class defined for parameter " + parameter.getNames());
 	}
 }
