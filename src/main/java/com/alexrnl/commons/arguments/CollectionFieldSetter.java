@@ -40,10 +40,10 @@ public class CollectionFieldSetter<T> implements ParameterValueSetter {
 			final Collection<T> collection = (Collection<T>) parameter.getField().get(parameters.getTarget());
 			if (collection == null) {
 				results.addError("Target collection for parameter " + parameters.getArgument() + " is null");
-			} else {
-				collection.add(parser.getValue(parameters.getValue()));
-				results.removeRequiredParameter(parameter);
+				return;
 			}
+			collection.add(parser.getValue(parameters.getValue()));
+			results.removeRequiredParameter(parameter);
 		} catch (final IllegalArgumentException | IllegalAccessException e) {
 			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
 					+ parameters.getArgument());
