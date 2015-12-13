@@ -12,7 +12,7 @@ import com.alexrnl.commons.arguments.parsers.ParsersTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ArgumentsTest.class, ParameterTest.class, ParsersTests.class,
-		ParsingResultsTest.class })
+		ParsingParametersTest.class, ParsingResultsTest.class })
 public class ArgumentsTests {
 
 }
