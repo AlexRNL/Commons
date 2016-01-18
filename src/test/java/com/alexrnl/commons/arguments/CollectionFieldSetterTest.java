@@ -48,7 +48,7 @@ public class CollectionFieldSetterTest {
 	 * @throws IllegalArgumentException
 	 *         if the field could not be found.
 	 */
-	private static Parameter getParameterForField (final Class<?> objectClass, final String name) {
+	static Parameter getParameterForField (final Class<?> objectClass, final String name) {
 		for (final Field field : ReflectUtils.retrieveFields(objectClass, Param.class)) {
 			field.setAccessible(true);
 			if (!field.getName().equals(name)) {

@@ -21,6 +21,6 @@ public class UndefinedItemClass implements ParameterValueSetter {
 	
 	@Override
 	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
-		results.addError("No item class defined for parameter " + parameter.getNames());
+		results.addError("No item class defined for parameter " + parameter.getField().getName());
 	}
 }
