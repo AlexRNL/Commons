@@ -11,9 +11,9 @@ import com.alexrnl.commons.arguments.parsers.ParsersTests;
  * @author Alex
  */
 @RunWith(Suite.class)
-@SuiteClasses({ ArgumentsTest.class, CollectionFieldSetterTest.class, ParameterTest.class,
-		ParserNotFoundTest.class, ParsersTests.class, ParsingParametersTest.class,
-		ParsingResultsTest.class, UndefinedItemClassTest.class })
+@SuiteClasses({ ArgumentsTest.class, CollectionFieldSetterTest.class,
+		DefaultParameterValueSetterFactoryTest.class, ParameterTest.class, ParserNotFoundTest.class,
+		ParsersTests.class, ParsingParametersTest.class, ParsingResultsTest.class,
+		UndefinedItemClassTest.class })
 public class ArgumentsTests {
-
 }
