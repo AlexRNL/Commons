@@ -12,8 +12,8 @@ import com.alexrnl.commons.arguments.parsers.ParsersTests;
  */
 @RunWith(Suite.class)
 @SuiteClasses({ ArgumentsTest.class, CollectionFieldSetterTest.class,
-		DefaultParameterValueSetterFactoryTest.class, ParameterTest.class, ParserNotFoundTest.class,
-		ParsersTests.class, ParsingParametersTest.class, ParsingResultsTest.class,
-		UndefinedItemClassTest.class })
+		DefaultParameterValueSetterFactoryTest.class, GenericFieldSetterTest.class,
+		ParameterTest.class, ParserNotFoundTest.class, ParsersTests.class,
+		ParsingParametersTest.class, ParsingResultsTest.class, UndefinedItemClassTest.class })
 public class ArgumentsTests {
 }
