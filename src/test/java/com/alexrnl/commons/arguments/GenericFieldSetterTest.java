@@ -37,7 +37,7 @@ public class GenericFieldSetterTest {
 	 */
 	@Before
 	public void setUp () {
-		final Parameter parameter = CollectionFieldSetterTest.getParameterForField(Target.class, "n");
+		final Parameter parameter = ArgumentsTests.getParameterForField(Target.class, "n");
 		fieldSetter = new GenericFieldSetter(parameter, new WIntegerParser());
 		target = new Target();
 		results = new ParsingResults(Collections.singleton(parameter));

@@ -38,7 +38,7 @@ public class UndefinedItemClassTest {
 	public void setUp () {
 		target = new Target();
 		target.strings = new ArrayList<>();
-		final Parameter parameter = CollectionFieldSetterTest.getParameterForField(Target.class, "strings");
+		final Parameter parameter = ArgumentsTests.getParameterForField(Target.class, "strings");
 		results = new ParsingResults(Collections.singleton(parameter));
 		undefinedItemClass = new UndefinedItemClass(parameter);
 	}

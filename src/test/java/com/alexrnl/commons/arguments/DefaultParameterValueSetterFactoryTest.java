@@ -73,7 +73,7 @@ public class DefaultParameterValueSetterFactoryTest {
 			}
 		}));
 		
-		final Parameter parameter = CollectionFieldSetterTest.getParameterForField(Target.class, "word");
+		final Parameter parameter = ArgumentsTests.getParameterForField(Target.class, "word");
 		factory.createParameterValueSetter(parameter).setValue(results, new ParsingParameters(target, " aba hjo ", "-w"));
 		assertEquals("aba", target.word.toString());
 	}
@@ -86,7 +86,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	public void testAddParameterParserOverride () {
 		final WIntegerParser overrideIntegerParser = spy(new WIntegerParser());
 		assertTrue(factory.addParameterParser(overrideIntegerParser));
-		final Parameter parameter = CollectionFieldSetterTest.getParameterForField(Target.class, "n");
+		final Parameter parameter = ArgumentsTests.getParameterForField(Target.class, "n");
 		factory.createParameterValueSetter(parameter).setValue(results, new ParsingParameters(target, "28", "-n"));
 		assertEquals(Integer.valueOf(28), target.n);
 		verify(overrideIntegerParser).getValue("28");
@@ -97,7 +97,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	 */
 	@Test
 	public void testCreateParameterValueSetter () {
-		factory.createParameterValueSetter(CollectionFieldSetterTest.getParameterForField(Target.class, "n"))
+		factory.createParameterValueSetter(ArgumentsTests.getParameterForField(Target.class, "n"))
 			.setValue(results, new ParsingParameters(target, "88", "-n"));
 		assertEquals(Integer.valueOf(88), target.n);
 	}
@@ -108,7 +108,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	 */
 	@Test
 	public void testCreateParameterValueSetterNotFound () {
-		factory.createParameterValueSetter(CollectionFieldSetterTest.getParameterForField(Target.class, "word"))
+		factory.createParameterValueSetter(ArgumentsTests.getParameterForField(Target.class, "word"))
 			.setValue(results, new ParsingParameters(target, "88", "-n"));
 		assertEquals(1, results.getErrors().size());
 	}
@@ -119,7 +119,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	 */
 	@Test
 	public void testCreateParameterValueSetterCollection () {
-		factory.createParameterValueSetter(CollectionFieldSetterTest.getParameterForField(Target.class, "list"))
+		factory.createParameterValueSetter(ArgumentsTests.getParameterForField(Target.class, "list"))
 			.setValue(results, new ParsingParameters(target, "88", "-l"));
 		assertEquals(Arrays.asList(88), target.list);
 	}
@@ -130,7 +130,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	 */
 	@Test
 	public void testCreateParameterValueSetterCollectionNoItemClass () {
-		factory.createParameterValueSetter(CollectionFieldSetterTest.getParameterForField(Target.class, "listNoClass"))
+		factory.createParameterValueSetter(ArgumentsTests.getParameterForField(Target.class, "listNoClass"))
 			.setValue(results, new ParsingParameters(target, "88", "-lnc"));
 		assertEquals(1, results.getErrors().size());
 	}
@@ -141,7 +141,7 @@ public class DefaultParameterValueSetterFactoryTest {
 	 */
 	@Test
 	public void testCreateParameterValueSetterCollectionNoParser () {
-		factory.createParameterValueSetter(CollectionFieldSetterTest.getParameterForField(Target.class, "listNoParser"))
+		factory.createParameterValueSetter(ArgumentsTests.getParameterForField(Target.class, "listNoParser"))
 			.setValue(results, new ParsingParameters(target, " aba hjo", "-lnp"));
 		assertEquals(1, results.getErrors().size());
 	}

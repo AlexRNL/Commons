@@ -4,7 +4,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
-import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -15,7 +14,6 @@ import org.junit.Test;
 
 import com.alexrnl.commons.arguments.parsers.AbstractParser;
 import com.alexrnl.commons.arguments.parsers.StringParser;
-import com.alexrnl.commons.utils.object.ReflectUtils;
 
 /**
  * Test suite for the {@link CollectionFieldSetter} class.
@@ -39,34 +37,13 @@ public class CollectionFieldSetterTest {
 	}
 	
 	/**
-	 * Get the parameter for the specified field.
-	 * @param objectClass
-	 *        the object class.
-	 * @param name
-	 *        the name of the field.
-	 * @return the {@link Parameter} for this field.
-	 * @throws IllegalArgumentException
-	 *         if the field could not be found.
-	 */
-	static Parameter getParameterForField (final Class<?> objectClass, final String name) {
-		for (final Field field : ReflectUtils.retrieveFields(objectClass, Param.class)) {
-			field.setAccessible(true);
-			if (!field.getName().equals(name)) {
-				continue;
-			}
-			return new Parameter(field, field.getAnnotation(Param.class));
-		}
-		throw new IllegalArgumentException("Could not find field " + name + " in class " + objectClass);
-	}
-	
-	/**
 	 * Set up test attributes.
 	 */
 	@Before
 	public void setUp () {
 		target = new Target();
 		target.strings = new ArrayList<>();
-		final Parameter parameter = getParameterForField(Target.class, "strings");
+		final Parameter parameter = ArgumentsTests.getParameterForField(Target.class, "strings");
 		results = new ParsingResults(Collections.singleton(parameter));
 		fieldSetter = new CollectionFieldSetter<>(parameter, new StringParser());
 	}
@@ -101,7 +78,7 @@ public class CollectionFieldSetterTest {
 	 */
 	@Test
 	public void testSetValueFailed () {
-		fieldSetter = new CollectionFieldSetter<>(getParameterForField(Target.class, "strings"),
+		fieldSetter = new CollectionFieldSetter<>(ArgumentsTests.getParameterForField(Target.class, "strings"),
 				new AbstractParser<String>(String.class) {
 					@Override
 					public String getValue (final String parameter) {
