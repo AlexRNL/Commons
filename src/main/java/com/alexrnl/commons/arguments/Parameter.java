@@ -8,6 +8,7 @@ import java.util.Comparator;
 import java.util.Set;
 import java.util.TreeSet;
 
+import com.alexrnl.commons.arguments.validators.ParameterValidator;
 import com.alexrnl.commons.utils.object.AutoEquals;
 import com.alexrnl.commons.utils.object.AutoHashCode;
 
@@ -19,17 +20,19 @@ import com.alexrnl.commons.utils.object.AutoHashCode;
  */
 public class Parameter implements Comparable<Parameter> {
 	/** The reference to the field of this parameter */
-	private final Field			field;
+	private final Field									field;
 	/** The names of this parameter */
-	private final Set<String>	names;
+	private final Set<String>							names;
 	/** <code>true</code> if the parameter is required */
-	private final boolean		required;
+	private final boolean								required;
 	/** The description of the parameter */
-	private final String		description;
-	/** The order of the parameter*/
-	private final int			order;
+	private final String								description;
+	/** The order of the parameter */
+	private final int									order;
+	/** The validator of the parameter */
+	private final Class<? extends ParameterValidator>	validator;
 	/** The class of the item in the collection (relevant only if the parameter is a collection) */
-	private final Class<?>		itemClass;
+	private final Class<?>								itemClass;
 	
 	/**
 	 * Constructor #1.<br />
@@ -43,12 +46,14 @@ public class Parameter implements Comparable<Parameter> {
 	 *        the description of the parameter.
 	 * @param order
 	 *        the order of the parameter.
+	 * @param validator
+	 *        the validator of the parameter.
 	 * @param itemClass
 	 *        the class of the item in the collection (relevant only if the parameter is a
 	 *        collection).
 	 */
 	public Parameter (final Field field, final Collection<String> names, final boolean required,
-			final String description, final int order, final Class<?> itemClass) {
+			final String description, final int order, final Class<? extends ParameterValidator> validator, final Class<?> itemClass) {
 		super();
 		if (names.isEmpty()) {
 			throw new IllegalArgumentException("Cannot create parameter with no names");
@@ -69,6 +74,7 @@ public class Parameter implements Comparable<Parameter> {
 		this.required = required;
 		this.description = description;
 		this.order = order;
+		this.validator = validator;
 		this.itemClass = itemClass;
 	}
 	
@@ -80,7 +86,8 @@ public class Parameter implements Comparable<Parameter> {
 	 *        the {@link Param} annotation associated to the field.
 	 */
 	public Parameter (final Field field, final Param param) {
-		this(field, Arrays.asList(param.names()), param.required(), param.description(), param.order(), param.itemClass());
+		this(field, Arrays.asList(param.names()), param.required(), param.description(), param.order(),
+				param.validator().asSubclass(ParameterValidator.class), param.itemClass());
 	}
 	
 	/**
@@ -126,6 +133,14 @@ public class Parameter implements Comparable<Parameter> {
 		return order;
 	}
 	
+	/**
+	 * Return the attribute validator.
+	 * @return the attribute validator.
+	 */
+	public Class<? extends ParameterValidator> getValidator () {
+		return validator;
+	}
+
 	/**
 	 * Return the attribute itemClass.
 	 * @return the attribute itemClass.

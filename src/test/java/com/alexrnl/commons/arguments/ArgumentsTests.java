@@ -7,6 +7,7 @@ import org.junit.runners.Suite;
 import org.junit.runners.Suite.SuiteClasses;
 
 import com.alexrnl.commons.arguments.parsers.ParsersTests;
+import com.alexrnl.commons.arguments.validators.ValidatorsTests;
 import com.alexrnl.commons.utils.object.ReflectUtils;
 
 /**
@@ -17,7 +18,8 @@ import com.alexrnl.commons.utils.object.ReflectUtils;
 @SuiteClasses({ ArgumentsTest.class, CollectionFieldSetterTest.class,
 		DefaultParameterValueSetterFactoryTest.class, GenericFieldSetterTest.class,
 		ParameterTest.class, ParserNotFoundTest.class, ParsersTests.class,
-		ParsingParametersTest.class, ParsingResultsTest.class, UndefinedItemClassTest.class })
+		ParsingParametersTest.class, ParsingResultsTest.class, UndefinedItemClassTest.class,
+		ValidatorsTests.class })
 public class ArgumentsTests {
 	
 	/**
