@@ -4,14 +4,11 @@ import java.io.PrintStream;
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -19,24 +16,7 @@ import java.util.logging.Level;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.arguments.parsers.AbstractParser;
-import com.alexrnl.commons.arguments.parsers.ByteParser;
-import com.alexrnl.commons.arguments.parsers.CharParser;
-import com.alexrnl.commons.arguments.parsers.ClassParser;
-import com.alexrnl.commons.arguments.parsers.DoubleParser;
-import com.alexrnl.commons.arguments.parsers.FloatParser;
-import com.alexrnl.commons.arguments.parsers.IntParser;
-import com.alexrnl.commons.arguments.parsers.LongParser;
 import com.alexrnl.commons.arguments.parsers.ParameterParser;
-import com.alexrnl.commons.arguments.parsers.PathParser;
-import com.alexrnl.commons.arguments.parsers.ShortParser;
-import com.alexrnl.commons.arguments.parsers.StringParser;
-import com.alexrnl.commons.arguments.parsers.WByteParser;
-import com.alexrnl.commons.arguments.parsers.WCharParser;
-import com.alexrnl.commons.arguments.parsers.WDoubleParser;
-import com.alexrnl.commons.arguments.parsers.WFloatParser;
-import com.alexrnl.commons.arguments.parsers.WIntegerParser;
-import com.alexrnl.commons.arguments.parsers.WLongParser;
-import com.alexrnl.commons.arguments.parsers.WShortParser;
 import com.alexrnl.commons.error.ExceptionUtils;
 import com.alexrnl.commons.utils.StringUtils;
 import com.alexrnl.commons.utils.object.ReflectUtils;
@@ -61,30 +41,9 @@ public class Arguments {
 	public static final String						HELP_SHORT_NAME				= "-h";
 	/** The long name for the help command */
 	public static final String						HELP_LONG_NAME				= "--help";
-	/** The default parameter parsers */
-	private static final List<ParameterParser>		DEFAULT_PARSERS				= Collections.unmodifiableList(Arrays.asList(
-																						// primitive types
-																						new ByteParser(),
-																						new CharParser(),
-																						new DoubleParser(),
-																						new FloatParser(),
-																						new IntParser(),
-																						new LongParser(),
-																						new ShortParser(),
-																						// wrappers
-																						new WByteParser(),
-																						new WCharParser(),
-																						new WDoubleParser(),
-																						new WFloatParser(),
-																						new WIntegerParser(),
-																						new WLongParser(),
-																						new WShortParser(),
-																						// others
-																						new StringParser(),
-																						new ClassParser(),
-																						new PathParser()
-																					));
 	
+	/** The factory for parameter value setters */
+	private final ParameterValueSetterFactory		valueSetterFactory;
 	/** The name of the program */
 	private final String							programName;
 	/** The object which holds the target */
@@ -95,9 +54,7 @@ public class Arguments {
 	private final PrintStream						out;
 	/** Flag to allow unknown parameters*/
 	private final boolean							allowUnknownParameters;
-	/** Map with the parameter parsers to use */
-	private final Map<Class<?>, ParameterParser>	parsers;
-
+	
 	/**
 	 * Constructor #1.<br />
 	 * Output is standard output, unknown parameter trigger error in parsing.
@@ -156,12 +113,7 @@ public class Arguments {
 		this.parameters = Collections.unmodifiableSortedSet(retrieveParameters(target));
 		this.out = out;
 		this.allowUnknownParameters = allowUnknownParameters;
-		this.parsers = new HashMap<>();
-		for (final ParameterParser parser : DEFAULT_PARSERS) {
-			if (addParameterParser(parser)) {
-				LG.warning("Default parsers override each other for class " + parser.getFieldType());
-			}
-		}
+		valueSetterFactory = new DefaultParameterValueSetterFactory();
 	}
 	
 	/**
@@ -197,20 +149,7 @@ public class Arguments {
 	 * @see AbstractParser
 	 */
 	public <T> boolean addParameterParser (final AbstractParser<T> parser) {
-		return addParameterParser((ParameterParser) parser);
-	}
-	
-	/**
-	 * Add a parameter parser to the current arguments.
-	 * @param parser
-	 *        the parser to add.
-	 * @return <code>true</code> if a previous parser was already set for this field type.
-	 * @see ParameterParser
-	 */
-	private boolean addParameterParser (final ParameterParser parser) {
-		final boolean override = parsers.containsKey(parser.getFieldType());
-		parsers.put(parser.getFieldType(), parser);
-		return override;
+		return valueSetterFactory.addParameterParser(parser);
 	}
 	
 	/**
@@ -235,94 +174,47 @@ public class Arguments {
 			LG.info("Parsing arguments " + args.toString());
 		}
 		
-		final Set<Parameter> requiredParameters = getRequiredParameters();
+		final ParsingResults results = new ParsingResults(getRequiredParameters());
 		initializeBooleansParameters();
-		final List<String> errors = new LinkedList<>();
 		
 		// Parse arguments provided
 		final Iterator<String> iterator = args.iterator();
-		boolean helpRequested = false;
 		while (iterator.hasNext()) {
 			final String argument = iterator.next();
 			if (LG.isLoggable(Level.INFO)) {
 				LG.info("Processing argument " + argument);
 			}
 			
-			if (isHelp(argument)) {
-				helpRequested = true;
-				continue;
-			}
-			
 			final Parameter currentParameter = getParameterByName(argument);
-			if (currentParameter == null) {
-				if (!allowUnknownParameters) {
-					errors.add("No parameter with name " + argument + " found.");
-				}
+			
+			// Skip the following cases: help, parameter unknown, booleans parameters and missing values
+			if (isHelp(results, argument)
+					|| !isParameterFound(results, argument, currentParameter)
+					|| checkBooleanParameter(results, currentParameter)
+					|| missingParameterValue(results, argument, iterator.hasNext())) {
 				continue;
 			}
 			
-			// If the parameter is a boolean, then its presence is enough
-			final Class<?> parameterType = currentParameter.getField().getType();
-			if (checkBooleanParameter(currentParameter, requiredParameters)) {
-				continue;
-			}
-			
-			// The parameter will take the next argument as value
-			if (!iterator.hasNext()) {
-				errors.add("No value found for parameter " + argument + ".");
-				continue;
-			}
-			final String value = iterator.next();
-			if (parsers.containsKey(parameterType)) {
-				try {
-					parsers.get(parameterType).parse(target, currentParameter.getField(), value);
-					requiredParameters.remove(currentParameter);
-				} catch (final IllegalArgumentException e) {
-					errors.add("Value " + value + " could not be assigned to parameter " + argument);
-					LG.warning("Parameter " + argument + " value could not be set: "
-							+ ExceptionUtils.display(e));
-				}
-			} else if (Collection.class.isAssignableFrom(parameterType)) {
-				if (currentParameter.getItemClass() == Object.class) {
-					errors.add("No item class defined for parameter " + currentParameter.getNames());
-					continue;
-				}
-				if (parsers.containsKey(currentParameter.getItemClass())) {
-					try {
-						final AbstractParser<?> collectionItemParser = (AbstractParser<?>) parsers.get(currentParameter.getItemClass());
-						final Collection collection = (Collection<?>) currentParameter.getField().get(target);
-						if (collection == null) {
-							errors.add("Target collection for parameter " + argument + " is null");
-							continue;
-						}
-						collection.add(collectionItemParser.getValue(value));
-						requiredParameters.remove(currentParameter);
-					} catch (final IllegalArgumentException | IllegalAccessException e) {
-						errors.add("Value " + value + " could not be assigned to parameter " + argument);
-						LG.warning("Parameter " + argument + " value could not be set: "
-								+ ExceptionUtils.display(e));
-					}
-				} else {
-					errors.add("No parser found for type " + currentParameter.getItemClass().getName() + " (parameter "
-							+ argument + ").");
-				}
-			} else {
-				errors.add("No parser found for type " + parameterType.getName() + " (parameter "
-						+ argument + ").");
-			}
+			valueSetterFactory.createParameterValueSetter(currentParameter).setValue(results, new ParsingParameters(target, iterator.next(), argument));
 		}
 		
-		errorAndHelpProcessing(requiredParameters, errors, helpRequested);
+		errorAndHelpProcessing(results);
 	}
 
 	/**
 	 * Check if the name of the argument is an alias of the help command.
+	 * @param results
+	 *        the results of the parsing.
 	 * @param name
 	 *        the name to check.
 	 * @return <code>true</code> if the argument is the help command.
 	 */
-	private static boolean isHelp (final String name) {
-		return HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name);
+	private static boolean isHelp (final ParsingResults results, final String name) {
+		if (HELP_SHORT_NAME.equals(name) || HELP_LONG_NAME.equals(name)) {
+			results.setHelpRequested(true);
+			return true;
+		}
+		return false;
 	}
 	
 	/**
@@ -430,64 +322,98 @@ public class Arguments {
 	}
 	
 	/**
+	 * Process unknown arguments cases.
+	 * @param results
+	 *        the parsing results to update.
+	 * @param argumentName
+	 *        the name of the argument.
+	 * @param currentParameter
+	 *        the parameter to verify.
+	 * @return <code>true</code> if the parameter was found.
+	 */
+	private boolean isParameterFound (final ParsingResults results, final String argumentName, final Parameter currentParameter) {
+		if (currentParameter == null) {
+			if (!allowUnknownParameters) {
+				results.addError("No parameter with name " + argumentName + " found.");
+			}
+			return false;
+		}
+		return true;
+	}
+	
+	/**
 	 * Check if the current parameter is a boolean and process it accordingly.
-	 * @param parameter
+	 * @param results
+	 *        the parsing results to update.
+	 * @param currentParameter
 	 *        the parameter to process.
-	 * @param requiredParameters
-	 *        the list of required parameter, updated if necessary.
 	 * @return <code>true</code> if the parameter was a boolean parameter and has been processed.
 	 */
-	private boolean checkBooleanParameter (final Parameter parameter, final Set<Parameter> requiredParameters) {
-		final Class<?> type = parameter.getField().getType();
+	private boolean checkBooleanParameter (final ParsingResults results, final Parameter currentParameter) {
+		final Class<?> type = currentParameter.getField().getType();
 		if (type.equals(Boolean.class) || type.equals(boolean.class)) {
 			try {
 				if (type.equals(boolean.class)) {
-					parameter.getField().setBoolean(target, true);
+					currentParameter.getField().setBoolean(target, true);
 				} else {
-					parameter.getField().set(target, Boolean.TRUE);
+					currentParameter.getField().set(target, Boolean.TRUE);
 				}
-				requiredParameters.remove(parameter);
+				results.removeRequiredParameter(currentParameter);
 			} catch (IllegalArgumentException | IllegalAccessException e) {
-				LG.warning("Parameter " + parameter.getNames() + " boolean value could not be set: "
+				LG.warning("Parameter " + currentParameter.getNames() + " boolean value could not be set: "
 						+ ExceptionUtils.display(e));
 			}
 			return true;
 		}
 		return false;
 	}
+	
+	/**
+	 * Process cases where the value of the parameter is missing.
+	 * @param results
+	 *        the parsing results to update.
+	 * @param argumentName
+	 *        the name of the argument.
+	 * @param hasValue
+	 *        if there is a value to assign to the parameter.
+	 * @return <code>true</code> if there is no value to assign to the parameter.
+	 */
+	private static boolean missingParameterValue (final ParsingResults results, final String argumentName, final boolean hasValue) {
+		if (!hasValue) {
+			results.addError("No value found for parameter " + argumentName + ".");
+		}
+		return !hasValue;
+	}
 
 	/**
-	 * Post processing of argument.<br />
+	 * Process parsing results.<br />
 	 * Display error messages and/or help if required, and throw an {@link IllegalArgumentException}
 	 * if the parsing failed.
-	 * @param requiredParameters
-	 *        the set with the required parameters which were not set by the arguments provided.
-	 * @param errors
-	 *        the errors messages generated by the current set of arguments.
-	 * @param helpRequested
-	 *        if the help was requested.
+	 * @param results
+	 *        the result of the parsing.
 	 * @throws IllegalArgumentException
 	 *         if the parsing of arguments has failed.
 	 */
-	private void errorAndHelpProcessing (final Set<Parameter> requiredParameters,
-			final List<String> errors, final boolean helpRequested) {
+	private void errorAndHelpProcessing (final ParsingResults results) {
 		// Check that all required arguments were set
+		final Set<Parameter> requiredParameters = results.getRequiredParameters();
 		if (!requiredParameters.isEmpty()) {
 			final List<Set<String>> listParamNames = new ArrayList<>(requiredParameters.size());
 			for (final Parameter parameter : requiredParameters) {
 				listParamNames.add(parameter.getNames());
 			}
-			errors.add("The following parameters were not set: "
+			results.addError("The following parameters were not set: "
 					+ StringUtils.separateWith(", ", listParamNames) + ".");
 		}
 		
 		IllegalArgumentException e = null;
-		if (!errors.isEmpty() && !helpRequested) {
+		final List<String> errors = results.getErrors();
+		if (!errors.isEmpty() && !results.isHelpRequested()) {
 			final String errorsMessage = StringUtils.separateWith("\n", errors);
 			out.println(errorsMessage);
 			e = new IllegalArgumentException(errorsMessage);
 		}
-		if (helpRequested || !errors.isEmpty()) {
+		if (results.isHelpRequested() || !errors.isEmpty()) {
 			usage();
 		}
 		if (e != null) {
