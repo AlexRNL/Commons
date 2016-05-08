@@ -4,7 +4,6 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import com.alexrnl.commons.arguments.parsers.AbstractParser;
-import com.alexrnl.commons.arguments.validators.ParameterValidator;
 import com.alexrnl.commons.error.ExceptionUtils;
 
 /**
@@ -43,20 +42,9 @@ public class CollectionFieldSetter<T> implements ParameterValueSetter {
 				results.addError("Target collection for parameter " + parameters.getArgument() + " is null");
 				return;
 			}
-			final T value = parser.getValue(parameters.getValue());
-			if (!parameter.getValidator().equals(ParameterValidator.class)) {
-				if (parameter.getValidator().isInterface()) {
-					results.addError("Validator " + parameter.getValidator().getName()
-							+ " could not be instantiated for parameter " + parameters.getArgument());
-					LG.warning("Parameter " + parameters.getArgument() + "'s validator cannot be instantiated: validator "
-							+ parameter.getValidator() + " is an interface");
-					return;
-				}
-				parameter.getValidator().newInstance().validate(value);
-			}
-			collection.add(value);
+			collection.add(GenericFieldSetter.validateValueForParameter(parameter.getValidator(), parser.getValue(parameters.getValue()), results, parameters));
 			results.removeRequiredParameter(parameter);
-		} catch (final IllegalArgumentException | IllegalAccessException | InstantiationException e) {
+		} catch (final IllegalArgumentException | ReflectiveOperationException e) {
 			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
 					+ parameters.getArgument());
 			LG.warning("Parameter " + parameters.getArgument() + " value could not be set: "

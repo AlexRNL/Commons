@@ -32,23 +32,44 @@ public class GenericFieldSetter implements ParameterValueSetter {
 		this.parser = parser;
 	}
 	
+	/**
+	 * Validate the value with the validator of the parameter.
+	 * @param <T>
+	 * @param validatorClass
+	 *        the class of the validator
+	 * @param value
+	 *        the value of the parameter.
+	 * @param results
+	 *        the results to update.
+	 * @param parameters
+	 *        the parameters of the parsing.
+	 * @return the value validated.
+	 * @throws ReflectiveOperationException
+	 *         if a reflection operation fails.
+	 */
+	static <T> T validateValueForParameter (final Class<? extends ParameterValidator> validatorClass, final T value,
+			final ParsingResults results, final ParsingParameters parameters) throws ReflectiveOperationException {
+		if (!validatorClass.equals(ParameterValidator.class)) {
+			if (validatorClass.isInterface()) {
+				results.addError("Validator " + validatorClass.getName() + " could not be instantiated for parameter "
+						+ parameters.getArgument());
+				LG.warning("Parameter " + parameters.getArgument() + "'s validator cannot be instantiated: validator "
+						+ validatorClass + " is an interface");
+				return value;
+			}
+			validatorClass.newInstance().validate(value);
+		}
+		return value;
+	}
+	
 	@Override
 	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
 		try {
 			parser.parse(parameters.getTarget(), parameter.getField(), parameters.getValue());
 			// TODO factorize with collection field setter
-			if (!parameter.getValidator().equals(ParameterValidator.class)) {
-				if (parameter.getValidator().isInterface()) {
-					results.addError("Validator " + parameter.getValidator().getName()
-							+ " could not be instantiated for parameter " + parameters.getArgument());
-					LG.warning("Parameter " + parameters.getArgument() + "'s validator cannot be instantiated: validator "
-							+ parameter.getValidator() + " is an interface");
-					return;
-				}
-				parameter.getValidator().newInstance().validate(parameter.getField().get(parameters.getTarget()));
-			}
+			validateValueForParameter(parameter.getValidator(), parameter.getField().get(parameters.getTarget()), results, parameters);
 			results.removeRequiredParameter(parameter);
-		} catch (final IllegalArgumentException | InstantiationException | IllegalAccessException e) {
+		} catch (final IllegalArgumentException | ReflectiveOperationException e) {
 			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
 					+ parameters.getArgument());
 			LG.warning("Parameter " + parameters.getArgument() + " value could not be set: "
