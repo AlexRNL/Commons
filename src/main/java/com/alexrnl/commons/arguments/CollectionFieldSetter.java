@@ -42,7 +42,7 @@ public class CollectionFieldSetter<T> implements ParameterValueSetter {
 				results.addError("Target collection for parameter " + parameters.getArgument() + " is null");
 				return;
 			}
-			collection.add(GenericFieldSetter.validateValueForParameter(parameter.getValidator(), parser.getValue(parameters.getValue()), results, parameters));
+			collection.add(validateValueForParameter(parameter.getValidator(), parser.getValue(parameters.getValue()), results, parameters));
 			results.removeRequiredParameter(parameter);
 		} catch (final IllegalArgumentException | ReflectiveOperationException e) {
 			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
