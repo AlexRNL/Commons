@@ -35,8 +35,9 @@ public class GenericFieldSetter implements ParameterValueSetter {
 	public void setValue (final ParsingResults results, final ParsingParameters parameters) {
 		try {
 			parser.parse(parameters.getTarget(), parameter.getField(), parameters.getValue());
+			validateValueForParameter(parameter.getValidator(), parameter.getField().get(parameters.getTarget()), results, parameters);
 			results.removeRequiredParameter(parameter);
-		} catch (final IllegalArgumentException e) {
+		} catch (final IllegalArgumentException | ReflectiveOperationException e) {
 			results.addError("Value " + parameters.getValue() + " could not be assigned to parameter "
 					+ parameters.getArgument());
 			LG.warning("Parameter " + parameters.getArgument() + " value could not be set: "
